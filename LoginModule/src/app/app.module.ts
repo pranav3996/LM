@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
@@ -37,58 +37,52 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { MatIconModule } from '@angular/material/icon';
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    ProfileComponent,
-    UserRegisterComponent,
-    HeaderComponent,
-    UserlistComponent,
-    UpdateuserComponent,
-    AdminRegisterComponent,
-    PasswordresetComponent,
-    PasswordresetconfirmComponent,
-    ChangepasswordComponent,
-    AccessDeniedComponent,
-    ErrorComponent,
-    MultiStepFormComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-    NgOtpInputModule,
-    BrowserAnimationsModule,
-    MatStepperModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    FormlyBootstrapModule,
-    FormlyModule.forRoot({
-      validationMessages: [
-        { name: 'required', message: 'This field is required' },
-      ],
-    }),
-    MatIconModule
-  ],
-  providers: [
-    //   {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpErrorInterceptor,
-    //   multi: true
-    // }
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpAuthInterceptor,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        ProfileComponent,
+        UserRegisterComponent,
+        HeaderComponent,
+        UserlistComponent,
+        UpdateuserComponent,
+        AdminRegisterComponent,
+        PasswordresetComponent,
+        PasswordresetconfirmComponent,
+        ChangepasswordComponent,
+        AccessDeniedComponent,
+        ErrorComponent,
+        MultiStepFormComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
+        NgOtpInputModule,
+        BrowserAnimationsModule,
+        MatStepperModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        FormlyBootstrapModule,
+        FormlyModule.forRoot({
+            validationMessages: [
+                { name: 'required', message: 'This field is required' },
+            ],
+        }),
+        MatIconModule], providers: [
+        //   {
+        //   provide: HTTP_INTERCEPTORS,
+        //   useClass: HttpErrorInterceptor,
+        //   multi: true
+        // }
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpAuthInterceptor,
+            multi: true,
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faBan, faExclamationTriangle);
