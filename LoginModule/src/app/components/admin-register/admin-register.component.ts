@@ -5,9 +5,10 @@ import { AdminService } from 'src/app/service/admin.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-admin-register',
-  templateUrl: './admin-register.component.html',
-  styleUrls: ['./admin-register.component.css']
+    selector: 'app-admin-register',
+    templateUrl: './admin-register.component.html',
+    styleUrls: ['./admin-register.component.css'],
+    standalone: false
 })
 export class AdminRegisterComponent {
 

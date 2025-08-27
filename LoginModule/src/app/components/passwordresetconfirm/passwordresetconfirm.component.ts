@@ -5,9 +5,10 @@ import { PasswordService } from 'src/app/service/password.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-passwordresetconfirm',
-  templateUrl: './passwordresetconfirm.component.html',
-  styleUrls: ['./passwordresetconfirm.component.css']
+    selector: 'app-passwordresetconfirm',
+    templateUrl: './passwordresetconfirm.component.html',
+    styleUrls: ['./passwordresetconfirm.component.css'],
+    standalone: false
 })
 
 export class PasswordresetconfirmComponent implements OnInit {

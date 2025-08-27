@@ -5,9 +5,10 @@ import { PasswordService } from 'src/app/service/password.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-changepassword',
-  templateUrl: './changepassword.component.html',
-  styleUrls: ['./changepassword.component.css'],
+    selector: 'app-changepassword',
+    templateUrl: './changepassword.component.html',
+    styleUrls: ['./changepassword.component.css'],
+    standalone: false
 })
 export class ChangepasswordComponent implements OnInit {
   changePasswordForm: FormGroup;

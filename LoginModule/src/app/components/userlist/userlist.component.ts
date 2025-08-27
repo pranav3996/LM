@@ -7,9 +7,10 @@ import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-userlist',
-  templateUrl: './userlist.component.html',
-  styleUrls: ['./userlist.component.css'],
+    selector: 'app-userlist',
+    templateUrl: './userlist.component.html',
+    styleUrls: ['./userlist.component.css'],
+    standalone: false
 })
 export class UserlistComponent implements OnInit {
   users: any[] = [];

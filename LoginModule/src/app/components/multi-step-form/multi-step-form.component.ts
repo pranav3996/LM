@@ -14,9 +14,10 @@ export interface StepType {
 }
 
 @Component({
-  selector: 'app-multi-step-form',
-  templateUrl: './multi-step-form.component.html',
-  styleUrls: ['./multi-step-form.component.css'],
+    selector: 'app-multi-step-form',
+    templateUrl: './multi-step-form.component.html',
+    styleUrls: ['./multi-step-form.component.css'],
+    standalone: false
 })
 export class MultiStepFormComponent {
   isLinear = true;

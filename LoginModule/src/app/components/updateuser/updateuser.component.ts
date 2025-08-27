@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/service/admin.service';
 
 @Component({
-  selector: 'app-updateuser',
-  templateUrl: './updateuser.component.html',
-  styleUrls: ['./updateuser.component.css']
+    selector: 'app-updateuser',
+    templateUrl: './updateuser.component.html',
+    styleUrls: ['./updateuser.component.css'],
+    standalone: false
 })
 export class UpdateuserComponent implements OnInit {
   userId: any;

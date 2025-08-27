@@ -5,9 +5,10 @@ import { UserRegisterService } from 'src/app/service/user-register.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-user-register',
-  templateUrl: './user-register.component.html',
-  styleUrls: ['./user-register.component.css']
+    selector: 'app-user-register',
+    templateUrl: './user-register.component.html',
+    styleUrls: ['./user-register.component.css'],
+    standalone: false
 })
 
 export class UserRegisterComponent {
