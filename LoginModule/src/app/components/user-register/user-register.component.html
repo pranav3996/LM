@@ -1,0 +1,55 @@
+<div class="container">
+  
+  <div class="register form">
+    <header>Register</header>
+    <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
+      <input
+        type="text"
+        placeholder="First Name"
+        ngModel
+        name="firstName"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Last Name"
+        ngModel
+        name="lastName"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Email"
+        ngModel
+        name="email"
+        required
+        email
+      />
+      <input
+      type="text"
+      placeholder="City"
+      ngModel
+      name="city"
+      required
+    />
+      <input
+        type="password"
+        placeholder="Password"
+        ngModel
+        name="password"
+        required
+        minlength="6"
+      />
+     
+      <div class="error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      <!-- <button type="submit" [disabled]="!authForm.valid">Register</button> -->
+      <div class="mt-4">
+        <button type="submit" class="button" [disabled]="!authForm.valid">{{isLogin ? "Login " : "SignUp"}}</button>
+        <button type="button" class="button" (click)="switchToSignUp()" >Switch to {{isLogin ? "SignUp " : "Login"}}</button>
+      </div>
+    </form>
+  </div>
+</div>
+          

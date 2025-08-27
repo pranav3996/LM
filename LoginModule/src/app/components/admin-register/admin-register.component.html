@@ -1,0 +1,73 @@
+<div class="container">
+  <span class="close-icon" (click)="navigateToUsers()">
+    <i class="fa fa-times" style="float: right;"></i> <!-- Assuming you're using Font Awesome for icons -->
+  </span>
+    <div class="login form">
+      
+      <header>Register</header>
+      <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
+        <input
+          type="text"
+          placeholder="First Name"
+          ngModel
+          name="firstName"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Last Name"
+          ngModel
+          name="lastName"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Email"
+          ngModel
+          name="email"
+          required
+          email
+        />
+        <!-- <input
+        type="text"
+        placeholder="Role"
+        ngModel
+        name="role"
+        required
+      /> -->
+      <select
+      ngModel
+      name="role"
+      required
+      
+    >  <option value="" disabled selected>Select a role</option>
+      <option *ngFor="let role of role" [value]="role">{{ role }}</option>
+    </select>
+      <input
+      type="text"
+      placeholder="City"
+      ngModel
+      name="city"
+      required
+    />
+        <input
+          type="password"
+          placeholder="Password"
+          ngModel
+          name="password"
+          required
+          minlength="6"
+        />
+       
+        <div class="error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+      
+        <div class="mt-4">
+          <button type="submit" class="button" [disabled]="!authForm.valid">Register</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+  

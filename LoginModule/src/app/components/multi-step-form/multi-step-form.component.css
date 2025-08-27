@@ -1,0 +1,67 @@
+/* Custom styling for the form container */
+form {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* Styling the stepper component */
+  mat-horizontal-stepper {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  /* Styling individual mat-step headers */
+  mat-step-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  /* Styling the form fields */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  /* Styling buttons inside steps */
+  mat-raised-button {
+    margin: 4px;
+  }
+  
+  /* Custom styling for "Next" and "Back" buttons */
+  button[matStepperNext] {
+    background-color: #3f51b5;
+    color: white;
+  }
+  
+  button[matStepperPrevious] {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  /* Custom styling for the submit button */
+  button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+   
+  }
+  
+  /* Ensuring proper spacing between form elements */
+  .mat-form-field {
+    margin-bottom: 16px;
+  }
+  
+  /* Flexbox container for buttons */
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Hide the visually hidden elements */
+  :host ::ng-deep .cdk-visually-hidden.ng-star-inserted {
+    display: none !important;
+  }
+  

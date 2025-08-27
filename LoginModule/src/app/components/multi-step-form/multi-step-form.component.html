@@ -1,0 +1,67 @@
+ <form [formGroup]="multiStepForms" (ngSubmit)="submit()">
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step
+      *ngFor="let step of steps; let index = index; let last = last"
+      [stepControl]="getFormGroup(step.controlName)!"
+    >
+      <ng-template matStepLabel>{{ step.label }} </ng-template>
+      <formly-form
+        *ngIf="getFormGroup(step.controlName) as formGroup"
+        [form]="formGroup"
+        [fields]="step.fields"
+      >
+      </formly-form>
+
+      <div class="button-container">
+        <button
+          *ngIf="index !== 0"
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+        >
+          Back
+        </button>
+        <button
+          *ngIf="!last"
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          [disabled]="!getFormGroup(step.controlName)?.valid"
+        >
+          Next
+        </button>
+        <button
+          *ngIf="last"
+          mat-raised-button
+          color="accent"
+          type="submit"
+          [disabled]="!multiStepForms.valid"
+        >
+          Submit
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form> 
+
+<!-- Scroll error-->
+<!-- <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="username">Username</label>
+    <input id="username" formControlName="username" #username>
+    <div *ngIf="myForm.controls['username'].touched && myForm.controls['username'].invalid">
+      Username is required
+    </div>
+  </div>
+  
+  <div>
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" #email>
+    <div *ngIf="myForm.controls['email'].touched && myForm.controls['email'].invalid">
+      Email is required and must be a valid email
+    </div>
+  </div>
+
+  <button type="submit" >Submit</button>
+</form> -->
+

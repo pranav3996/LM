@@ -1,0 +1,10 @@
+.access-denied {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .access-denied fa-icon {
+    color: red;
+    margin-bottom: 20px;
+  }
+  

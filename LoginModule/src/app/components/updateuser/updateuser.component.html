@@ -1,0 +1,61 @@
+<div class="container">
+  <span class="close-icon" (click)="navigateToProfile()">
+    <i class="fa fa-times" style="float: right"></i>
+    <!-- Assuming you're using Font Awesome for icons -->
+  </span>
+
+  <h2>Update User</h2>
+  <form (ngSubmit)="updateUser()">
+    <div class="form-group">
+      <label for="">First Name: </label>
+      <input type="text" name="firstName" [(ngModel)]="userData.firstName" />
+    </div>
+    <div class="form-group">
+      <label for="">Last Name: </label>
+      <input type="text" name="lastName" [(ngModel)]="userData.lastName" />
+    </div>
+    <div class="form-group">
+      <label for="">Email: </label>
+      <input type="text" name="email" [(ngModel)]="userData.email" />
+    </div>
+   
+    <div class="form-group">
+      <label for="role">Role: </label>
+      <select name="role" [(ngModel)]="userData.role">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label>Verified:</label>
+      <div class="radio-group">
+        <label>
+          <input 
+            type="radio" 
+            name="enabled" 
+            [(ngModel)]="userData.enabled" 
+            [value]="true" 
+            [disabled]="userData.enabled === true && originalEnabled === true" 
+          /> Yes
+        </label>
+        <label>
+          <input 
+            type="radio" 
+            name="enabled" 
+            [(ngModel)]="userData.enabled" 
+            [value]="false"   
+          /> No
+        </label>
+      </div>
+    </div>
+    
+
+    <div class="form-group">
+      <label for="">City: </label>
+      <input type="text" name="city" [(ngModel)]="userData.city" />
+    </div>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <button type="submit">Update</button>
+  </form>
+</div>

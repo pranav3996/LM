@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #ffb74d">
+  <div class="container-fluid justify-content-between">
+    <!-- Left elements -->
+    <div class="d-flex" style="margin-left: 5%">
+    
+      <strong>Believe</strong>
+    </div>
+    <!-- Left elements -->
+
+    <!-- Right elements -->
+    <ul
+      class="navbar-nav flex-row d-none d-md-flex"
+      style="margin-right: 10%; margin-top: 1%"
+    >
+      <li class="nav-item me-3 me-lg-1 active" *ngIf="isAuthenticated">
+        <a class="nav-link" routerLink="/profile"
+          ><span> <i class="fas fa-solid fa-user fa-lg"></i></span
+        ></a>
+      </li>
+
+      <li class="nav-item me-3 me-lg-1 active" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="/users">
+          <span><i class="fas fa-home fa-lg" style="font-size: 30px"></i></span
+        ></a>
+      </li>
+      <li class="nav-item me-3 me-lg-1 active dropdown">
+        <a
+          class="nav-link fas fa-solid fa-bars text-uppercase me-1"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          style="font-size: 30px; margin-left: 10px; color: white"
+        >
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="#">About Us</a></li>
+          <li><a class="dropdown-item" href="#">Contact Us</a></li>
+          <li><a class="dropdown-item" routerLink="/change-password">Change Password</a></li>
+          <li>
+            <a class="dropdown-item" href="#">Terms & Conditions</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li>
+            <a class="dropdown-item" (click)="confirmSignOut($event)"
+              >Sign Out</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- Right elements -->
+  </div>
+</nav>
