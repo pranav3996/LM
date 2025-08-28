@@ -2,11 +2,12 @@ import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/service/common.service';
 
+
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.css'],
-    standalone: false
+    imports: []
 })
 export class ProfileComponent implements OnInit {
   profileInfo: any;

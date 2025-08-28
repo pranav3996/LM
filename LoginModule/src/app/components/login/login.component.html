@@ -12,17 +12,17 @@
         required
         email
         #email="ngModel"
-      />
-      <ng-container *ngIf="email.touched && !email.valid">
+        />
+      @if (email.touched && !email.valid) {
         <div class="error">
-          <ng-container *ngIf="email.errors && email.errors['required']"
-            >Email is Required</ng-container
-          >
-          <ng-container *ngIf="email.errors && email.errors['email']"
-            >Invalid Email</ng-container
-          >
+          @if (email.errors && email.errors['required']) {
+            Email is Required
+          }
+          @if (email.errors && email.errors['email']) {
+            Invalid Email
+          }
         </div>
-      </ng-container>
+      }
 
       <input
         type="password"
@@ -32,19 +32,21 @@
         required
         password
         #password="ngModel"
-      />
-      <ng-container *ngIf="password.touched && !password.valid">
+        />
+      @if (password.touched && !password.valid) {
         <div class="error">
           <ng-container>{{ getPasswordError(password) }}</ng-container>
         </div>
-      </ng-container>
+      }
 
       <div class="forgot-password">
         <a (click)="handleForgotPassword()">Forgot Password?</a>
       </div>
-      <div class="error mt-4" *ngIf="errorMessage">
-        {{ errorMessage }}
-      </div>
+      @if (errorMessage) {
+        <div class="error mt-4">
+          {{ errorMessage }}
+        </div>
+      }
 
       <div class="mt-4">
         <button type="submit" class="button" [disabled]="!authForm.valid">

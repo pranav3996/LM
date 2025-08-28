@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import moment from 'moment';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,36 +18,33 @@ export class AuthService {
   refreshTokenInProgress = false;
   refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient, private router: Router) {
-
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private storage: StorageService
+  ) { }
 
   login(email: string, password: string): Observable<any> {
-    const url = `${this.LOGIN_URL}`;
-    return this.http.post<any>(url, { email, password });
+    return this.http.post<any>(this.LOGIN_URL, { email, password });
   }
 
   logOut(): void {
-    //localStorage.clear();
-    sessionStorage.clear();
+    this.storage.clear();
     this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
-    // const accessToken = localStorage.getItem('accessToken');
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = this.storage.getItem('accessToken');
     return !!accessToken;
   }
 
   isAdmin(): boolean {
-    // const role = localStorage.getItem('role');
-    const role = sessionStorage.getItem('role');
+    const role = this.storage.getItem('role');
     return role === 'ADMIN';
   }
 
   isUser(): boolean {
-    //const role = localStorage.getItem('role');
-    const role = sessionStorage.getItem('role');
+    const role = this.storage.getItem('role');
     return role === 'USER';
   }
 
@@ -57,62 +55,39 @@ export class AuthService {
     ).toDate();
     const currentTime = new Date().getTime();
     const timeoutDuration = expirationDate.getTime() - currentTime;
-    console.log(`timeoutDuration ${timeoutDuration} ms`);
-    console.log(
-      `Setting logout timer to refresh token in ${timeoutDuration} ms`
-    );
 
     setTimeout(() => {
-      this.refreshToken();
+      this.refreshToken().subscribe();
     }, timeoutDuration);
   }
 
   refreshToken(): Observable<any> {
-    //const refreshToken = localStorage.getItem('refreshToken');
-    const refreshToken = sessionStorage.getItem('refreshToken');
+    const refreshToken = this.storage.getItem('refreshToken');
     if (!refreshToken) {
-      console.error('No refresh token found in local storage.');
       this.logOut();
-      return throwError('No refresh token found.');
+      return throwError(() => new Error('No refresh token found.'));
     }
-
-    console.log('Refreshing token using:', refreshToken);
 
     return this.http.post<any>(this.REFRESH_URL, { refreshToken }).pipe(
       tap((response) => {
-        console.log('Refresh Token Response:', response);
-        if (response && response.accessToken) {
-          // localStorage.setItem('accessToken', response.accessToken);
-          // localStorage.setItem('expirationAccessTokenTime',response.expirationAccessTokenTime);
-          // localStorage.setItem('refreshToken', response.refreshToken);
-          // localStorage.setItem('expirationRefreshTokenTime', response.expirationRefreshTokenTime);
-          sessionStorage.setItem('accessToken', response.accessToken);
-          sessionStorage.setItem(
+        if (response?.accessToken) {
+          this.storage.setItem('accessToken', response.accessToken);
+          this.storage.setItem(
             'expirationAccessTokenTime',
             response.expirationAccessTokenTime
           );
-          sessionStorage.setItem('refreshToken', response.refreshToken);
-          sessionStorage.setItem(
+          this.storage.setItem('refreshToken', response.refreshToken);
+          this.storage.setItem(
             'expirationRefreshTokenTime',
             response.expirationRefreshTokenTime
           );
-          console.log(
-            'New access token expiration time:',
-            response.expirationAccessTokenTime
-          );
         } else {
           this.logOut();
-          console.error(
-            'Invalid response received from refresh token request:',
-            response
-          );
         }
       }),
       catchError((error) => {
         this.logOut();
-        console.error('Refresh Token Error:', error);
-
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
@@ -121,9 +96,7 @@ export class AuthService {
     const expirationTime = moment(
       expirationRefreshTokenTime,
       'ddd MMM DD HH:mm:ss zz YYYY'
-    )
-      .toDate()
-      .getTime();
+    ).toDate().getTime();
     const currentTime = new Date().getTime();
     const inactivityTime = expirationTime - currentTime;
 
@@ -144,6 +117,8 @@ export class AuthService {
   }
 
   private startInactivityListener(): void {
+    if (typeof window === 'undefined') return;
+
     ['mousemove', 'keydown', 'click'].forEach((event) => {
       window.addEventListener(event, () =>
         this.resetActivityTimeoutFromStorage()
@@ -152,17 +127,14 @@ export class AuthService {
   }
 
   private resetActivityTimeoutFromStorage(): void {
-    //  const expirationRefreshTokenTime = localStorage.getItem('expirationRefreshTokenTime');
-    const expirationRefreshTokenTime = sessionStorage.getItem(
+    const expirationRefreshTokenTime = this.storage.getItem(
       'expirationRefreshTokenTime'
     );
     if (expirationRefreshTokenTime) {
       const expirationTime = moment(
         expirationRefreshTokenTime,
         'ddd MMM DD HH:mm:ss zz YYYY'
-      )
-        .toDate()
-        .getTime();
+      ).toDate().getTime();
       const currentTime = new Date().getTime();
       const inactivityTime = expirationTime - currentTime;
 

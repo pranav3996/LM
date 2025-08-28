@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserRegisterService } from 'src/app/service/user-register.service';
 import Swal from 'sweetalert2';
+
 
 @Component({
     selector: 'app-user-register',
     templateUrl: './user-register.component.html',
     styleUrls: ['./user-register.component.css'],
-    standalone: false
+    imports: [FormsModule]
 })
 
 export class UserRegisterComponent {

@@ -8,8 +8,8 @@ describe('AccessDeniedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AccessDeniedComponent]
-    });
+    imports: [AccessDeniedComponent]
+});
     fixture = TestBed.createComponent(AccessDeniedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

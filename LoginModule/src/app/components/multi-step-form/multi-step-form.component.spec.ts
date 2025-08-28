@@ -8,8 +8,8 @@ describe('MultiStepFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MultiStepFormComponent]
-    });
+    imports: [MultiStepFormComponent]
+});
     fixture = TestBed.createComponent(MultiStepFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

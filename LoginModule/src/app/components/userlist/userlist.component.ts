@@ -1,16 +1,18 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AdminService } from 'src/app/service/admin.service';
 
 import * as Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
     selector: 'app-userlist',
     templateUrl: './userlist.component.html',
     styleUrls: ['./userlist.component.css'],
-    standalone: false
+    imports: [FormsModule, RouterLink]
 })
 export class UserlistComponent implements OnInit {
   users: any[] = [];

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/service/admin.service';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
     selector: 'app-updateuser',
     templateUrl: './updateuser.component.html',
     styleUrls: ['./updateuser.component.css'],
-    standalone: false
+    imports: [FormsModule]
 })
 export class UpdateuserComponent implements OnInit {
   userId: any;

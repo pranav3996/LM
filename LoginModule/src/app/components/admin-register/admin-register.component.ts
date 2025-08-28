@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from 'src/app/service/admin.service';
 import Swal from 'sweetalert2';
+
 
 @Component({
     selector: 'app-admin-register',
     templateUrl: './admin-register.component.html',
     styleUrls: ['./admin-register.component.css'],
-    standalone: false
+    imports: [FormsModule]
 })
 export class AdminRegisterComponent {
 

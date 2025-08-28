@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
+
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css'],
-    standalone: false
+    imports: [RouterLink]
 })
 export class HeaderComponent {
   constructor(

@@ -1,17 +1,20 @@
 // Reactive Forms ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, timeout } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { PasswordService } from 'src/app/service/password.service';
 import Swal from 'sweetalert2';
 
+import { NgOtpInputModule } from 'ng-otp-input';
+import { PasswordresetconfirmComponent } from '../passwordresetconfirm/passwordresetconfirm.component';
+
 @Component({
     selector: 'app-passwordreset',
     templateUrl: './passwordreset.component.html',
     styleUrls: ['./passwordreset.component.css'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent]
 })
 export class PasswordresetComponent implements OnInit {
   errorMessage: string = '';

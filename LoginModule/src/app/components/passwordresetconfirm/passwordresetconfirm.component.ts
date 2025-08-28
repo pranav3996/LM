@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordService } from 'src/app/service/password.service';
 import Swal from 'sweetalert2';
+
 
 @Component({
     selector: 'app-passwordresetconfirm',
     templateUrl: './passwordresetconfirm.component.html',
     styleUrls: ['./passwordresetconfirm.component.css'],
-    standalone: false
+    imports: [FormsModule]
 })
 
 export class PasswordresetconfirmComponent implements OnInit {
