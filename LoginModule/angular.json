@@ -13,6 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "crossOrigin": "anonymous",
+            "optimization": true,
             "outputPath": {
               "base": "dist/login-module"
             },
@@ -39,19 +41,25 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "crossOrigin": "anonymous",
+              "serviceWorker": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "400kb"
+                  "maximumError": "500kb"
                 }
               ],
               "outputHashing": "all",
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -99,7 +107,11 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              {
+                "input": "@angular/material/prebuilt-themes/indigo-pink.css",
+                "bundleName": "material-theme",
+                "inject": false
+              },
               "src/styles.css"
             ],
             "scripts": []
