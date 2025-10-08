@@ -56,7 +56,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 				+ "\">Verify your email to activate your account</a>" + "<p> Thank you <br> Login Service";
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-		messageHelper.setFrom("tmail7458@gmail.com", senderName);
+		messageHelper.setFrom("abdtest1999@gmail.com", senderName);
 		messageHelper.setTo(theUser.getEmail());
 		messageHelper.setSubject(subject);
 		messageHelper.setText(mailContent, true);
@@ -77,7 +77,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 
-		helper.setFrom("tmail7458@gmail.com", senderName);
+		helper.setFrom("abdtest1999@gmail.com", senderName);
 		helper.setTo(user.getEmail());
 		helper.setSubject(subject);
 		helper.setText(mailContent, true);

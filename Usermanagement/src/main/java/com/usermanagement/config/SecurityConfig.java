@@ -29,43 +29,23 @@ public class SecurityConfig {
     @Autowired
     private AuthTokenFilter jwtAuthFilter;
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//            .csrf(AbstractHttpConfigurer::disable)
-//            .cors(Customizer.withDefaults())
-//            .authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/auth/**", "/reset/**", "/user/**").permitAll()
-//                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-//                .requestMatchers("/adminuser/**", "/reset/change-password").hasAnyAuthority("ADMIN", "USER")
-//                .anyRequest().authenticated()
-//            )
-//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//            .authenticationProvider(authenticationProvider())
-//            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return httpSecurity.build();
-//    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .csrf(csrf -> csrf.disable())  // Disable CSRF for stateless sessions
-            .cors(cors -> cors.configurationSource(request -> {
-                var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                corsConfig.addAllowedOrigin("*");  // Adjust according to your requirements
-                corsConfig.addAllowedMethod("*");  // Allow all HTTP methods
-                corsConfig.addAllowedHeader("*");  // Allow all headers
-                return corsConfig;
-            }))
-            .authorizeHttpRequests(request -> request
-                .anyRequest().permitAll()  // Allow all requests temporarily
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**", "/reset/**", "/user/**").permitAll() //add this when we don't have any admin user and add data through postman"/register"
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                .requestMatchers("/adminuser/**", "/reset/change-password").hasAnyAuthority("ADMIN", "USER")
+                .anyRequest().authenticated()
             )
-            .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return httpSecurity.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
