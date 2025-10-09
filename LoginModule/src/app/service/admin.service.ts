@@ -39,7 +39,7 @@ export class AdminService {
   uploadFile(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name);
-  
+
     return this.http.post(`${this.BASE_URL}/upload`, formData, {
       reportProgress: true,
       observe: 'events'
@@ -56,7 +56,7 @@ export class AdminService {
           case HttpEventType.Response:
             const body = event.body as any; // Cast event.body to any type
             if (body && body.status === 'success') {
-              return { status: 'success', message:  body.message , body: body };
+              return { status: 'success', message: body.message, body: body };
             } else if (body && body.status === 'error') {
               const errorMessage = body.message || 'File upload failed.';
               const errorCode = body.statusCode || 'UNKNOWN';
@@ -64,9 +64,9 @@ export class AdminService {
             } else {
               return { status: 'error', message: 'Unexpected response format.', body: body };
             }
-  
+
           default:
-            return ;
+            return;
         }
       }),
       catchError((error: HttpErrorResponse) => {
@@ -76,9 +76,9 @@ export class AdminService {
           message: error.error?.message || 'An error occurred',
           description: error.message || 'No additional error details provided'
         };
-  
+
         console.error('Error occurred while uploading file:', errorDetails);
-  
+
         return of({
           status: 'error',
           message: errorDetails.message,
@@ -88,5 +88,5 @@ export class AdminService {
       })
     );
   }
-  
+
 }

@@ -1,4 +1,5 @@
 package com.usermanagement.jwt;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -28,7 +29,7 @@ public class JWTUtils {
 
 	@Value("${spring.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
-	
+
 	private long refreshExpirationMs = 120000;
 
 	public String getJwtFromHeader(HttpServletRequest request) {
@@ -43,9 +44,10 @@ public class JWTUtils {
 	public String generateToken(UserDetails userDetails) {
 		String username = userDetails.getUsername();
 		return Jwts.builder().subject(username).issuedAt(new Date(System.currentTimeMillis()))
-				.expiration(new Date((new Date((System.currentTimeMillis()))).getTime() + jwtExpirationMs)).signWith(key()).compact();
+				.expiration(new Date((new Date((System.currentTimeMillis()))).getTime() + jwtExpirationMs))
+				.signWith(key()).compact();
 	}
- 
+
 	public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
 		return Jwts.builder().claims(claims).subject(userDetails.getUsername())
 				.issuedAt(new Date(System.currentTimeMillis()))
@@ -97,6 +99,5 @@ public class JWTUtils {
 	public Date extractExpiration(String token) {
 		return extractClaims(token, Claims::getExpiration);
 	}
-
 
 }

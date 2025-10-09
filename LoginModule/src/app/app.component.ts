@@ -5,14 +5,14 @@ import { AuthService } from './service/auth.service';
 import { HeaderComponent } from './components/header/header.component';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    imports: [HeaderComponent, RouterOutlet]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  imports: [HeaderComponent, RouterOutlet]
 })
-export class AppComponent  {
+export class AppComponent {
   title = 'LoginModule';
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) { }
 
   private routesWithoutHeader: string[] = [
     '/login',
@@ -26,5 +26,5 @@ export class AppComponent  {
     return this.routesWithoutHeader.includes(urlWithoutQueryParams);
   }
 
- 
+
 }

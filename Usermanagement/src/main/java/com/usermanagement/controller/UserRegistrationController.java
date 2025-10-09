@@ -42,24 +42,22 @@ public class UserRegistrationController {
 		return ResponseEntity.ok(response);
 	}
 
-
-	
 	@GetMapping("/verifyEmail")
 	public String verifyEmail(@RequestParam("token") String token) {
-	    String result = userManagementService.validateToken(token);
-	    if (result.equals("valid")) {
-	        Users user = userManagementService.getUserByToken(token);
-	        if (user != null) {
-	            user.setEnabled(true);  // Mark the user as verified
-	            usersRepo.save(user);    // Save the updated user to the database
-	        }
-	        return "Email verified successfully!";
-	    } else {
-	        String url = getApplicationUrl(servletRequest) + "/user/resend-verification-token?token=" + token;
-	        return "Invalid verification link, <a href=\"" + url + "\">Get a new verification link.</a>";
-	    }
+		String result = userManagementService.validateToken(token);
+		if (result.equals("valid")) {
+			Users user = userManagementService.getUserByToken(token);
+			if (user != null) {
+				user.setEnabled(true); // Mark the user as verified
+				usersRepo.save(user); // Save the updated user to the database
+			}
+			return "Email verified successfully!";
+		} else {
+			String url = getApplicationUrl(servletRequest) + "/user/resend-verification-token?token=" + token;
+			return "Invalid verification link, <a href=\"" + url + "\">Get a new verification link.</a>";
+		}
 	}
-	
+
 	@GetMapping("/resend-verification-token")
 	public String resendVerificationToken(@RequestParam("token") String oldToken, final HttpServletRequest request)
 			throws MessagingException, UnsupportedEncodingException {

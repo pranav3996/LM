@@ -4,12 +4,11 @@ import { Router } from '@angular/router';
 import { UserRegisterService } from 'src/app/service/user-register.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
-    selector: 'app-user-register',
-    templateUrl: './user-register.component.html',
-    styleUrls: ['./user-register.component.css'],
-    imports: [FormsModule]
+  selector: 'app-user-register',
+  templateUrl: './user-register.component.html',
+  styleUrls: ['./user-register.component.css'],
+  imports: [FormsModule]
 })
 
 export class UserRegisterComponent {
@@ -24,7 +23,7 @@ export class UserRegisterComponent {
   constructor(
     private readonly userRegisterService: UserRegisterService,
     private router: Router
-  ) {}
+  ) { }
 
   handleSubmit(authForm: NgForm): void {
     if (!authForm.valid) {
@@ -34,7 +33,7 @@ export class UserRegisterComponent {
 
     const userData = {
       ...authForm.value,
-      role: 'USER' 
+      role: 'USER'
     };
 
     this.userRegisterService.userRegister(userData).subscribe(
@@ -73,5 +72,5 @@ export class UserRegisterComponent {
   switchToSignUp(): void {
     this.router.navigate(['/login']);
   }
-  
+
 }

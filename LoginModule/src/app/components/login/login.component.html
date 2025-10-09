@@ -4,48 +4,32 @@
     <header>{{ isLogin ? "Login" : "Sign Up" }}</header>
 
     <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
-      <input
-        type="email"
-        placeholder="Email"
-        ngModel
-        name="email"
-        required
-        email
-        #email="ngModel"
-        />
+      <input type="email" placeholder="Email" ngModel name="email" required email #email="ngModel" />
       @if (email.touched && !email.valid) {
-        <div class="error">
-          @if (email.errors && email.errors['required']) {
-            Email is Required
-          }
-          @if (email.errors && email.errors['email']) {
-            Invalid Email
-          }
-        </div>
+      <div class="error">
+        @if (email.errors && email.errors['required']) {
+        Email is Required
+        }
+        @if (email.errors && email.errors['email']) {
+        Invalid Email
+        }
+      </div>
       }
 
-      <input
-        type="password"
-        placeholder="Password"
-        ngModel
-        name="password"
-        required
-        password
-        #password="ngModel"
-        />
+      <input type="password" placeholder="Password" ngModel name="password" required password #password="ngModel" />
       @if (password.touched && !password.valid) {
-        <div class="error">
-          <ng-container>{{ getPasswordError(password) }}</ng-container>
-        </div>
+      <div class="error">
+        <ng-container>{{ getPasswordError(password) }}</ng-container>
+      </div>
       }
 
       <div class="forgot-password">
         <a (click)="handleForgotPassword()">Forgot Password?</a>
       </div>
       @if (errorMessage) {
-        <div class="error mt-4">
-          {{ errorMessage }}
-        </div>
+      <div class="error mt-4">
+        {{ errorMessage }}
+      </div>
       }
 
       <div class="mt-4">

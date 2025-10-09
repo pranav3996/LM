@@ -42,7 +42,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 			sendVerificationEmail(url);
 			System.out.println("Click the link to verify your registration : {}" + url);
 		} catch (MessagingException | UnsupportedEncodingException e) {
-			 throw new RuntimeException("Failed to send verification email", e);
+			throw new RuntimeException("Failed to send verification email", e);
 		}
 		log.info("Click the link to verify your registration : {}", url);
 	}

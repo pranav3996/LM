@@ -4,12 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordService } from 'src/app/service/password.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
-    selector: 'app-passwordresetconfirm',
-    templateUrl: './passwordresetconfirm.component.html',
-    styleUrls: ['./passwordresetconfirm.component.css'],
-    imports: [FormsModule]
+  selector: 'app-passwordresetconfirm',
+  templateUrl: './passwordresetconfirm.component.html',
+  styleUrls: ['./passwordresetconfirm.component.css'],
+  imports: [FormsModule]
 })
 
 export class PasswordresetconfirmComponent implements OnInit {
@@ -36,7 +35,7 @@ export class PasswordresetconfirmComponent implements OnInit {
     // this.otp = this.route.snapshot.queryParams['otp'];
   }
 
-  resetPassword(resetPasswordForm:NgForm) {
+  resetPassword(resetPasswordForm: NgForm) {
     this.passwordService.resetPassword(this.accessToken, resetPasswordForm.value.newPassword)
       .subscribe(
         () => {
@@ -46,7 +45,7 @@ export class PasswordresetconfirmComponent implements OnInit {
             icon: 'success',
             confirmButtonColor: '#ffb74d',
             confirmButtonText: 'OK'
-            
+
           }).then(() => {
             this.router.navigate(['/login']);
           });
@@ -85,8 +84,8 @@ export class PasswordresetconfirmComponent implements OnInit {
       }
     );
   }
-  
-  navigateToLogin(){
+
+  navigateToLogin() {
     this.router.navigate(['/login']);
   }
 

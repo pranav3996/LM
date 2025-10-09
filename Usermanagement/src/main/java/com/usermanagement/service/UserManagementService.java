@@ -54,8 +54,7 @@ public class UserManagementService {
 	@Autowired
 	private PasswordResetTokenService passwordResetTokenService;
 
-	
-	//Login 
+	// Login
 	public ReqRes login(ReqRes loginRequest) {
 		try {
 			// Fetch user by email
@@ -175,8 +174,7 @@ public class UserManagementService {
 		}
 	}
 
-	
-	//CRUD
+	// CRUD
 	public ReqRes registerUser(ReqRes registrationRequest, String applicationUrl) {
 		ReqRes resp = new ReqRes();
 
@@ -266,7 +264,7 @@ public class UserManagementService {
 				// Deleting user
 				usersRepo.deleteById(userId);
 				System.out.println("Deleted user for userId: " + userId);
-				  Users user = userOptional.get();
+				Users user = userOptional.get();
 				reqRes.setStatusCode(200);
 				reqRes.setAdmin(user.getRole().equalsIgnoreCase("ADMIN"));
 				reqRes.setMessage("User deleted successfully");
@@ -331,7 +329,7 @@ public class UserManagementService {
 		try {
 			Optional<Users> userOptional = usersRepo.findByEmail(email);
 			if (userOptional.isPresent()) {
-	            Users user = userOptional.get();
+				Users user = userOptional.get();
 
 				reqRes.setUsers(user);
 				reqRes.setAdmin(user.getRole().equalsIgnoreCase("ADMIN"));
@@ -350,7 +348,6 @@ public class UserManagementService {
 
 	}
 
-	
 	// Search
 	public ReqRes getUsersById(Integer id) {
 		ReqRes reqRes = new ReqRes();
@@ -372,7 +369,6 @@ public class UserManagementService {
 		return usersRepo.findByEmail(email);
 	}
 
-	
 	// Verfication Token
 	public void saveUserVerificationToken(Users theUser, String token) {
 		var verificationToken = new VerificationToken(token, theUser);
@@ -402,7 +398,7 @@ public class UserManagementService {
 		verificationToken.setExpirationTime(verificationTokenTime.getTokenExpirationTime());
 		return verificationTokenRepository.save(verificationToken);
 	}
-	
+
 	public Users getUserByToken(String token) {
 		// Retrieve the verification token from the repository
 		VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
@@ -418,8 +414,7 @@ public class UserManagementService {
 		return null;
 	}
 
-	
-	//Password 
+	// Password
 	public void resetChangePassword(Users theUser, String newPassword) {
 		theUser.setPassword(passwordEncoder.encode(newPassword));
 		usersRepo.save(theUser);
@@ -460,5 +455,4 @@ public class UserManagementService {
 		return token;
 	}
 
-	
 }

@@ -4,12 +4,11 @@ import { Router } from '@angular/router';
 import { AdminService } from 'src/app/service/admin.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
-    selector: 'app-admin-register',
-    templateUrl: './admin-register.component.html',
-    styleUrls: ['./admin-register.component.css'],
-    imports: [FormsModule]
+  selector: 'app-admin-register',
+  templateUrl: './admin-register.component.html',
+  styleUrls: ['./admin-register.component.css'],
+  imports: [FormsModule]
 })
 export class AdminRegisterComponent {
 
@@ -18,7 +17,7 @@ export class AdminRegisterComponent {
   constructor(
     private readonly adminService: AdminService,
     private router: Router
-  ) {}
+  ) { }
 
   handleSubmit(authForm: NgForm): void {
     if (!authForm.valid) {

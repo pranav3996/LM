@@ -11,10 +11,10 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { PasswordresetconfirmComponent } from '../passwordresetconfirm/passwordresetconfirm.component';
 
 @Component({
-    selector: 'app-passwordreset',
-    templateUrl: './passwordreset.component.html',
-    styleUrls: ['./passwordreset.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent]
+  selector: 'app-passwordreset',
+  templateUrl: './passwordreset.component.html',
+  styleUrls: ['./passwordreset.component.css'],
+  imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent]
 })
 export class PasswordresetComponent implements OnInit {
   errorMessage: string = '';
@@ -23,14 +23,14 @@ export class PasswordresetComponent implements OnInit {
   resendDisabled: boolean = false;
   timer: any = 0;
   countdown: number = 60;
-  loading: boolean = false; 
+  loading: boolean = false;
   otpForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private passwordService: PasswordService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -66,7 +66,7 @@ export class PasswordresetComponent implements OnInit {
     if (this.resendDisabled || this.email.invalid) {
       return;
     }
-    this.loading = true; 
+    this.loading = true;
     const email = this.email.value;
     this.resendDisabled = true;
     this.passwordService
@@ -76,14 +76,14 @@ export class PasswordresetComponent implements OnInit {
         catchError((error) => {
           this.errorMessage = error.error.message || 'Internal Server Error';
           console.error('Error:', error);
-          this.loading = false; 
+          this.loading = false;
           this.resendDisabled = false;
           return throwError(this.errorMessage);
         })
       )
       .subscribe(
         (response) => {
-          this.loading = false; 
+          this.loading = false;
           clearInterval(this.timer);
           this.countdown = 60;
           this.otpRequested = true;
@@ -100,7 +100,7 @@ export class PasswordresetComponent implements OnInit {
           this.startTimer();
         },
         (error) => {
-          this.loading = false; 
+          this.loading = false;
           this.errorMessage =
             error.error.message || 'Please check your internet connection.';
           console.error('Error:', error);

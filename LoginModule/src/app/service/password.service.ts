@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class PasswordService {
-
   // private BASE_URL = "http://localhost:1010";
   private BASE_URL = environment.PASSWORD_URL;
   constructor(private http: HttpClient) { }
@@ -29,13 +28,12 @@ export class PasswordService {
       catchError(error => {
         let errorMessage = error.message || 'An error occurred';
         if (error.error && error.error.message) {
-          errorMessage = error.error.message; 
+          errorMessage = error.error.message;
         }
         return throwError(errorMessage);
       })
     );
   }
-
 
   sendOTP(email: string): Observable<any> {
     return this.http.post<any>(`${this.BASE_URL}/password-reset-otp-request`, { email });
@@ -48,6 +46,7 @@ export class PasswordService {
   resendOTP(email: string): Observable<any> {
     return this.http.post<any>(`${this.BASE_URL}/regenerate-otp?email=${email}`, {});
   }
+
   resetPasswordOtp(email: string, otp: string, newPassword: string): Observable<any> {
     const url = `${this.BASE_URL}/reset-password-otp?email=${email}&otp=${otp}`;
     // let params = new HttpParams().set('email', email).set('otp', otp);

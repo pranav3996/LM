@@ -1,49 +1,30 @@
 <form [formGroup]="multiStepForms" (ngSubmit)="submit()">
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     @for (step of steps; track step; let index = $index; let last = $last) {
-      <mat-step
-        [stepControl]="getFormGroup(step.controlName)!"
-        >
-        <ng-template matStepLabel>{{ step.label }} </ng-template>
-        @if (getFormGroup(step.controlName); as formGroup) {
-          <formly-form
-            [form]="formGroup"
-            [fields]="step.fields"
-            >
-          </formly-form>
+    <mat-step [stepControl]="getFormGroup(step.controlName)!">
+      <ng-template matStepLabel>{{ step.label }} </ng-template>
+      @if (getFormGroup(step.controlName); as formGroup) {
+      <formly-form [form]="formGroup" [fields]="step.fields">
+      </formly-form>
+      }
+      <div class="button-container">
+        @if (index !== 0) {
+        <button mat-raised-button color="primary" matStepperPrevious>
+          Back
+        </button>
         }
-        <div class="button-container">
-          @if (index !== 0) {
-            <button
-              mat-raised-button
-              color="primary"
-              matStepperPrevious
-              >
-              Back
-            </button>
-          }
-          @if (!last) {
-            <button
-              mat-raised-button
-              color="primary"
-              matStepperNext
-              [disabled]="!getFormGroup(step.controlName)?.valid"
-              >
-              Next
-            </button>
-          }
-          @if (last) {
-            <button
-              mat-raised-button
-              color="accent"
-              type="submit"
-              [disabled]="!multiStepForms.valid"
-              >
-              Submit
-            </button>
-          }
-        </div>
-      </mat-step>
+        @if (!last) {
+        <button mat-raised-button color="primary" matStepperNext [disabled]="!getFormGroup(step.controlName)?.valid">
+          Next
+        </button>
+        }
+        @if (last) {
+        <button mat-raised-button color="accent" type="submit" [disabled]="!multiStepForms.valid">
+          Submit
+        </button>
+        }
+      </div>
+    </mat-step>
     }
   </mat-horizontal-stepper>
 </form>
@@ -68,4 +49,3 @@
 
 <button type="submit" >Submit</button>
 </form> -->
-

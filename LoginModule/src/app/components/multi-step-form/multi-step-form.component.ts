@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { MatStepper, MatStep, MatStepLabel, MatStepperPrevious, MatStepperNext } from '@angular/material/stepper';
 
 import { MatButton } from '@angular/material/button';
@@ -11,10 +11,10 @@ export interface StepType {
 }
 
 @Component({
-    selector: 'app-multi-step-form',
-    templateUrl: './multi-step-form.component.html',
-    styleUrls: ['./multi-step-form.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, MatStepper, MatStep, MatStepLabel, FormlyModule, MatButton, MatStepperPrevious, MatStepperNext]
+  selector: 'app-multi-step-form',
+  templateUrl: './multi-step-form.component.html',
+  styleUrls: ['./multi-step-form.component.css'],
+  imports: [FormsModule, ReactiveFormsModule, MatStepper, MatStep, MatStepLabel, FormlyModule, MatButton, MatStepperPrevious, MatStepperNext]
 })
 export class MultiStepFormComponent {
   isLinear = true;
@@ -25,7 +25,7 @@ export class MultiStepFormComponent {
     controlName: string;
   }>;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.multiStepForms = this.fb.group({

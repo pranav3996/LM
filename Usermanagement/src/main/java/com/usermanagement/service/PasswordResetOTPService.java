@@ -67,7 +67,7 @@ public class PasswordResetOTPService {
 
 	public OTP getOtpByUser(Users user) {
 		return otpRepo.findByUser(user)
-				.orElseThrow(() ->  new RuntimeException("OTP not found for user: " + user.getEmail()));
+				.orElseThrow(() -> new RuntimeException("OTP not found for user: " + user.getEmail()));
 	}
 
 	private void validateOtp(OTP otpEntity, String otp) {

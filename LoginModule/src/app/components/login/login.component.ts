@@ -3,12 +3,11 @@ import { NgModel, NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 
-
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    imports: [FormsModule]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  imports: [FormsModule]
 })
 export class LoginComponent {
   public isLogin = true;
@@ -19,7 +18,7 @@ export class LoginComponent {
   constructor(
     private readonly authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   handleSubmit(authForm: NgForm): void {
     if (!authForm.valid) {

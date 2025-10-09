@@ -6,28 +6,9 @@
 
     <header>Register</header>
     <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
-      <input
-        type="text"
-        placeholder="First Name"
-        ngModel
-        name="firstName"
-        required
-        />
-      <input
-        type="text"
-        placeholder="Last Name"
-        ngModel
-        name="lastName"
-        required
-        />
-      <input
-        type="text"
-        placeholder="Email"
-        ngModel
-        name="email"
-        required
-        email
-        />
+      <input type="text" placeholder="First Name" ngModel name="firstName" required />
+      <input type="text" placeholder="Last Name" ngModel name="lastName" required />
+      <input type="text" placeholder="Email" ngModel name="email" required email />
       <!-- <input
       type="text"
       placeholder="Role"
@@ -35,41 +16,23 @@
       name="role"
       required
       /> -->
-      <select
-        ngModel
-        name="role"
-        required
-
-        >  <option value="" disabled selected>Select a role</option>
+      <select ngModel name="role" required>
+        <option value="" disabled selected>Select a role</option>
         @for (role of role; track role) {
-          <option [value]="role">{{ role }}</option>
+        <option [value]="role">{{ role }}</option>
         }
       </select>
-      <input
-        type="text"
-        placeholder="City"
-        ngModel
-        name="city"
-        required
-        />
-      <input
-        type="password"
-        placeholder="Password"
-        ngModel
-        name="password"
-        required
-        minlength="6"
-        />
+      <input type="text" placeholder="City" ngModel name="city" required />
+      <input type="password" placeholder="Password" ngModel name="password" required minlength="6" />
 
       @if (errorMessage) {
-        <div class="error">
-          {{ errorMessage }}
-        </div>
+      <div class="error">
+        {{ errorMessage }}
+      </div>
       }
 
       <div class="mt-4">
         <button type="submit" class="button" [disabled]="!authForm.valid">Register</button>
-
       </div>
     </form>
   </div>

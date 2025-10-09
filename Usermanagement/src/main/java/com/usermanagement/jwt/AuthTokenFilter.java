@@ -30,7 +30,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private OurUserDetailsService ourUserDetailsService;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

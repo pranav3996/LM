@@ -7,12 +7,11 @@ import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
-    selector: 'app-userlist',
-    templateUrl: './userlist.component.html',
-    styleUrls: ['./userlist.component.css'],
-    imports: [FormsModule, RouterLink]
+  selector: 'app-userlist',
+  templateUrl: './userlist.component.html',
+  styleUrls: ['./userlist.component.css'],
+  imports: [FormsModule, RouterLink]
 })
 export class UserlistComponent implements OnInit {
   users: any[] = [];
@@ -37,7 +36,7 @@ export class UserlistComponent implements OnInit {
   constructor(
     private readonly adminService: AdminService,
     private readonly router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -100,8 +99,8 @@ export class UserlistComponent implements OnInit {
     }
   }
 
-   // Method to handle "Select All" text click
-   toggleSelectAll() {
+  // Method to handle "Select All" text click
+  toggleSelectAll() {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
       this.selectedUsers = [...this.users]; // Select all users
@@ -126,8 +125,8 @@ export class UserlistComponent implements OnInit {
       }
       // this.allSelected = false; // Uncheck "Select All" if any item is unchecked
     }
-      // Update the allSelected flag based on the current selection
-      this.allSelected = this.selectedUsers.length === this.users.length;
+    // Update the allSelected flag based on the current selection
+    this.allSelected = this.selectedUsers.length === this.users.length;
   }
 
   // Method to delete selected users

@@ -1,7 +1,7 @@
 <div class="container">
 
   @if (errorMessage) {
-    <p class="error-message">{{errorMessage}}</p>
+  <p class="error-message">{{errorMessage}}</p>
   }
   <h2>Profile Information</h2>
   <p>FirstName: {{profileInfo?.users?.firstName}}</p>
@@ -9,6 +9,6 @@
   <p>Email: {{profileInfo?.users?.email}}</p>
   <p>City: {{profileInfo?.users?.city}}</p>
   @if (profileInfo?.users?.role === 'ADMIN') {
-    <button  (click)="updateProfile(profileInfo?.users?.id)">Update Profile</button>
+  <button (click)="updateProfile(profileInfo?.users?.id)">Update Profile</button>
   }
 </div>

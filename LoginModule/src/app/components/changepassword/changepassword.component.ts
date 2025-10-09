@@ -4,12 +4,11 @@ import { Router } from '@angular/router';
 import { PasswordService } from 'src/app/service/password.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
-    selector: 'app-changepassword',
-    templateUrl: './changepassword.component.html',
-    styleUrls: ['./changepassword.component.css'],
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-changepassword',
+  templateUrl: './changepassword.component.html',
+  styleUrls: ['./changepassword.component.css'],
+  imports: [FormsModule, ReactiveFormsModule]
 })
 export class ChangepasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
@@ -51,7 +50,7 @@ export class ChangepasswordComponent implements OnInit {
 
     const { oldPassword, newPassword } = this.changePasswordForm.value;
     const email = this.changePasswordForm.get('email')!.value;
-  
+
     this.passwordService
       .changePassword(email, oldPassword, newPassword)
       .subscribe(

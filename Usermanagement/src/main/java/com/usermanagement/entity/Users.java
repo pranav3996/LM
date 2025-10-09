@@ -119,8 +119,9 @@ public class Users implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 //		return true;
-		 return this.isEnabled; 
+		return this.isEnabled;
 	}
+
 	@Override
 	public String toString() {
 		return "Users [id=" + id + ", email=" + email + ", password=" + password + ", city=" + city + ", role=" + role

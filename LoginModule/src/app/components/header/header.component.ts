@@ -3,31 +3,30 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css'],
-    imports: [RouterLink]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
+  imports: [RouterLink]
 })
 export class HeaderComponent {
   constructor(
     private authService: AuthService,
-    private router:Router
-  ) {}
+    private router: Router
+  ) { }
 
-  isAuthenticated:boolean = false;
-  isAdmin:boolean = false;
-  isUser:boolean = false;
+  isAuthenticated: boolean = false;
+  isAdmin: boolean = false;
+  isUser: boolean = false;
 
   ngOnInit(): void {
-      this.isAuthenticated = this.authService.isAuthenticated();
-      this.isAdmin = this.authService.isAdmin();
-      this.isUser = this.authService.isUser();
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAdmin = this.authService.isAdmin();
+    this.isUser = this.authService.isUser();
   }
 
-  confirmSignOut(event:Event) {
-  
+  confirmSignOut(event: Event) {
+
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will be logged out!',
