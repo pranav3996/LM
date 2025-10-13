@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../Context/AuthContext';
+
 const Header = () => {
   const navigate = useNavigate();
   const { logOut, accessToken } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
   useEffect(() => {
-    // Here, you can decode the JWT token or use your AuthContext info
     if (accessToken) {
       setIsAuthenticated(true);
-
-      // Example: decode token for roles or check from sessionStorage
-      const userRole = sessionStorage.getItem('role'); // 'ADMIN' or 'USER'
+      const userRole = sessionStorage.getItem('role');
       setIsAdmin(userRole === 'ADMIN');
       setIsUser(userRole === 'USER');
     } else {
@@ -24,6 +24,17 @@ const Header = () => {
       setIsUser(false);
     }
   }, [accessToken]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const confirmSignOut = (e) => {
     e.preventDefault();
@@ -47,36 +58,37 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-amber-400">
+    <nav className="bg-amber-400 shadow-md">
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
-        {/* Left */}
-        <div className="flex items-center ml-5">
-          <strong className="text-white text-xl">Believe</strong>
+        {/* Left: Logo */}
+        <div className="flex items-center ml-2">
+          <strong className="text-white text-2xl">Believe</strong>
         </div>
 
-        {/* Right */}
-        <ul className="flex items-center space-x-4 mr-10 mt-1 hidden md:flex">
+        {/* Right: Nav Links */}
+        <div className="flex items-center space-x-4 mr-4 relative" ref={menuRef}>
           {isAuthenticated && (
-            <li>
-              <NavLink to="/profile" className="text-white text-xl hover:text-gray-200">
-                <i className="fas fa-user fa-lg"></i>
-              </NavLink>
-            </li>
+            <NavLink to="/profile" className="text-white text-xl hover:text-gray-200">
+              <i className="fas fa-user fa-lg"></i>
+            </NavLink>
           )}
 
           {isAdmin && (
-            <li>
-              <NavLink to="/users" className="text-white text-2xl hover:text-gray-200">
-                <i className="fas fa-home"></i>
-              </NavLink>
-            </li>
+            <NavLink to="/users" className="text-white text-2xl hover:text-gray-200">
+              <i className="fas fa-home"></i>
+            </NavLink>
           )}
 
-          <li className="relative">
-            <button className="text-white text-2xl ml-2 focus:outline-none">
-              <i className="fas fa-bars"></i>
-            </button>
-            <ul className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
+          {/* Dropdown Menu */}
+          <button
+            className="text-white text-2xl ml-2 focus:outline-none"
+            onClick={() => setMenuOpen((prev) => !prev)}
+          >
+            <i className="fas fa-bars"></i>
+          </button>
+
+          {menuOpen && (
+            <ul className="absolute right-0 top-10 w-56 bg-white rounded-lg shadow-lg z-50">
               <li>
                 <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                   About Us
@@ -87,11 +99,17 @@ const Header = () => {
                   Contact Us
                 </a>
               </li>
-              <li>
-                <NavLink to="/change-password" className="block px-4 py-2 hover:bg-gray-100">
-                  Change Password
-                </NavLink>
-              </li>
+              {isAuthenticated && (
+                <li>
+                  <NavLink
+                    to="/change-password"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Change Password
+                  </NavLink>
+                </li>
+              )}
               <li>
                 <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                   Terms & Conditions
@@ -100,17 +118,19 @@ const Header = () => {
               <li>
                 <hr className="border-t my-1" />
               </li>
-              <li>
-                <button
-                  onClick={confirmSignOut}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
-                >
-                  Sign Out
-                </button>
-              </li>
+              {isAuthenticated && (
+                <li>
+                  <button
+                    onClick={confirmSignOut}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
+                    Sign Out
+                  </button>
+                </li>
+              )}
             </ul>
-          </li>
-        </ul>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -1,7 +1,7 @@
 // UserRegisterContext.jsx
 import React, { createContext, useReducer, useContext, useCallback, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { useAuthInterceptor } from '../Interceptor/AuthInterceptorContext'; // Axios interceptor with token
+import { useAuth } from './AuthContext'; // Axios interceptor with token
 
 // =====================
 // ACTION TYPES
@@ -50,7 +50,7 @@ const UserRegisterContext = createContext(null);
 // =====================
 export const UserRegisterProvider = ({ children }) => {
   const [state, dispatch] = useReducer(registerReducer, initialState);
-  const { axiosInstance } = useAuthInterceptor(); // Use centralized Axios with interceptor
+  const { axiosInstance } = useAuth(); // Use centralized Axios with interceptor
 
   // Create a local Axios ref if interceptor not used
   const axiosRef = useRef(

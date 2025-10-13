@@ -21,15 +21,26 @@ const Login = () => {
     try {
       const response = await login(data.email, data.password);
 
+      // if (response.success) {
+      //   Swal.fire({
+      //     icon: 'success',
+      //     title: isLogin ? 'Login Successful' : 'SignUp Successful',
+      //     text: `Welcome ${data.email}`,
+      //     confirmButtonColor: '#fbbf24',
+      //   });
+      //   navigate('/profile');
+      // } 
       if (response.success) {
         Swal.fire({
           icon: 'success',
-          title: isLogin ? 'Login Successful' : 'SignUp Successful',
+          title: 'Login Successful',
           text: `Welcome ${data.email}`,
           confirmButtonColor: '#fbbf24',
         });
-        navigate('/profile');
-      } else {
+        setTimeout(() => navigate('/profile'), 300); // 👈 small delay fixes race condition
+      }
+
+      else {
         setErrorMessage(response.error || 'An error occurred');
         setTimeout(() => setErrorMessage(''), 3000);
       }

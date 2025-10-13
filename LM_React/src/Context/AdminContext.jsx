@@ -1,6 +1,7 @@
 // AdminContext.jsx
 import { createContext, useReducer, useContext, useCallback } from 'react';
-import { useAuthInterceptor } from '../Interceptor/AuthInterceptorContext';
+
+import { useAuth } from './AuthContext';
 
 // =====================
 // CONFIG
@@ -162,7 +163,7 @@ const AdminContext = createContext(null);
 // =====================
 export const AdminProvider = ({ children }) => {
   const [state, dispatch] = useReducer(adminReducer, initialState);
-  const { axiosInstance } = useAuthInterceptor(); // Use centralized Axios with interceptors
+  const { axiosInstance } = useAuth(); // Use centralized Axios with interceptors
 
   // =====================
   // API METHODS

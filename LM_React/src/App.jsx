@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 
 import AppRoutes from './Router/Routes';
 import { StorageProvider } from './Context/StorageContext';
-import { AuthInterceptorProvider } from './Interceptor/AuthInterceptorContext';
 import { AuthProvider } from './Context/AuthContext';
 import { AdminProvider } from './Context/AdminContext';
 import { UserRegisterProvider } from './Context/UserRegisterContext';
@@ -59,19 +58,17 @@ const App = () => {
 const AppWithProviders = () => {
   return (
     <StorageProvider>
-      <AuthInterceptorProvider>
-        <AuthProvider>
-          <AdminProvider>
-            <UserRegisterProvider>
-              <ProfileProvider>
-                <PasswordProvider>
-                  <App />
-                </PasswordProvider>
-              </ProfileProvider>
-            </UserRegisterProvider>
-          </AdminProvider>
-        </AuthProvider>
-      </AuthInterceptorProvider>
+      <AuthProvider>
+        <AdminProvider>
+          <UserRegisterProvider>
+            <ProfileProvider>
+              <PasswordProvider>
+                <App />
+              </PasswordProvider>
+            </ProfileProvider>
+          </UserRegisterProvider>
+        </AdminProvider>
+      </AuthProvider>
     </StorageProvider>
   );
 };

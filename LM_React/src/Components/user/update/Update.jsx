@@ -25,7 +25,7 @@ const UpdateUser = () => {
     const fetchUser = async () => {
       const res = await getUserById(id);
       if (res.success && res.data) {
-        const { firstName, lastName, email, city, role, enabled } = res.data.users || {};
+        const { firstName = '', lastName = '', email = '', city = '', role = 'USER', enabled = false } = res.data.users || {};
         setUserData({ firstName, lastName, email, city, role, enabled });
         setOriginalEnabled(enabled);
       } else {
@@ -85,7 +85,7 @@ const UpdateUser = () => {
             type="text"
             name="firstName"
             placeholder="First Name"
-            value={userData.firstName}
+            value={userData.firstName || ''}
             onChange={handleChange}
             className="border px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
             required
@@ -95,7 +95,7 @@ const UpdateUser = () => {
             type="text"
             name="lastName"
             placeholder="Last Name"
-            value={userData.lastName}
+            value={userData.lastName || ''}
             onChange={handleChange}
             className="border px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
             required
@@ -105,7 +105,7 @@ const UpdateUser = () => {
             type="email"
             name="email"
             placeholder="Email"
-            value={userData.email}
+            value={userData.email || ''}
             onChange={handleChange}
             className="border px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
             required
@@ -113,7 +113,7 @@ const UpdateUser = () => {
 
           <select
             name="role"
-            value={userData.role}
+            value={userData.role || 'USER'}
             onChange={handleChange}
             className="border px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
           >
@@ -155,7 +155,7 @@ const UpdateUser = () => {
             type="text"
             name="city"
             placeholder="City"
-            value={userData.city}
+            value={userData.city || ''}
             onChange={handleChange}
             className="border px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
             required

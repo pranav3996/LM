@@ -1,5 +1,5 @@
 import { createContext, useReducer, useContext, useCallback } from 'react';
-import { useAuthInterceptor } from '../Interceptor/AuthInterceptorContext';
+import { useAuth } from './AuthContext';
 
 
 const ACTIONS = {
@@ -51,7 +51,7 @@ const PasswordContext = createContext(null);
 
 export const PasswordProvider = ({ children }) => {
   const [state, dispatch] = useReducer(passwordReducer, initialState);
-  const { axiosInstance } = useAuthInterceptor(); // use AuthContext Axios instance
+  const { axiosInstance } = useAuth(); // use AuthContext Axios instance
 
   const apiCall = useCallback(
     async (method, url, data = {}) => {

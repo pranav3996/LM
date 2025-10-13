@@ -1,11 +1,11 @@
-// ProfileContext.jsx
 import React, { createContext, useReducer, useContext, useCallback, useEffect } from 'react';
-import { useAuthInterceptor } from '../Interceptor/AuthInterceptorContext';
+import { useAuth } from './AuthContext';
 
 // =====================
 // ENVIRONMENT VARIABLES
 // =====================
-const PROFILE_URL = import.meta.env.VITE_PROFILE_URL || 'http://localhost:1010/adminuser/get-profile';
+const PROFILE_URL =
+  import.meta.env.VITE_PROFILE_URL || 'http://localhost:1010/adminuser/get-profile';
 const REQUEST_TIMEOUT = 30000;
 
 // =====================
@@ -51,7 +51,7 @@ function profileReducer(state, action) {
 const handleError = (error, defaultMsg = 'Failed to fetch profile') => {
   if (error?.response) {
     return {
-      message: error.response?.data?.message || error.message || defaultMsg,
+      message: error.response?.data?.message || defaultMsg,
       statusCode: error.response?.status,
       code: error.code,
       error,
@@ -69,16 +69,23 @@ const ProfileContext = createContext(null);
 // PROVIDER
 // =====================
 export const ProfileProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(profileReducer, initialState);
-  const { axiosInstance } = useAuthInterceptor(); // Centralized Axios with auth interceptors
+  const [state, dispatch] = useReducer(profileReducer, initialState);
+  const { axiosInstance, accessToken } = useAuth(); // Use from AuthContext
 
   // =====================
-  // API METHODS
+  // FETCH PROFILE
   // =====================
   const fetchProfile = useCallback(async () => {
+    if (!accessToken) return { success: false, error: 'No access token' };
     dispatch({ type: ACTIONS.FETCH_PROFILE_REQUEST });
+    console.log('Token in header:', axiosInstance.defaults.headers.common['Authorization']);
+
     try {
-      const response = await axiosInstance.get(PROFILE_URL, { timeout: REQUEST_TIMEOUT });
+      // const response = await axiosInstance.get(PROFILE_URL, { timeout: REQUEST_TIMEOUT });
+      const response = await axiosInstance.get(PROFILE_URL, {
+        timeout: REQUEST_TIMEOUT,
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
       dispatch({ type: ACTIONS.FETCH_PROFILE_SUCCESS, payload: response.data });
       return { success: true, data: response.data };
     } catch (error) {
@@ -86,16 +93,23 @@ export const ProfileProvider = ({ children }) => {
       dispatch({ type: ACTIONS.FETCH_PROFILE_ERROR, payload: err });
       return { success: false, error: err };
     }
-  }, [axiosInstance]);
+  }, [axiosInstance, accessToken]);
 
   const clearProfile = useCallback(() => {
     dispatch({ type: ACTIONS.CLEAR_PROFILE });
   }, []);
 
-  // Auto-fetch on mount
+  // =====================
+  // AUTO-FETCH ON LOGIN
+  // =====================
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+    if (accessToken) {
+      fetchProfile();
+    } else {
+      clearProfile();
+    }
+  }, [accessToken]); // ✅ only depends on token
+
 
   return (
     <ProfileContext.Provider value={{ ...state, fetchProfile, clearProfile }}>
