@@ -1,6 +1,5 @@
 import { createContext, useReducer, useContext, useCallback } from 'react';
-import { useAuth } from './AuthContext';
-
+import axios from 'axios';
 
 const ACTIONS = {
   REQUEST_START: 'REQUEST_START',
@@ -25,7 +24,7 @@ function passwordReducer(state, action) {
         ...state,
         loading: false,
         success: action.payload?.message || true,
-        data: action.payload?.data || null,
+        data: action.payload?.data || action.payload,
       };
     case ACTIONS.REQUEST_ERROR:
       return { ...state, loading: false, error: action.payload, success: null };
@@ -51,47 +50,79 @@ const PasswordContext = createContext(null);
 
 export const PasswordProvider = ({ children }) => {
   const [state, dispatch] = useReducer(passwordReducer, initialState);
-  const { axiosInstance } = useAuth(); // use AuthContext Axios instance
+
+  // Create axios instance for public endpoints (no auth required)
+  const publicAxios = axios.create({
+    baseURL: import.meta.env.VITE_PASSWORD_URL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   const apiCall = useCallback(
-    async (method, url, data = {}) => {
+    async (method, url, data = {}, requiresAuth = false) => {
       dispatch({ type: ACTIONS.REQUEST_START });
       try {
-        const res = await axiosInstance[method](url, data);
+        const config = {};
+
+        // Only add authorization header if required
+        if (requiresAuth) {
+          const token = sessionStorage.getItem('accessToken');
+          if (token) {
+            config.headers = { Authorization: `Bearer ${token}` };
+          }
+        }
+
+        const axiosInstance = requiresAuth ? publicAxios : publicAxios;
+        const res = await axiosInstance[method](url, data, config);
+
         dispatch({ type: ACTIONS.REQUEST_SUCCESS, payload: res.data });
         return { success: true, data: res.data };
       } catch (err) {
+        console.error(`Error in ${method.toUpperCase()} ${url}:`, err);
         const error = handleError(err);
         dispatch({ type: ACTIONS.REQUEST_ERROR, payload: error.message });
         return { success: false, error };
       }
     },
-    [axiosInstance]
+    []
   );
 
   const sendPasswordResetRequest = useCallback(
-    (email) => apiCall('post', '/password-reset-request', { email }),
+    (email) => apiCall('post', '/password-reset-request', { email }, false),
     [apiCall]
   );
 
   const resetPassword = useCallback(
-    (token, newPassword) => apiCall('post', `/reset-password?token=${token}`, { newPassword }),
+    (token, newPassword) => apiCall('post', `/reset-password?token=${token}`, { newPassword }, false),
     [apiCall]
   );
 
   const changePassword = useCallback(
-    (email, oldPassword, newPassword) => apiCall('post', '/change-password', { email, oldPassword, newPassword }),
+    (email, oldPassword, newPassword) =>
+      apiCall('post', '/change-password', { email, oldPassword, newPassword }, true),
     [apiCall]
   );
 
-  const sendOTP = useCallback((email) => apiCall('post', '/password-reset-otp-request', { email }), [apiCall]);
+  // ✅ No Authorization header for public endpoint
+  const sendOTP = useCallback(
+    (email) => apiCall('post', '/password-reset-otp-request', { email }, false),
+    [apiCall]
+  );
 
-  const verifyOTP = useCallback((email, otp) => apiCall('post', `/verify-otp?email=${email}&otp=${otp}`, {}), [apiCall]);
+  const verifyOTP = useCallback(
+    (email, otp) => apiCall('post', `/verify-otp?email=${email}&otp=${otp}`, {}, false),
+    [apiCall]
+  );
 
-  const resendOTP = useCallback((email) => apiCall('post', `/regenerate-otp?email=${email}`, {}), [apiCall]);
+  const resendOTP = useCallback(
+    (email) => apiCall('post', `/regenerate-otp?email=${email}`, {}, false),
+    [apiCall]
+  );
 
   const resetPasswordOtp = useCallback(
-    (email, otp, newPassword) => apiCall('post', `/reset-password-otp?email=${email}&otp=${otp}`, { newPassword }),
+    (email, otp, newPassword) =>
+      apiCall('post', `/reset-password-otp?email=${email}&otp=${otp}`, { newPassword }, false),
     [apiCall]
   );
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 import { useNavigate } from 'react-router-dom';
-import OtpInput from 'react-otp-input'; // OTP input component
+import OtpInput from 'react-otp-input';
 import { usePassword } from '../../../Context/PasswordContext';
 import ConfirmPassword from '../confirmPassword/ConfirmPassword';
 
@@ -108,13 +108,29 @@ const ResetPassword = () => {
 
         {otpRequested && !otpVerified && (
           <div className="mt-6">
-            <OtpInput
-              value={otp}
-              onChange={setOtp}
-              numInputs={6}
-              inputStyle="w-10 h-12 m-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-400"
-              isDisabled={otpVerified}
-            />
+            <div className="flex justify-center gap-2">
+              <OtpInput
+                value={otp}
+                onChange={setOtp}
+                numInputs={6}
+                separator={<span className="w-2"></span>}
+                inputType="number"
+                disabled={otpVerified}
+                inputStyle={{
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  fontSize: '1.5rem',
+                  borderRadius: '0.5rem',
+                  border: '1px solid #d1d5db',
+                  textAlign: 'center',
+                }}
+                focusStyle={{
+                  outline: 'none',
+                  boxShadow: '0 0 0 3px rgba(251, 191, 36, 0.1)',
+                  borderColor: '#fbbf24',
+                }}
+              />
+            </div>
             <button
               type="button"
               onClick={handleVerifyOTP}
@@ -133,5 +149,3 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
-
-

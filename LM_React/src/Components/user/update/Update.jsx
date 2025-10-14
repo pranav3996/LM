@@ -174,3 +174,176 @@ const UpdateUser = () => {
 };
 
 export default UpdateUser;
+
+// import { useEffect, useState } from 'react';
+// import { useParams, useNavigate } from 'react-router-dom';
+// import { useAdmin } from '../../../Context/AdminContext';
+// import Swal from 'sweetalert2';
+
+// const UpdateUser = () => {
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+//   const { currentUser, getUserById, updateUser, loading } = useAdmin();
+
+//   const [formData, setFormData] = useState({
+//     firstName: '',
+//     lastName: '',
+//     email: '',
+//     city: '',
+//     role: '',
+//     enabled: true,
+//   });
+
+//   // ✅ Fetch user data when component mounts
+//   useEffect(() => {
+//     if (id) {
+//       getUserById(id);
+//     }
+//   }, [id, getUserById]);
+
+//   // ✅ Populate form when currentUser is loaded
+//   useEffect(() => {
+//     if (currentUser?.users) {
+//       // Access the nested 'users' object from the full response
+//       const user = currentUser.users;
+//       setFormData({
+//         firstName: user.firstName || '',
+//         lastName: user.lastName || '',
+//         email: user.email || '',
+//         city: user.city || '',
+//         role: user.role || '',
+//         enabled: user.enabled ?? true,
+//       });
+//     }
+//   }, [currentUser]);
+
+//   const handleChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+//     setFormData(prev => ({
+//       ...prev,
+//       [name]: type === 'checkbox' ? checked : value
+//     }));
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     const result = await updateUser(id, formData);
+
+//     if (result.success) {
+//       Swal.fire('Success', 'User updated successfully', 'success');
+//       navigate('/list');
+//     } else {
+//       Swal.fire('Error', result.error?.message || 'Failed to update user', 'error');
+//     }
+//   };
+
+//   if (loading) {
+//     return (
+//       <div className="flex justify-center items-center min-h-screen">
+//         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="container mx-auto p-6 max-w-2xl">
+//       <h2 className="text-2xl font-bold mb-6">Update User</h2>
+
+//       <form onSubmit={handleSubmit} className="space-y-4">
+//         <div>
+//           <label className="block text-sm font-medium mb-1">First Name</label>
+//           <input
+//             type="text"
+//             name="firstName"
+//             value={formData.firstName}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             required
+//           />
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-medium mb-1">Last Name</label>
+//           <input
+//             type="text"
+//             name="lastName"
+//             value={formData.lastName}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             required
+//           />
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-medium mb-1">Email</label>
+//           <input
+//             type="email"
+//             name="email"
+//             value={formData.email}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             required
+//           />
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-medium mb-1">City</label>
+//           <input
+//             type="text"
+//             name="city"
+//             value={formData.city}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             required
+//           />
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-medium mb-1">Role</label>
+//           <select
+//             name="role"
+//             value={formData.role}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             required
+//           >
+//             <option value="">Select Role</option>
+//             <option value="USER">User</option>
+//             <option value="ADMIN">Admin</option>
+//           </select>
+//         </div>
+
+//         <div className="flex items-center">
+//           <input
+//             type="checkbox"
+//             name="enabled"
+//             checked={formData.enabled}
+//             onChange={handleChange}
+//             className="mr-2"
+//           />
+//           <label className="text-sm font-medium">Account Enabled</label>
+//         </div>
+
+//         <div className="flex gap-4 pt-4">
+//           <button
+//             type="submit"
+//             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
+//             disabled={loading}
+//           >
+//             {loading ? 'Updating...' : 'Update User'}
+//           </button>
+//           <button
+//             type="button"
+//             onClick={() => navigate('/list')}
+//             className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition-colors"
+//           >
+//             Cancel
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default UpdateUser;

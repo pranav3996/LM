@@ -1,7 +1,5 @@
-// UserRegisterContext.jsx
-import React, { createContext, useReducer, useContext, useCallback, useRef, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from './AuthContext'; // Axios interceptor with token
+import { createContext, useReducer, useContext, useCallback } from 'react';
+import { useAuth } from './AuthContext';
 
 // =====================
 // ACTION TYPES
@@ -50,31 +48,27 @@ const UserRegisterContext = createContext(null);
 // =====================
 export const UserRegisterProvider = ({ children }) => {
   const [state, dispatch] = useReducer(registerReducer, initialState);
-  const { axiosInstance } = useAuth(); // Use centralized Axios with interceptor
-
-  // Create a local Axios ref if interceptor not used
-  const axiosRef = useRef(
-    axiosInstance || axios.create({
-      baseURL: import.meta.env.VITE_USER_REGISTER_URL || 'http://localhost:1010/user/register',
-      timeout: 30000,
-    })
-  );
+  const { axiosInstance } = useAuth();
 
   // =====================
   // REGISTER USER
   // =====================
-  const userRegister = useCallback(async (userData) => {
-    dispatch({ type: ACTIONS.REGISTER_REQUEST });
-    try {
-      const response = await axiosRef.current.post('', userData);
-      dispatch({ type: ACTIONS.REGISTER_SUCCESS });
-      return { success: true, data: response.data };
-    } catch (error) {
-      const message = error.response?.data?.message || error.message || 'Registration failed';
-      dispatch({ type: ACTIONS.REGISTER_ERROR, payload: message });
-      return { success: false, error: message };
-    }
-  }, []);
+  const userRegister = useCallback(
+    async (userData) => {
+      dispatch({ type: ACTIONS.REGISTER_REQUEST });
+      try {
+        // Use the centralized axios instance with the correct path
+        const response = await axiosInstance.post('/user/register', userData);
+        dispatch({ type: ACTIONS.REGISTER_SUCCESS });
+        return { success: true, data: response.data };
+      } catch (error) {
+        const message = error.response?.data?.message || error.message || 'Registration failed';
+        dispatch({ type: ACTIONS.REGISTER_ERROR, payload: message });
+        return { success: false, error: message };
+      }
+    },
+    [axiosInstance]
+  );
 
   const clearError = useCallback(() => dispatch({ type: ACTIONS.CLEAR_ERROR }), []);
 

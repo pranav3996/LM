@@ -1,13 +1,5 @@
-// AdminContext.jsx
 import { createContext, useReducer, useContext, useCallback } from 'react';
-
 import { useAuth } from './AuthContext';
-
-// =====================
-// CONFIG
-// =====================
-const BASE_URL = import.meta.env.VITE_ADMIN_URL || 'http://localhost:1010/admin';
-const REQUEST_TIMEOUT = 30000;
 
 // =====================
 // ACTION TYPES
@@ -76,9 +68,20 @@ function adminReducer(state, action) {
 
     case ACTIONS.FETCH_USERS_SUCCESS:
       return { ...state, users: action.payload, loading: false };
+
     case ACTIONS.FETCH_USER_SUCCESS:
+      // ✅ Store the complete response in currentUser for form binding
+      // ✅ Extract just the user object for the users array (table display)
+      return {
+        ...state,
+        currentUser: action.payload.fullResponse, // Complete API response for forms
+        users: action.payload.user ? [action.payload.user] : [], // Just user object for table
+        loading: false
+      };
+
     case ACTIONS.UPDATE_USER_SUCCESS:
       return { ...state, currentUser: action.payload, loading: false };
+
     case ACTIONS.DELETE_USER_SUCCESS:
       return {
         ...state,
@@ -163,18 +166,34 @@ const AdminContext = createContext(null);
 // =====================
 export const AdminProvider = ({ children }) => {
   const [state, dispatch] = useReducer(adminReducer, initialState);
-  const { axiosInstance } = useAuth(); // Use centralized Axios with interceptors
+  const { axiosInstance } = useAuth();
 
   // =====================
   // API METHODS
   // =====================
+  // const adminRegister = useCallback(
+  //   async (userData) => {
+  //     dispatch({ type: ACTIONS.REGISTER_REQUEST });
+  //     try {
+  //       await axiosInstance.post('/auth/register', userData);
+  //       dispatch({ type: ACTIONS.REGISTER_SUCCESS });
+  //       return { success: true };
+  //     } catch (error) {
+  //       const err = handleError(error, 'Registration failed');
+  //       dispatch({ type: ACTIONS.REGISTER_ERROR, payload: err.message });
+  //       return { success: false, error: err };
+  //     }
+  //   },
+  //   [axiosInstance]
+  // );
   const adminRegister = useCallback(
     async (userData) => {
       dispatch({ type: ACTIONS.REGISTER_REQUEST });
       try {
-        await axiosInstance.post('/register', userData);
+        // ✅ Use /admin/register for admin-specific registration
+        const res = await axiosInstance.post('/admin/register', userData);
         dispatch({ type: ACTIONS.REGISTER_SUCCESS });
-        return { success: true };
+        return { success: true, data: res.data };
       } catch (error) {
         const err = handleError(error, 'Registration failed');
         dispatch({ type: ACTIONS.REGISTER_ERROR, payload: err.message });
@@ -187,9 +206,9 @@ export const AdminProvider = ({ children }) => {
   const getAllUsers = useCallback(async () => {
     dispatch({ type: ACTIONS.FETCH_USERS_REQUEST });
     try {
-      const res = await axiosInstance.get('/get-all-users');
-      dispatch({ type: ACTIONS.FETCH_USERS_SUCCESS, payload: res.data });
-      return { success: true, data: res.data };
+      const res = await axiosInstance.get('/admin/get-all-users');
+      dispatch({ type: ACTIONS.FETCH_USERS_SUCCESS, payload: res.data.usersList || [] });
+      return { success: true, data: res.data.usersList };
     } catch (error) {
       const err = handleError(error, 'Failed to fetch users');
       dispatch({ type: ACTIONS.FETCH_USERS_ERROR, payload: err.message });
@@ -201,8 +220,20 @@ export const AdminProvider = ({ children }) => {
     async (id) => {
       dispatch({ type: ACTIONS.FETCH_USER_REQUEST });
       try {
-        const res = await axiosInstance.get(`/get-users/${id}`);
-        dispatch({ type: ACTIONS.FETCH_USER_SUCCESS, payload: res.data });
+        const res = await axiosInstance.get(`/admin/get-users/${id}`);
+
+        // ✅ Extract the user object from the nested structure
+        const user = res.data.users;
+
+        // ✅ Dispatch both the full response (for forms) and extracted user (for table)
+        dispatch({
+          type: ACTIONS.FETCH_USER_SUCCESS,
+          payload: {
+            fullResponse: res.data,  // Complete response for form binding
+            user: user                // Extracted user for table display
+          }
+        });
+
         return { success: true, data: res.data };
       } catch (error) {
         const err = handleError(error, 'Failed to fetch user');
@@ -217,8 +248,10 @@ export const AdminProvider = ({ children }) => {
     async (id, data) => {
       dispatch({ type: ACTIONS.UPDATE_USER_REQUEST });
       try {
-        const res = await axiosInstance.put(`/update/${id}`, data);
+        const res = await axiosInstance.put(`/admin/update/${id}`, data);
         dispatch({ type: ACTIONS.UPDATE_USER_SUCCESS, payload: res.data });
+        // Refresh the user list after update
+        await getAllUsers();
         return { success: true, data: res.data };
       } catch (error) {
         const err = handleError(error, 'Failed to update user');
@@ -226,14 +259,14 @@ export const AdminProvider = ({ children }) => {
         return { success: false, error: err };
       }
     },
-    [axiosInstance]
+    [axiosInstance, getAllUsers]
   );
 
   const deleteUser = useCallback(
     async (id) => {
       dispatch({ type: ACTIONS.DELETE_USER_REQUEST });
       try {
-        await axiosInstance.delete(`/delete/${id}`);
+        await axiosInstance.delete(`/admin/delete/${id}`);
         dispatch({ type: ACTIONS.DELETE_USER_SUCCESS, payload: id });
         return { success: true };
       } catch (error) {
@@ -252,7 +285,7 @@ export const AdminProvider = ({ children }) => {
       formData.append('file', file, file.name);
 
       try {
-        const res = await axiosInstance.post('/upload', formData, {
+        const res = await axiosInstance.post('/admin/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
           onUploadProgress: (e) => {
             if (e.total) {
@@ -267,6 +300,9 @@ export const AdminProvider = ({ children }) => {
           payload: { message: res.data.message || 'Upload successful', data: res.data },
         });
 
+        // Refresh user list after upload
+        await getAllUsers();
+
         return { success: true, data: res.data };
       } catch (error) {
         const err = handleError(error, 'Upload failed');
@@ -277,16 +313,13 @@ export const AdminProvider = ({ children }) => {
         return { success: false, error: err };
       }
     },
-    [axiosInstance]
+    [axiosInstance, getAllUsers]
   );
 
   const clearError = useCallback(() => dispatch({ type: ACTIONS.CLEAR_ERROR }), []);
   const resetUpload = useCallback(() => dispatch({ type: ACTIONS.RESET_UPLOAD }), []);
   const resetState = useCallback(() => dispatch({ type: ACTIONS.RESET_STATE }), []);
 
-  // =====================
-  // PROVIDER VALUE
-  // =====================
   return (
     <AdminContext.Provider
       value={{
