@@ -109,7 +109,7 @@ const ResetPassword = () => {
         {otpRequested && !otpVerified && (
           <div className="mt-6">
             <div className="flex justify-center gap-2">
-              <OtpInput
+              {/* <OtpInput
                 value={otp}
                 onChange={setOtp}
                 numInputs={6}
@@ -129,7 +129,26 @@ const ResetPassword = () => {
                   boxShadow: '0 0 0 3px rgba(251, 191, 36, 0.1)',
                   borderColor: '#fbbf24',
                 }}
+              /> */}
+              <OtpInput
+                value={otp}
+                onChange={setOtp}
+                numInputs={6}
+                renderInput={(props) => (
+                  <input
+                    {...props}
+                    style={{
+                      width: '2.5rem',
+                      height: '2.5rem',
+                      fontSize: '1.5rem',
+                      borderRadius: '0.5rem',
+                      border: '1px solid #d1d5db',
+                      textAlign: 'center',
+                    }}
+                  />
+                )}
               />
+
             </div>
             <button
               type="button"

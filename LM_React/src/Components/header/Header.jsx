@@ -58,44 +58,62 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-amber-400 shadow-md">
+    <nav className="bg-gradient-to-r from-amber-500 to-amber-400 shadow-md">
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
         {/* Left: Logo */}
         <div className="flex items-center ml-2">
-          <strong className="text-white text-2xl">Believe</strong>
+          <strong className="text-white text-2xl font-bold tracking-wide">Believe</strong>
         </div>
 
         {/* Right: Nav Links */}
         <div className="flex items-center space-x-4 mr-4 relative" ref={menuRef}>
+          {/* Profile Icon */}
           {isAuthenticated && (
-            <NavLink to="/profile" className="text-white text-xl hover:text-gray-200">
+            <NavLink
+              to="/profile"
+              className="text-white text-xl hover:text-gray-200 transition-colors duration-200"
+              title="Profile"
+            >
               <i className="fas fa-user fa-lg"></i>
             </NavLink>
           )}
 
+          {/* Admin Home */}
           {isAdmin && (
-            <NavLink to="/users" className="text-white text-2xl hover:text-gray-200">
+            <NavLink
+              to="/users"
+              className="text-white text-2xl hover:text-gray-200 transition-colors duration-200"
+              title="Users"
+            >
               <i className="fas fa-home"></i>
             </NavLink>
           )}
 
-          {/* Dropdown Menu */}
+          {/* Dropdown Menu Button */}
           <button
-            className="text-white text-2xl ml-2 focus:outline-none"
+            className="text-white text-2xl ml-2 p-2 rounded hover:bg-white/20 transition duration-200 focus:outline-none"
             onClick={() => setMenuOpen((prev) => !prev)}
+            title="Menu"
           >
             <i className="fas fa-bars"></i>
           </button>
 
+          {/* Dropdown */}
           {menuOpen && (
-            <ul className="absolute right-0 top-10 w-56 bg-white rounded-lg shadow-lg z-50">
+            <ul className="absolute right-0 top-12 w-60 bg-white rounded-lg shadow-lg z-50 animate-fade-in">
               <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                <a
+                  href="#"
+                  className="block px-4 py-3 hover:bg-gray-100 transition-colors duration-150"
+                >
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                <a
+                  href="#"
+                  className="block px-4 py-3 hover:bg-gray-100 transition-colors duration-150"
+                >
                   Contact Us
                 </a>
               </li>
@@ -103,7 +121,7 @@ const Header = () => {
                 <li>
                   <NavLink
                     to="/change-password"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-3 hover:bg-gray-100 transition-colors duration-150"
                     onClick={() => setMenuOpen(false)}
                   >
                     Change Password
@@ -111,7 +129,10 @@ const Header = () => {
                 </li>
               )}
               <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                <a
+                  href="#"
+                  className="block px-4 py-3 hover:bg-gray-100 transition-colors duration-150"
+                >
                   Terms & Conditions
                 </a>
               </li>
@@ -122,7 +143,7 @@ const Header = () => {
                 <li>
                   <button
                     onClick={confirmSignOut}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors duration-150"
                   >
                     Sign Out
                   </button>
@@ -133,6 +154,7 @@ const Header = () => {
         </div>
       </div>
     </nav>
+
   );
 };
 

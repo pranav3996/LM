@@ -248,88 +248,120 @@ const List = () => {
       {/* Users Table */}
       {!loading && (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border px-4 py-2 cursor-pointer hover:bg-gray-200" onClick={toggleSelectAll}>
-                  <input
-                    type="checkbox"
-                    checked={allSelected}
-                    onChange={toggleSelectAll}
-                    className="mr-2"
-                  />
-                  {allSelected ? 'Deselect All' : 'Select All'}
-                </th>
-                <th className="border px-4 py-2">Sr.No</th>
-                <th className="border px-4 py-2">ID</th>
-                <th className="border px-4 py-2">First Name</th>
-                <th className="border px-4 py-2">Last Name</th>
-                <th className="border px-4 py-2">Email</th>
-                <th className="border px-4 py-2">Role</th>
-                <th className="border px-4 py-2">Verified</th>
-                <th className="border px-4 py-2">City</th>
-                <th className="border px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users && users.length > 0 ? (
-                users.map((user, i) => (
-                  <tr key={user.id} className="text-center hover:bg-gray-50">
-                    <td className="border px-4 py-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedUsers.some((u) => u.id === user.id)}
-                        onChange={() => handleCheckboxChange(user)}
-                      />
-                    </td>
-                    <td className="border px-4 py-2">{i + 1}</td>
-                    <td className="border px-4 py-2">{user.id}</td>
-                    <td className="border px-4 py-2">{user.firstName}</td>
-                    <td className="border px-4 py-2">{user.lastName}</td>
-                    <td className="border px-4 py-2">{user.email}</td>
-                    <td className="border px-4 py-2">
-                      <span className={`px-2 py-1 rounded text-xs ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
-                        }`}>
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className="border px-4 py-2">
-                      {user.enabled ? (
-                        <span className="text-green-600">✓ Yes</span>
-                      ) : (
-                        <span className="text-red-600">✗ No</span>
-                      )}
-                    </td>
-                    <td className="border px-4 py-2">{user.city}</td>
-                    <td className="border px-4 py-2">
-                      <div className="flex gap-2 justify-center">
-                        <button
-                          onClick={() => handleDeleteUser(user.id)}
-                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors text-sm"
+          <div className="inline-block min-w-full shadow-lg rounded-lg overflow-hidden">
+            <table className="min-w-full leading-normal">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <input
+                      type="checkbox"
+                      checked={allSelected}
+                      onChange={toggleSelectAll}
+                      className="mr-2 accent-amber-400"
+                    />
+                    {allSelected ? 'Deselect All' : 'Select All'}
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Sr.No
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    ID
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    First Name
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Last Name
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Verified
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    City
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {users && users.length > 0 ? (
+                  users.map((user, i) => (
+                    <tr
+                      key={user.id}
+                      className="hover:bg-gray-50 transition-colors duration-150"
+                    >
+                      <td className="px-4 py-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedUsers.some((u) => u.id === user.id)}
+                          onChange={() => handleCheckboxChange(user)}
+                          className="accent-amber-400"
+                        />
+                      </td>
+                      <td className="px-4 py-3">{i + 1}</td>
+                      <td className="px-4 py-3">{user.id}</td>
+                      <td className="px-4 py-3">{user.firstName}</td>
+                      <td className="px-4 py-3">{user.lastName}</td>
+                      <td className="px-4 py-3">{user.email}</td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${user.role === 'ADMIN'
+                            ? 'bg-purple-100 text-purple-800'
+                            : 'bg-blue-100 text-blue-800'
+                            }`}
                         >
-                          Delete
-                        </button>
-                        <button
-                          onClick={() => navigateToUpdate(user.id)}
-                          className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors text-sm"
-                        >
-                          Update
-                        </button>
-                      </div>
+                          {user.role}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        {user.enabled ? (
+                          <span className="text-green-600 font-semibold">✓ Yes</span>
+                        ) : (
+                          <span className="text-red-600 font-semibold">✗ No</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">{user.city}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex justify-center gap-2">
+                          <button
+                            onClick={() => handleDeleteUser(user.id)}
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg transition-colors text-sm"
+                          >
+                            <i className="fas fa-trash"></i>
+                          </button>
+                          <button
+                            onClick={() => navigateToUpdate(user.id)}
+                            className="bg-amber-400 hover:bg-amber-500 text-white px-3 py-1 rounded-lg transition-colors text-sm"
+                          >
+                            <i className="fas fa-edit"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={10}
+                      className="text-center py-8 text-gray-500 font-medium"
+                    >
+                      No users found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={10} className="text-center py-8 text-gray-500">
-                    No users found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
+
 
       {/* Delete Selected Button */}
       {selectedUsers.length > 0 && (
