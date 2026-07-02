@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
