@@ -11,100 +11,104 @@
         #searchTerm
         placeholder="Search  User"
         (keyup.enter)="searchUser(searchTerm.value)"
-      />
+        />
 
-      <div class="search-icon-container" style="color: var(--color-info-dark)">
-        <span
-          class="material-icons-sharp"
-          (click)="searchUser(searchTerm.value)"
-          >search</span
-        >
-      </div>
-    </form>
+        <div class="search-icon-container" style="color: var(--color-info-dark)">
+          <span
+            class="material-icons-sharp"
+            (click)="searchUser(searchTerm.value)"
+            >search</span
+            >
+          </div>
+        </form>
 
-    <div class="toolbar-buttons">
-      <button routerLink="/adminRegister">
-        <span class="material-icons-sharp">person_add</span>
-        <span>Add User</span>
-      </button>
+        <div class="toolbar-buttons">
+          <button routerLink="/adminRegister">
+            <span class="material-icons-sharp">person_add</span>
+            <span>Add User</span>
+          </button>
 
-      <input
-        type="file"
-        (change)="onFileSelected($event)"
-        #fileInput
-        style="display: none"
-      />
-      <button
-        (click)="triggerFileInput()"
-        style="background: var(--color-success)"
-      >
-        <span class="material-icons-sharp">upload</span>
-        <span>Upload File</span>
-      </button>
-      <button
-        class="download"
-        (click)="downloadExcel()"
-        style="background: var(--color-primary)"
-      >
-        <span class="material-icons-sharp">download</span>
-        <span>Download Excel</span>
-      </button>
-    </div>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>
-          <span (click)="toggleSelectAll()">{{ allSelected ? 'Deselect All' : 'Select All' }}</span>
-        </th>
-        <th>SrNo</th>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Verified</th>
-        <th>City</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-
-    <ng-container *ngIf="!noDataFound">
-      <tr *ngFor="let user of users; let i = index" [attr.key]="user.id">
-        <td>
           <input
-            type="checkbox"
-            [checked]="isSelected(user)"
-            (change)="onCheckboxChange($event, user)"
-          />
-        </td>
-        <td>{{ i + 1 }}</td>
-        <td>{{ user.id }}</td>
-        <td>{{ user.firstName }}</td>
-        <td>{{ user.lastName }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.enabled ? "Yes" : "No" }}</td>
-        <td>{{ user.city }}</td>
-        <td>
-          <button class="delete-button" (click)="deleteUser(user.id)">
-            Delete
-          </button>
-          <button class="update-button" (click)="navigateToUpdate(user.id)">
-            Update
-          </button>
-        </td>
-      </tr>
-      <button  class="delete-button" (click)="deleteSelectedUsers()" >
-        Delete Selected Users
-      </button>
-    </ng-container>
-  </table>
+            type="file"
+            (change)="onFileSelected($event)"
+            #fileInput
+            style="display: none"
+            />
+            <button
+              (click)="triggerFileInput()"
+              style="background: var(--color-success)"
+              >
+              <span class="material-icons-sharp">upload</span>
+              <span>Upload File</span>
+            </button>
+            <button
+              class="download"
+              (click)="downloadExcel()"
+              style="background: var(--color-primary)"
+              >
+              <span class="material-icons-sharp">download</span>
+              <span>Download Excel</span>
+            </button>
+          </div>
+        </div>
 
-  <ng-container *ngIf="noDataFound">
-    <div class="no-data-container">
-      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
-    </div>
-  </ng-container>
-</div>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <span (click)="toggleSelectAll()">{{ allSelected ? 'Deselect All' : 'Select All' }}</span>
+              </th>
+              <th>SrNo</th>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Verified</th>
+              <th>City</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          @if (!noDataFound) {
+            @for (user of users; track user; let i = $index) {
+              <tr [attr.key]="user.id">
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="isSelected(user)"
+                    (change)="onCheckboxChange($event, user)"
+                    />
+                  </td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.firstName }}</td>
+                  <td>{{ user.lastName }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role }}</td>
+                  <td>{{ user.enabled ? "Yes" : "No" }}</td>
+                  <td>{{ user.city }}</td>
+                  <td>
+                    <button class="delete-button" (click)="deleteUser(user.id)">
+                      Delete
+                    </button>
+                    <button class="update-button" (click)="navigateToUpdate(user.id)">
+                      Update
+                    </button>
+                  </td>
+                </tr>
+              }
+              <button  class="delete-button" (click)="deleteSelectedUsers()" >
+                Delete Selected Users
+              </button>
+            }
+          </table>
+
+          @if (noDataFound) {
+            <div class="no-data-container">
+              @if (errorMessage) {
+                <p class="error-message">{{ errorMessage }}</p>
+              }
+            </div>
+          }
+        </div>
