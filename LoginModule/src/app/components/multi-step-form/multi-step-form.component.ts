@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { MatStepper, MatStep, MatStepLabel, MatStepperPrevious, MatStepperNext } from '@angular/material/stepper';
@@ -14,6 +14,7 @@ export interface StepType {
   selector: 'app-multi-step-form',
   templateUrl: './multi-step-form.component.html',
   styleUrls: ['./multi-step-form.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, MatStepper, MatStep, MatStepLabel, FormlyModule, MatButton, MatStepperPrevious, MatStepperNext]
 })
 export class MultiStepFormComponent {

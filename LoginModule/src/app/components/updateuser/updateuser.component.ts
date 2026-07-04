@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { selectSelectedUser, selectUserError, selectUserLoading } from 'src/app/
   selector: 'app-updateuser',
   templateUrl: './updateuser.component.html',
   styleUrls: ['./updateuser.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, AsyncPipe],
 })
 export class UpdateuserComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { selectUserError, selectUserLoading } from 'src/app/store/user/user.sele
   selector: 'app-admin-register',
   templateUrl: './admin-register.component.html',
   styleUrls: ['./admin-register.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, AsyncPipe],
 })
 export class AdminRegisterComponent {

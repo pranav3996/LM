@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,7 @@ import { selectOtpRequested, selectOtpVerified, selectPasswordError, selectPassw
   selector: 'app-passwordreset',
   templateUrl: './passwordreset.component.html',
   styleUrls: ['./passwordreset.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent, AsyncPipe],
 })
 export class PasswordresetComponent implements OnInit, OnDestroy {

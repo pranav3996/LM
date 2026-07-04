@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
   selector: 'app-userlist',
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, RouterLink, AsyncPipe],
 })
 export class UserlistComponent implements OnInit {

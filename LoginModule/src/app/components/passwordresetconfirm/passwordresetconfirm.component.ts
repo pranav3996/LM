@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { selectPasswordError } from 'src/app/store/password/password.selectors';
   selector: 'app-passwordresetconfirm',
   templateUrl: './passwordresetconfirm.component.html',
   styleUrls: ['./passwordresetconfirm.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, AsyncPipe],
 })
 export class PasswordresetconfirmComponent implements OnInit {

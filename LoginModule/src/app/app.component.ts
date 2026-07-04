@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from './service/auth.service';
 
@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [HeaderComponent, RouterOutlet]
 })
 export class AppComponent {
