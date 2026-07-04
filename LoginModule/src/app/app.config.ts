@@ -1,4 +1,3 @@
-// app/app.config.ts
 import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -25,6 +24,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { provideServiceWorker } from '@angular/service-worker';
+
+// NgRx
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { authReducer } from './store/auth/auth.reducer';
+import { userReducer } from './store/user/user.reducer';
+import { passwordReducer } from './store/password/password.reducer';
+import { AuthEffects } from './store/auth/auth.effects';
+import { UserEffects } from './store/user/user.effects';
+import { PasswordEffects } from './store/password/password.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -54,9 +63,16 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     provideAnimations(),
     provideClientHydration(withEventReplay()),
-    provideRouter(routes), provideServiceWorker('ngsw-worker.js', {
+    provideRouter(routes),
+    provideStore({
+      auth: authReducer,
+      user: userReducer,
+      password: passwordReducer,
+    }),
+    provideEffects([AuthEffects, UserEffects, PasswordEffects]),
+    provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
 };

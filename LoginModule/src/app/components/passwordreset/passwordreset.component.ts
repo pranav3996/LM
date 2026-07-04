@@ -1,396 +1,81 @@
-// Reactive Forms ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, timeout } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { PasswordService } from 'src/app/service/password.service';
-import Swal from 'sweetalert2';
-
+import { Store } from '@ngrx/store';
+import { AsyncPipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { PasswordresetconfirmComponent } from '../passwordresetconfirm/passwordresetconfirm.component';
+import { PasswordActions } from 'src/app/store/password/password.actions';
+import { selectOtpRequested, selectOtpVerified, selectPasswordError, selectPasswordLoading } from 'src/app/store/password/password.selectors';
 
 @Component({
   selector: 'app-passwordreset',
   templateUrl: './passwordreset.component.html',
   styleUrls: ['./passwordreset.component.css'],
-  imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent]
+  imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent, AsyncPipe],
 })
-export class PasswordresetComponent implements OnInit {
-  errorMessage: string = '';
-  otpVerified: boolean = false;
-  otpRequested: boolean = false;
-  resendDisabled: boolean = false;
-  timer: any = 0;
-  countdown: number = 60;
-  loading: boolean = false;
+export class PasswordresetComponent implements OnInit, OnDestroy {
+  resendDisabled = false;
+  countdown = 60;
+  otpRequested = false;
+  otpVerified = false;
+  private timer: any;
+  private subs = new Subscription();
   otpForm!: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private passwordService: PasswordService,
-    private router: Router
-  ) { }
+  loading$ = this.store.select(selectPasswordLoading);
+  error$ = this.store.select(selectPasswordError);
 
-  ngOnInit() {
-    this.initializeForm();
-  }
+  constructor(private fb: FormBuilder, private store: Store, private router: Router) {}
 
-  get email(): FormControl {
-    return this.otpForm.get('email') as FormControl;
-  }
-
-  get otpControl(): FormControl {
-    return this.otpForm.get('otp') as FormControl;
-  }
-
-  initializeForm() {
-    this.otpForm = this.formBuilder.group({
+  ngOnInit(): void {
+    this.otpForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       otp: ['', [Validators.required, Validators.minLength(6)]],
     });
+    this.subs.add(this.store.select(selectOtpRequested).subscribe((v) => (this.otpRequested = v)));
+    this.subs.add(this.store.select(selectOtpVerified).subscribe((v) => (this.otpVerified = v)));
   }
 
-  startTimer() {
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
+    this.subs.unsubscribe();
+    this.store.dispatch(PasswordActions.clearOTPState());
+  }
+
+  get email(): FormControl { return this.otpForm.get('email') as FormControl; }
+  get otpControl(): FormControl { return this.otpForm.get('otp') as FormControl; }
+
+  startTimer(): void {
+    clearInterval(this.timer);
+    this.countdown = 60;
     this.timer = setInterval(() => {
-      if (this.countdown > 0) {
-        this.countdown--;
-      } else {
-        clearInterval(this.timer);
-        this.resendDisabled = false;
-      }
+      if (this.countdown > 0) { this.countdown--; }
+      else { clearInterval(this.timer); this.resendDisabled = false; }
     }, 1000);
   }
 
-  sendOTP() {
-    if (this.resendDisabled || this.email.invalid) {
-      return;
-    }
-    this.loading = true;
-    const email = this.email.value;
+  sendOTP(): void {
+    if (this.resendDisabled || this.email.invalid) return;
     this.resendDisabled = true;
-    this.passwordService
-      .sendOTP(email)
-      .pipe(
-        timeout(10000),
-        catchError((error) => {
-          this.errorMessage = error.error.message || 'Internal Server Error';
-          console.error('Error:', error);
-          this.loading = false;
-          this.resendDisabled = false;
-          return throwError(this.errorMessage);
-        })
-      )
-      .subscribe(
-        (response) => {
-          this.loading = false;
-          clearInterval(this.timer);
-          this.countdown = 60;
-          this.otpRequested = true;
-          this.resendDisabled = true;
-          this.errorMessage = '';
-          console.log('OTP sent successfully:', response);
-          Swal.fire({
-            icon: 'success',
-            title: 'OTP Sent',
-            text: response.message,
-            confirmButtonColor: '#ffb74d',
-          });
-
-          this.startTimer();
-        },
-        (error) => {
-          this.loading = false;
-          this.errorMessage =
-            error.error.message || 'Please check your internet connection.';
-          console.error('Error:', error);
-          this.resendDisabled = false;
-        }
-      );
-  }
-
-  verifyOTP() {
-    if (this.otpForm.invalid) {
-      return;
-    }
-
-    const otp = this.otpControl.value;
-    const email = this.email.value;
-    this.passwordService.verifyOTP(email, otp).subscribe(
-      (response) => {
-        this.otpVerified = true;
-        this.errorMessage = '';
-        console.log('OTP verified successfully', response);
-        //Pass data through navigation
-        // this.router.navigate(['/reset-password'], {
-        //   queryParams: { email: email, otp: otp },
-        // });
-      },
-      (error) => {
-        console.error('Error verifying OTP:', error);
-        this.errorMessage =
-          error.error.message || 'Please check your internet connection.';
-      }
-    );
-  }
-
-  resendOTP() {
-    if (this.resendDisabled || this.email.invalid) {
-      return;
-    }
-    this.countdown = 60;
+    this.store.dispatch(PasswordActions.sendOTP({ email: this.email.value }));
     this.startTimer();
+  }
+
+  verifyOTP(): void {
+    if (this.otpForm.invalid) return;
+    this.store.dispatch(PasswordActions.verifyOTP({ email: this.email.value, otp: this.otpControl.value }));
+  }
+
+  resendOTP(): void {
+    if (this.resendDisabled || this.email.invalid) return;
     this.resendDisabled = true;
-    this.errorMessage = '';
-
-    const email = this.email.value;
-    this.passwordService
-      .resendOTP(email)
-      .pipe(
-        timeout(10000),
-        catchError((error) => {
-          this.errorMessage = error.error.message || 'Internal Server Error';
-          console.error('Error:', error);
-          return throwError(this.errorMessage);
-        })
-      )
-      .subscribe(
-        (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'OTP Re-sent',
-            text: response.message,
-            confirmButtonColor: '#ffb74d',
-          });
-          console.log('Resent OTP:', response);
-        },
-        (error) => {
-          console.error('Error resending OTP:', error);
-          this.errorMessage =
-            error.error.message || 'Please check your internet connection.';
-          this.resendDisabled = false;
-        }
-      );
+    this.store.dispatch(PasswordActions.resendOTP({ email: this.email.value }));
+    this.startTimer();
   }
 
-  navigateToLogin() {
-    this.router.navigate(['/login']);
-  }
+  onOtpChange(otp: string): void { this.otpControl.setValue(otp); }
 
-  onOtpChange(otp: string) {
-    this.otpControl.setValue(otp);
-  }
+  navigateToLogin(): void { this.router.navigate(['/login']); }
 }
-
-
-/* reset using token
-
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { catchError, throwError, timeout } from 'rxjs';
-import { PasswordService } from 'src/app/service/password.service';
-
-@Component({
-  selector: 'app-passwordreset',
-  templateUrl: './passwordreset.component.html',
-  styleUrls: ['./passwordreset.component.css'],
-})
-export class PasswordresetComponent {
-  constructor(
-    private readonly passwordService: PasswordService,
-    private readonly router: Router
-  ) {}
-
-  email: string = '';
-  errorMessage: string = '';
-  resetToken: string = '';
-loading: boolean = false; 
-  sendResetRequest(passwordResetForm: NgForm) {
-    this.loading = true; 
-    this.passwordService
-      .sendPasswordResetRequest(passwordResetForm.value.email)
-      .pipe(
-        timeout(10000),
-        catchError((error) => {
-  this.loading = false; 
-          this.errorMessage = 'Please check your internet connection.';
-          console.error('Error:', error); // Log the error
-          return throwError(this.errorMessage); // Re-throw the error to propagate it
-        })
-      )
-      .subscribe(
-        (response) => {
-          this.loading = false; 
-          this.resetToken = response.token;
-          console.log('response ', response.token); // Store the token from the response
-          this.router.navigate(['/reset-password'], {
-            queryParams: { token: this.resetToken },
-          });
-        },
-        (error) => {
-          this.loading = false; 
-          this.errorMessage =
-            error.message || 'Please check your internet connection.';
-          console.error('Error:', error); // Log the error
-        }
-      );
-  }
-  navigateToLogin() {
-    this.router.navigate(['/login']);
-  }
-} 
-*/
-
-/* Template Driven Forms TS
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { catchError, timeout } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { PasswordService } from 'src/app/service/password.service';
-import Swal from 'sweetalert2';
-
-@Component({
-  selector: 'app-passwordreset',
-  templateUrl: './passwordreset.component.html',
-  styleUrls: ['./passwordreset.component.css'],
-})
-export class PasswordresetComponent {
-
-  email: string = '';
-  errorMessage: string = '';
-  resetToken: string = '';
-  otp: string = '';
-  otpVerified: boolean = false;
-  otpRequested: boolean = false;
-  resendDisabled: boolean = false;
-  timer: any = 0;
-  countdown: number = 60;
- loading: boolean = false; 
-  constructor(
-    private readonly passwordService: PasswordService,
-    private readonly router: Router
-  ) {}
-  startTimer() {
-    this.timer = setInterval(() => {
-      if (this.countdown > 0) {
-        this.countdown--;
-      } else {
-        clearInterval(this.timer);
-        this.resendDisabled = false;
-      }
-    }, 1000);
-  }
-
-  sendOTP(passwordResetForm: NgForm) {
-    if (this.resendDisabled) {
-      return;
-    }
-   this.loading = true; 
-    this.email = passwordResetForm.value.email;
-    this.resendDisabled = true;
-    this.passwordService
-      .sendOTP(this.email)
-      .pipe(
-        timeout(10000),
-        catchError((error) => {
-          this.errorMessage = error.error.message || 'Internal Server Error';
-          console.error('Error:', error);
-          this.resendDisabled = false;
-             this.loading = false; 
-          return throwError(this.errorMessage);
-        })
-      )
-      .subscribe(
-        (response) => {
-          clearInterval(this.timer);
-          this.countdown = 60;
-          this.otpRequested = true;
-          this.resendDisabled = true;
-          this.errorMessage = '';
-             this.loading = false; 
-          console.log('OTP sent successfully:', response);
-          Swal.fire({
-            icon: 'success',
-            title: 'OTP Sent',
-            text: response.message,
-            confirmButtonColor: '#ffb74d',
-          });
-
-          this.startTimer();
-        },
-        (error) => {
-           this.loading = false; 
-          this.errorMessage =
-            error.error.message || 'Please check your internet connection.';
-          // console.error('Error:', error);
-          this.resendDisabled = false;
-        }
-      );
-  }
-
-  verifyOTP() {
-    this.passwordService.verifyOTP(this.email, this.otp).subscribe(
-      (response) => {
-        this.otpVerified = true;
-        this.errorMessage = '';
-        console.log('OTP verified successfully', response);
-        this.router.navigate(['/reset-password'], {
-          queryParams: { email: this.email, otp: this.otp },
-        });
-      },
-      (error) => {
-        console.error('Error verifying OTP:', error);
-        this.errorMessage =
-          error.error.message || 'Please check your internet connection.';
-      }
-    );
-  }
-
-  resendOTP() {
-    if (this.resendDisabled) {
-      return;
-    }
-    this.countdown = 60;
-    this.startTimer();
-    this.resendDisabled = true;
-    this.errorMessage = '';
-
-    this.passwordService
-      .resendOTP(this.email)
-      .pipe(
-        timeout(10000),
-        catchError((error) => {
-          this.errorMessage = error.error.message || 'Internal Server Error';
-          console.error('Error:', error);
-          return throwError(this.errorMessage);
-        })
-      )
-      .subscribe(
-        (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'OTP Re-sent',
-            text: response.message,
-            confirmButtonColor: '#ffb74d',
-          });
-          console.log('Resent OTP:', response);
-        },
-        (error) => {
-          console.error('Error resending OTP:', error);
-          this.errorMessage =
-            error.error.message || 'Please check your internet connection.';
-          this.resendDisabled = false;
-        }
-      );
-  }
-
-  navigateToLogin() {
-    this.router.navigate(['/login']);
-  }
-
-  onOtpChange(otp: string) {
-    this.otp = otp;
-  }
-}*/

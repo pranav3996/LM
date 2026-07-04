@@ -1,32 +1,35 @@
-import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from 'src/app/service/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AsyncPipe } from '@angular/common';
 import Swal from 'sweetalert2';
+import { AuthActions } from 'src/app/store/auth/auth.actions';
+import { selectAuthRole, selectIsAuthenticated } from 'src/app/store/auth/auth.selectors';
+import { StorageService } from 'src/app/service/storage.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  imports: [RouterLink]
+  imports: [RouterLink],
 })
-export class HeaderComponent {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
+export class HeaderComponent implements OnInit {
+  isAuthenticated = false;
+  isAdmin = false;
+  isUser = false;
 
-  isAuthenticated: boolean = false;
-  isAdmin: boolean = false;
-  isUser: boolean = false;
+  constructor(private store: Store, private storage: StorageService) {}
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    this.isAdmin = this.authService.isAdmin();
-    this.isUser = this.authService.isUser();
+    // Bootstrap from session storage for SSR/page-refresh compatibility
+    const token = this.storage.getItem('accessToken');
+    const role = this.storage.getItem('role');
+    this.isAuthenticated = !!token;
+    this.isAdmin = role === 'ADMIN';
+    this.isUser = role === 'USER';
   }
 
-  confirmSignOut(event: Event) {
-
+  confirmSignOut(event: Event): void {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will be logged out!',
@@ -37,10 +40,8 @@ export class HeaderComponent {
       confirmButtonText: 'Yes, sign me out!',
     }).then((result) => {
       if (result.isConfirmed) {
-        // User confirmed, perform sign-out
         event.preventDefault();
-        this.authService.logOut();
-        this.router.navigate(['login']);
+        this.store.dispatch(AuthActions.logout());
         this.isAuthenticated = false;
         this.isAdmin = false;
         this.isUser = false;

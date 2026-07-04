@@ -1,14 +1,15 @@
 <div class="container">
-
-  @if (errorMessage) {
-  <p class="error-message">{{errorMessage}}</p>
+  @if (error$ | async; as error) {
+  <p class="error-message">{{ error }}</p>
   }
+  @if (profile$ | async; as profileInfo) {
   <h2>Profile Information</h2>
-  <p>FirstName: {{profileInfo?.users?.firstName}}</p>
-  <p>LastName: {{profileInfo?.users?.lastName}}</p>
-  <p>Email: {{profileInfo?.users?.email}}</p>
-  <p>City: {{profileInfo?.users?.city}}</p>
+  <p>FirstName: {{ profileInfo?.users?.firstName }}</p>
+  <p>LastName: {{ profileInfo?.users?.lastName }}</p>
+  <p>Email: {{ profileInfo?.users?.email }}</p>
+  <p>City: {{ profileInfo?.users?.city }}</p>
   @if (profileInfo?.users?.role === 'ADMIN') {
   <button (click)="updateProfile(profileInfo?.users?.id)">Update Profile</button>
+  }
   }
 </div>

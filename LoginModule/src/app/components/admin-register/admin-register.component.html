@@ -25,10 +25,8 @@
       <input type="text" placeholder="City" ngModel name="city" required />
       <input type="password" placeholder="Password" ngModel name="password" required minlength="6" />
 
-      @if (errorMessage) {
-      <div class="error">
-        {{ errorMessage }}
-      </div>
+      @if (error$ | async; as error) {
+      <div class="error">{{ error }}</div>
       }
 
       <div class="mt-4">

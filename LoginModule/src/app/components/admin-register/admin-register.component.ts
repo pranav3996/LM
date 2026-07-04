@@ -1,66 +1,30 @@
 import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AdminService } from 'src/app/service/admin.service';
-import Swal from 'sweetalert2';
+import { Store } from '@ngrx/store';
+import { AsyncPipe } from '@angular/common';
+import { UserActions } from 'src/app/store/user/user.actions';
+import { selectUserError, selectUserLoading } from 'src/app/store/user/user.selectors';
 
 @Component({
   selector: 'app-admin-register',
   templateUrl: './admin-register.component.html',
   styleUrls: ['./admin-register.component.css'],
-  imports: [FormsModule]
+  imports: [FormsModule, AsyncPipe],
 })
 export class AdminRegisterComponent {
-
-  errorMessage: string = '';
   role: string[] = ['ADMIN', 'USER'];
-  constructor(
-    private readonly adminService: AdminService,
-    private router: Router
-  ) { }
+  error$ = this.store.select(selectUserError);
+  loading$ = this.store.select(selectUserLoading);
+
+  constructor(private store: Store, private router: Router) {}
 
   handleSubmit(authForm: NgForm): void {
-    if (!authForm.valid) {
-      this.showError('All fields are required');
-      return;
-    }
-
-    this.adminService.adminRegister(authForm.value).subscribe(
-      response => {
-        this.showSuccess(response.message);
-        setTimeout(() => {
-          this.router.navigate(['/users']);
-        }, 3000);
-      },
-      error => {
-        this.showError(error.message || 'An error occurred');
-      }
-    );
-  }
-
-  showError(mess: string): void {
-    this.errorMessage = mess;
-    setTimeout(() => {
-      this.errorMessage = '';
-    }, 3000);
-  }
-
-  showSuccess(message: string): void {
-    Swal.fire({
-      title: 'Success!',
-      text: message,
-      icon: 'success',
-      confirmButtonColor: '#ffb74d',
-      confirmButtonText: 'OK'
-
-    }).then(() => {
-      this.router.navigate(['/users']);
-    });
+    if (!authForm.valid) return;
+    this.store.dispatch(UserActions.adminRegister({ userData: authForm.value }));
   }
 
   navigateToUsers(): void {
     this.router.navigate(['/users']);
   }
-
 }
-

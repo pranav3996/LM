@@ -1,43 +1,27 @@
-import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonService } from 'src/app/service/common.service';
+import { Store } from '@ngrx/store';
+import { AsyncPipe } from '@angular/common';
+import { UserActions } from 'src/app/store/user/user.actions';
+import { selectProfile, selectUserError } from 'src/app/store/user/user.selectors';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  imports: []
+  imports: [AsyncPipe],
 })
 export class ProfileComponent implements OnInit {
-  profileInfo: any;
-  errorMessage: string = '';
+  profile$ = this.store.select(selectProfile);
+  error$ = this.store.select(selectUserError);
 
-  private commonService!: CommonService;
-  private router!: Router;
+  constructor(private store: Store, private router: Router) {}
 
-  constructor(private injector: Injector) { }
   ngOnInit(): void {
-    this.commonService = this.injector.get(CommonService);
-    this.router = this.injector.get(Router);
-
-    this.commonService.getYourProfile().subscribe(
-      response => {
-        this.profileInfo = response;
-      },
-      error => {
-        this.showError(error.message || 'An error occurred');
-      }
-    );
+    this.store.dispatch(UserActions.loadProfile());
   }
 
   updateProfile(id: string): void {
     this.router.navigate(['/update', id]);
-  }
-
-  showError(mess: string): void {
-    this.errorMessage = mess;
-    setTimeout(() => {
-      this.errorMessage = '';
-    }, 3000);
   }
 }

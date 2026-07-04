@@ -1,7 +1,7 @@
 <div class="container">
   <input type="checkbox" id="check" />
   <div class="login form">
-    <header>{{ isLogin ? "Login" : "Sign Up" }}</header>
+    <header>Login</header>
 
     <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
       <input type="email" placeholder="Email" ngModel name="email" required email #email="ngModel" />
@@ -26,19 +26,13 @@
       <div class="forgot-password">
         <a (click)="handleForgotPassword()">Forgot Password?</a>
       </div>
-      @if (errorMessage) {
-      <div class="error mt-4">
-        {{ errorMessage }}
-      </div>
+      @if (error$ | async; as error) {
+      <div class="error mt-4">{{ error }}</div>
       }
 
       <div class="mt-4">
-        <button type="submit" class="button" [disabled]="!authForm.valid">
-          {{ isLogin ? "Login " : "SignUp" }}
-        </button>
-        <button type="button" class="button" (click)="switchToSignUp()">
-          Switch to {{ isLogin ? "SignUp " : "Login" }}
-        </button>
+        <button type="submit" class="button" [disabled]="!authForm.valid || (loading$ | async)">Login</button>
+        <button type="button" class="button" (click)="switchToSignUp()">Switch to SignUp</button>
       </div>
     </form>
   </div>
