@@ -16,9 +16,9 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap(({ email, password }) =>
+      switchMap(({ email, password }: { email: string; password: string }) =>
         this.authService.login(email, password).pipe(
-          map((response) => {
+          map((response: any) => {
             if (response.statusCode === 200) {
               return AuthActions.loginSuccess({
                 accessToken: response.accessToken,
@@ -31,7 +31,7 @@ export class AuthEffects {
             }
             return AuthActions.loginFailure({ error: response.message || 'Login failed' });
           }),
-          catchError((error) => of(AuthActions.loginFailure({ error: error.message || 'An error occurred' })))
+          catchError((error: any) => of(AuthActions.loginFailure({ error: error.message || 'An error occurred' })))
         )
       )
     )
@@ -69,7 +69,7 @@ export class AuthEffects {
       ofType(AuthActions.refreshToken),
       switchMap(() =>
         this.authService.refreshToken().pipe(
-          map((response) =>
+          map((response: any) =>
             AuthActions.refreshTokenSuccess({
               accessToken: response.accessToken,
               refreshToken: response.refreshToken,
@@ -77,7 +77,7 @@ export class AuthEffects {
               expirationRefreshTokenTime: response.expirationRefreshTokenTime,
             })
           ),
-          catchError((error) => of(AuthActions.refreshTokenFailure({ error: error.message })))
+          catchError((error: any) => of(AuthActions.refreshTokenFailure({ error: error.message })))
         )
       )
     )

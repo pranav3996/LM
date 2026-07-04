@@ -19,16 +19,16 @@ export const initialAuthState: AuthState = {
   error: null,
 };
 
-export const authReducer = createReducer(
+export const authReducer = createReducer<AuthState>(
   initialAuthState,
-  on(AuthActions.login, (state) => ({ ...state, loading: true, error: null })),
-  on(AuthActions.loginSuccess, (state, { accessToken, refreshToken, role, email }) => ({
+  on(AuthActions.login, (state): AuthState => ({ ...state, loading: true, error: null })),
+  on(AuthActions.loginSuccess, (state, { accessToken, refreshToken, role, email }): AuthState => ({
     ...state, loading: false, accessToken, refreshToken, role, email, error: null,
   })),
-  on(AuthActions.loginFailure, (state, { error }) => ({ ...state, loading: false, error })),
-  on(AuthActions.logout, () => ({ ...initialAuthState })),
-  on(AuthActions.refreshTokenSuccess, (state, { accessToken, refreshToken }) => ({
+  on(AuthActions.loginFailure, (state, { error }): AuthState => ({ ...state, loading: false, error })),
+  on(AuthActions.logout, (): AuthState => ({ ...initialAuthState })),
+  on(AuthActions.refreshTokenSuccess, (state, { accessToken, refreshToken }): AuthState => ({
     ...state, accessToken, refreshToken,
   })),
-  on(AuthActions.refreshTokenFailure, () => ({ ...initialAuthState })),
+  on(AuthActions.refreshTokenFailure, (): AuthState => ({ ...initialAuthState })),
 );

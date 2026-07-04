@@ -16,14 +16,14 @@ export class PasswordEffects {
   sendOTP$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.sendOTP),
-      switchMap(({ email }) =>
+      switchMap(({ email }: { email: string }) =>
         this.passwordService.sendOTP(email).pipe(
           timeout(10000),
-          map((response) => {
+          map((response: any) => {
             Swal.fire({ icon: 'success', title: 'OTP Sent', text: response.message, confirmButtonColor: '#ffb74d' });
             return PasswordActions.sendOTPSuccess({ message: response.message });
           }),
-          catchError((error) => of(PasswordActions.sendOTPFailure({ error: error.error?.message || 'Internal Server Error' })))
+          catchError((error: any) => of(PasswordActions.sendOTPFailure({ error: error.error?.message || 'Internal Server Error' })))
         )
       )
     )
@@ -32,14 +32,14 @@ export class PasswordEffects {
   resendOTP$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.resendOTP),
-      switchMap(({ email }) =>
+      switchMap(({ email }: { email: string }) =>
         this.passwordService.resendOTP(email).pipe(
           timeout(10000),
-          map((response) => {
+          map((response: any) => {
             Swal.fire({ icon: 'success', title: 'OTP Re-sent', text: response.message, confirmButtonColor: '#ffb74d' });
             return PasswordActions.resendOTPSuccess({ message: response.message });
           }),
-          catchError((error) => of(PasswordActions.resendOTPFailure({ error: error.error?.message || 'Internal Server Error' })))
+          catchError((error: any) => of(PasswordActions.resendOTPFailure({ error: error.error?.message || 'Internal Server Error' })))
         )
       )
     )
@@ -48,10 +48,10 @@ export class PasswordEffects {
   verifyOTP$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.verifyOTP),
-      switchMap(({ email, otp }) =>
+      switchMap(({ email, otp }: { email: string; otp: string }) =>
         this.passwordService.verifyOTP(email, otp).pipe(
           map(() => PasswordActions.verifyOTPSuccess()),
-          catchError((error) => of(PasswordActions.verifyOTPFailure({ error: error.error?.message || 'OTP verification failed' })))
+          catchError((error: any) => of(PasswordActions.verifyOTPFailure({ error: error.error?.message || 'OTP verification failed' })))
         )
       )
     )
@@ -60,14 +60,14 @@ export class PasswordEffects {
   resetPasswordOTP$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.resetPasswordOTP),
-      switchMap(({ email, otp, newPassword }) =>
+      switchMap(({ email, otp, newPassword }: { email: string; otp: string; newPassword: string }) =>
         this.passwordService.resetPasswordOtp(email, otp, newPassword).pipe(
-          map((response) => {
+          map((response: any) => {
             Swal.fire({ title: 'Password Reset Successful!', text: response.message, icon: 'success', confirmButtonColor: '#ffb74d', confirmButtonText: 'OK' })
               .then(() => this.router.navigate(['/login']));
             return PasswordActions.resetPasswordOTPSuccess();
           }),
-          catchError((error) => {
+          catchError((error: any) => {
             const msg = error.error?.message || 'Failed to reset password.';
             Swal.fire({ title: 'Error!', text: msg, icon: 'error', confirmButtonColor: '#d33', confirmButtonText: 'OK' });
             return of(PasswordActions.resetPasswordOTPFailure({ error: msg }));
@@ -80,14 +80,14 @@ export class PasswordEffects {
   resetPasswordToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.resetPasswordToken),
-      switchMap(({ accessToken, newPassword }) =>
+      switchMap(({ accessToken, newPassword }: { accessToken: string; newPassword: string }) =>
         this.passwordService.resetPassword(accessToken, newPassword).pipe(
           map(() => {
             Swal.fire({ title: 'Password Reset Successful!', text: 'Your password has been reset successfully.', icon: 'success', confirmButtonColor: '#ffb74d', confirmButtonText: 'OK' })
               .then(() => this.router.navigate(['/login']));
             return PasswordActions.resetPasswordTokenSuccess();
           }),
-          catchError((error) => of(PasswordActions.resetPasswordTokenFailure({ error: error.message || 'Failed to reset password.' })))
+          catchError((error: any) => of(PasswordActions.resetPasswordTokenFailure({ error: error.message || 'Failed to reset password.' })))
         )
       )
     )
@@ -96,10 +96,10 @@ export class PasswordEffects {
   changePassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.changePassword),
-      switchMap(({ email, oldPassword, newPassword }) =>
+      switchMap(({ email, oldPassword, newPassword }: { email: string; oldPassword: string; newPassword: string }) =>
         this.passwordService.changePassword(email, oldPassword, newPassword).pipe(
-          map((response) => PasswordActions.changePasswordSuccess({ message: response.message })),
-          catchError((error) => of(PasswordActions.changePasswordFailure({ error: error.error?.message || error.message })))
+          map((response: any) => PasswordActions.changePasswordSuccess({ message: response.message })),
+          catchError((error: any) => of(PasswordActions.changePasswordFailure({ error: error.error?.message || error.message })))
         )
       )
     )
@@ -108,7 +108,7 @@ export class PasswordEffects {
   changePasswordSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PasswordActions.changePasswordSuccess),
-      tap(({ message }) => {
+      tap(({ message }: { message: string }) => {
         Swal.fire({ title: 'Password Changed!', text: message, icon: 'success', confirmButtonColor: '#ffb74d', confirmButtonText: 'OK' })
           .then(() => this.router.navigate(['/profile']));
       })

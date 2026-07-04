@@ -15,10 +15,15 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
-    "importHelpers": true,
+    // "importHelpers": true,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "target": "ES2022",
     "module": "ES2022",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "importHelpers": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
