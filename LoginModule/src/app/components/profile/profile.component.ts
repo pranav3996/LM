@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -13,10 +13,11 @@ import { selectProfile, selectUserError } from 'src/app/store/user/user.selector
   imports: [AsyncPipe],
 })
 export class ProfileComponent implements OnInit {
+  private store = inject(Store);
+  private router = inject(Router);
+
   profile$ = this.store.select(selectProfile);
   error$ = this.store.select(selectUserError);
-
-  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.store.dispatch(UserActions.loadProfile());

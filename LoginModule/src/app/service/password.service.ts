@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -7,9 +7,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class PasswordService {
+  private http = inject(HttpClient);
+
   // private BASE_URL = "http://localhost:1010";
   private BASE_URL = environment.PASSWORD_URL;
-  constructor(private http: HttpClient) { }
 
   sendPasswordResetRequest(email: string): Observable<any> {
     const url = `${this.BASE_URL}/password-reset-request`;

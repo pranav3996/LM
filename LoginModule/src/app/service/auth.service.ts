@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -11,18 +11,16 @@ import { StorageService } from './storage.service';
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private storage = inject(StorageService);
+
   private LOGIN_URL = environment.AUTH_URL + '/login';
   private REFRESH_URL = environment.AUTH_URL + '/refresh';
   private activityTimeout: any;
 
   refreshTokenInProgress = false;
   refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private storage: StorageService
-  ) { }
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(this.LOGIN_URL, { email, password });

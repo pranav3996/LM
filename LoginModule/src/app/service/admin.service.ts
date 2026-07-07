@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -7,9 +7,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AdminService {
+  private http = inject(HttpClient);
+
   // private BASE_URL = "http://localhost:1010/admin";
   private BASE_URL = environment.ADMIN_URL;
-  constructor(private http: HttpClient) { }
 
   adminRegister(userData: any): Observable<any> {
     const url = `${this.BASE_URL}/register`;

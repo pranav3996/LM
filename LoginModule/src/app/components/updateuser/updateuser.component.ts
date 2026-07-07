@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -14,6 +14,10 @@ import { selectSelectedUser, selectUserError, selectUserLoading } from 'src/app/
   imports: [FormsModule, AsyncPipe],
 })
 export class UpdateuserComponent implements OnInit {
+  private store = inject(Store);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   userId!: string;
   userData: any = {};
   roles: string[] = ['ADMIN', 'USER'];
@@ -21,8 +25,6 @@ export class UpdateuserComponent implements OnInit {
   selectedUser$ = this.store.select(selectSelectedUser);
   error$ = this.store.select(selectUserError);
   loading$ = this.store.select(selectUserLoading);
-
-  constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || '';

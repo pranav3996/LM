@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, OnInit, ChangeDetectionStrategy, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -19,6 +19,9 @@ import Swal from 'sweetalert2';
   imports: [FormsModule, RouterLink, AsyncPipe],
 })
 export class UserlistComponent implements OnInit {
+  private store = inject(Store);
+  private router = inject(Router);
+
   users$: Observable<any[]> = this.store.select(selectUsers);
   error$: Observable<string | null> = this.store.select(selectUserError);
 
@@ -26,11 +29,9 @@ export class UserlistComponent implements OnInit {
   selectedUsers: any[] = [];
   allSelected = false;
 
-  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
+  readonly fileInput = viewChild.required<ElementRef>('fileInput');
 
   displayedColumns: string[] = ['srNo', 'id', 'firstName', 'lastName', 'email', 'role', 'city', 'enabled', 'action'];
-
-  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.store.dispatch(UserActions.loadUsers());
@@ -136,6 +137,6 @@ export class UserlistComponent implements OnInit {
   }
 
   triggerFileInput(): void {
-    this.fileInput.nativeElement.click();
+    this.fileInput().nativeElement.click();
   }
 }

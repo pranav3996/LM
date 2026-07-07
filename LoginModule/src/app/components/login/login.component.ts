@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { NgModel, NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -14,10 +14,11 @@ import { selectAuthError, selectAuthLoading } from 'src/app/store/auth/auth.sele
   imports: [FormsModule, AsyncPipe],
 })
 export class LoginComponent {
+  private store = inject(Store);
+  private router = inject(Router);
+
   loading$ = this.store.select(selectAuthLoading);
   error$ = this.store.select(selectAuthError);
-
-  constructor(private store: Store, private router: Router) {}
 
   handleSubmit(authForm: NgForm): void {
     if (!authForm.valid) return;

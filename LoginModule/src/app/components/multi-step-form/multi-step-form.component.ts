@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { MatStepper, MatStep, MatStepLabel, MatStepperPrevious, MatStepperNext } from '@angular/material/stepper';
@@ -18,6 +18,8 @@ export interface StepType {
   imports: [FormsModule, ReactiveFormsModule, MatStepper, MatStep, MatStepLabel, FormlyModule, MatButton, MatStepperPrevious, MatStepperNext]
 })
 export class MultiStepFormComponent {
+  private fb = inject(FormBuilder);
+
   isLinear = true;
   multiStepForms!: FormGroup;
   steps!: Array<{
@@ -25,8 +27,6 @@ export class MultiStepFormComponent {
     fields: FormlyFieldConfig[];
     controlName: string;
   }>;
-
-  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.multiStepForms = this.fb.group({

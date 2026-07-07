@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -15,11 +15,16 @@ import { selectPasswordError, selectPasswordLoading } from 'src/app/store/passwo
   imports: [FormsModule, ReactiveFormsModule, AsyncPipe],
 })
 export class ChangepasswordComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private store = inject(Store);
+  private storage = inject(StorageService);
+  private router = inject(Router);
+
   changePasswordForm: FormGroup;
   error$ = this.store.select(selectPasswordError);
   loading$ = this.store.select(selectPasswordLoading);
 
-  constructor(private fb: FormBuilder, private store: Store, private storage: StorageService, private router: Router) {
+  constructor() {
     this.changePasswordForm = this.fb.group({
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
       oldPassword: ['', Validators.required],

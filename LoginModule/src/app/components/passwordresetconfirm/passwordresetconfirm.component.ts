@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -14,13 +14,15 @@ import { selectPasswordError } from 'src/app/store/password/password.selectors';
   imports: [FormsModule, AsyncPipe],
 })
 export class PasswordresetconfirmComponent implements OnInit {
-  @Input() email: string = '';
-  @Input() otp: string = '';
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private store = inject(Store);
+
+  readonly email = input<string>('');
+  readonly otp = input<string>('');
 
   accessToken: string = '';
   error$ = this.store.select(selectPasswordError);
-
-  constructor(private route: ActivatedRoute, private router: Router, private store: Store) {}
 
   ngOnInit(): void {
     this.accessToken = this.route.snapshot.queryParams['accessToken'];
@@ -31,7 +33,7 @@ export class PasswordresetconfirmComponent implements OnInit {
   }
 
   resetPasswordOTP(resetPasswordForm: NgForm): void {
-    this.store.dispatch(PasswordActions.resetPasswordOTP({ email: this.email, otp: this.otp, newPassword: resetPasswordForm.value.newPassword }));
+    this.store.dispatch(PasswordActions.resetPasswordOTP({ email: this.email(), otp: this.otp(), newPassword: resetPasswordForm.value.newPassword }));
   }
 
   navigateToLogin(): void {

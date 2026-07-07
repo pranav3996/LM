@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from './service/auth.service';
 
@@ -12,8 +12,10 @@ import { HeaderComponent } from './components/header/header.component';
   imports: [HeaderComponent, RouterOutlet]
 })
 export class AppComponent {
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
   title = 'LoginModule';
-  constructor(private router: Router, private authService: AuthService) { }
 
   private routesWithoutHeader: string[] = [
     '/login',

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,10 @@ import { selectOtpRequested, selectOtpVerified, selectPasswordError, selectPassw
   imports: [FormsModule, ReactiveFormsModule, NgOtpInputModule, PasswordresetconfirmComponent, AsyncPipe],
 })
 export class PasswordresetComponent implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+  private store = inject(Store);
+  private router = inject(Router);
+
   resendDisabled = false;
   countdown = 60;
   otpRequested = false;
@@ -27,8 +31,6 @@ export class PasswordresetComponent implements OnInit, OnDestroy {
 
   loading$ = this.store.select(selectPasswordLoading);
   error$ = this.store.select(selectPasswordError);
-
-  constructor(private fb: FormBuilder, private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.otpForm = this.fb.group({

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -15,11 +15,12 @@ import { StorageService } from 'src/app/service/storage.service';
   imports: [RouterLink],
 })
 export class HeaderComponent implements OnInit {
+  private store = inject(Store);
+  private storage = inject(StorageService);
+
   isAuthenticated = false;
   isAdmin = false;
   isUser = false;
-
-  constructor(private store: Store, private storage: StorageService) {}
 
   ngOnInit(): void {
     // Bootstrap from session storage for SSR/page-refresh compatibility
