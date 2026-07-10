@@ -1,20 +1,16 @@
 package com.usermanagement.util;
 
-import java.util.Random;
-
 import org.springframework.stereotype.Component;
+
+import java.security.SecureRandom;
 
 @Component
 public class OTPUtil {
-	public String generateOtp() {
-		Random random = new Random();
-		int randomNumber = random.nextInt(999999);// for 6 digit otp
 
-		String output = Integer.toString(randomNumber);
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
-		while (output.length() < 6) {
-			output = "0" + output;
-		}
-		return output;
-	}
+    public String generateOtp() {
+        int otp = SECURE_RANDOM.nextInt(1_000_000);
+        return String.format("%06d", otp);
+    }
 }

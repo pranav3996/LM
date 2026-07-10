@@ -1,97 +1,62 @@
 package com.usermanagement.entity;
 
-import java.util.Calendar;
-import java.util.Date;
+import jakarta.persistence.*;
+import java.time.Instant;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 @Entity
+@Table(name = "verification_token", indexes = {
+        @Index(name = "idx_vt_token", columnList = "token")
+})
 public class VerificationToken {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String token;
-	private Date expirationTime;
-	private static final int EXPIRATION_TIME = 1;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private Users user;
+    private static final int EXPIRATION_MINUTES = 1;
 
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(nullable = false, unique = true)
+    private String token;
 
-	public String getToken() {
-		return token;
-	}
+    @Column(nullable = false)
+    private Instant expirationTime;
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
-	public Date getExpirationTime() {
-		return expirationTime;
-	}
+    public VerificationToken() {}
 
-	public void setExpirationTime(Date expirationTime) {
-		this.expirationTime = expirationTime;
-	}
+    public VerificationToken(String token, Users user) {
+        this.token = token;
+        this.user = user;
+        this.expirationTime = Instant.now().plusSeconds(EXPIRATION_MINUTES * 60L);
+    }
 
-	public Users getUser() {
-		return user;
-	}
+    public VerificationToken(Users user) {
+        this.user = user;
+        this.token = UUID.randomUUID().toString();
+        this.expirationTime = Instant.now().plusSeconds(EXPIRATION_MINUTES * 60L);
+    }
 
-	public void setUser(Users user) {
-		this.user = user;
-	}
+    public boolean isExpired() {
+        return Instant.now().isAfter(expirationTime);
+    }
 
-	public VerificationToken(String token, Users user) {
-		super();
-		this.token = token;
-		this.user = user;
-		this.expirationTime = this.getTokenExpirationTime();
-	}
+    public Instant getTokenExpirationTime() {
+        return Instant.now().plusSeconds(EXPIRATION_MINUTES * 60L);
+    }
 
-	public VerificationToken(Users user) {
-		this.user = user;
-		this.token = UUID.randomUUID().toString();
-		this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
-	}
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-	public VerificationToken(String token) {
-		super();
-		this.token = token;
-		this.expirationTime = this.getTokenExpirationTime();
-	}
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
 
-	public Date getTokenExpirationTime() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(new Date().getTime());
-		calendar.add(Calendar.MINUTE, EXPIRATION_TIME);
-		return new Date(calendar.getTime().getTime());
-	}
+    public Instant getExpirationTime() { return expirationTime; }
+    public void setExpirationTime(Instant expirationTime) { this.expirationTime = expirationTime; }
 
-	public VerificationToken() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	private Date calculateExpirationDate(int expirationTimeInMinutes) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(new Date().getTime());
-		calendar.add(Calendar.MINUTE, expirationTimeInMinutes);
-		return new Date(calendar.getTime().getTime());
-	}
-
+    public Users getUser() { return user; }
+    public void setUser(Users user) { this.user = user; }
 }

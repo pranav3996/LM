@@ -185,12 +185,8 @@ public class ReqRes {
 
 	@Override
 	public String toString() {
-		return "ReqRes [statusCode=" + statusCode + ", error=" + error + ", message=" + message + ", accessToken="
-				+ accessToken + ", refreshToken=" + refreshToken + ", expirationAccessTokenTime="
-				+ expirationAccessTokenTime + ", expirationRefreshTokenTime=" + expirationRefreshTokenTime
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", city=" + city + ", role=" + role
-				+ ", email=" + email + ", password=" + password + ", users=" + users + ", usersList=" + usersList
-				+ ", isAdmin=" + isAdmin + "]";
+		return "ReqRes[statusCode=" + statusCode + ", message=" + message + ", email=" + email
+				+ ", role=" + role + ", isAdmin=" + isAdmin + "]";
 	}
 
 }

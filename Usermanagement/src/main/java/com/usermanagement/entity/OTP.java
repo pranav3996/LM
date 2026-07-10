@@ -1,84 +1,45 @@
 package com.usermanagement.entity;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 @Entity
+@Table(name = "otp", indexes = {
+        @Index(name = "idx_otp_user_id", columnList = "user_id")
+})
 public class OTP {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String otp;
-	private LocalDateTime otpGeneratedTime;
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private Users user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	private boolean otpVerified;
+    @Column(nullable = false, length = 6)
+    private String otp;
 
-	public boolean isOtpVerified() {
-		return otpVerified;
-	}
+    @Column(nullable = false)
+    private LocalDateTime otpGeneratedTime;
 
-	public void setOtpVerified(boolean otpVerified) {
-		this.otpVerified = otpVerified;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
-	public int getId() {
-		return id;
-	}
+    @Column(nullable = false)
+    private boolean otpVerified;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public OTP() {}
 
-	public String getOtp() {
-		return otp;
-	}
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
+    public String getOtp() { return otp; }
+    public void setOtp(String otp) { this.otp = otp; }
 
-	public LocalDateTime getOtpGeneratedTime() {
-		return otpGeneratedTime;
-	}
+    public LocalDateTime getOtpGeneratedTime() { return otpGeneratedTime; }
+    public void setOtpGeneratedTime(LocalDateTime otpGeneratedTime) { this.otpGeneratedTime = otpGeneratedTime; }
 
-	public void setOtpGeneratedTime(LocalDateTime otpGeneratedTime) {
-		this.otpGeneratedTime = otpGeneratedTime;
-	}
+    public Users getUser() { return user; }
+    public void setUser(Users user) { this.user = user; }
 
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
-
-	public OTP(int id, String otp, LocalDateTime otpGeneratedTime, Users user) {
-		super();
-		this.id = id;
-		this.otp = otp;
-		this.otpGeneratedTime = otpGeneratedTime;
-		this.user = user;
-	}
-
-	public OTP() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public String toString() {
-		return "OTP [id=" + id + ", otp=" + otp + ", otpGeneratedTime=" + otpGeneratedTime + ", user=" + user + "]";
-	}
-
+    public boolean isOtpVerified() { return otpVerified; }
+    public void setOtpVerified(boolean otpVerified) { this.otpVerified = otpVerified; }
 }

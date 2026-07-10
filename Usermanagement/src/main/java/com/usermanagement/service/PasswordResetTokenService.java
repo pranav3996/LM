@@ -1,58 +1,49 @@
 package com.usermanagement.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.stereotype.Service;
-
 import com.usermanagement.entity.PasswordResetToken;
 import com.usermanagement.entity.Users;
-
 import com.usermanagement.repo.PasswordResetTokenRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
 import java.util.Optional;
 
 @Service
 public class PasswordResetTokenService {
 
-	@Autowired
-	private PasswordResetTokenRepository passwordResetTokenRepository;
+    private static final Logger log = LoggerFactory.getLogger(PasswordResetTokenService.class);
 
-	public void createPasswordResetTokenForUser(Users user, String passwordToken) {
-		// Find existing token for the user
-		PasswordResetToken existingToken = passwordResetTokenRepository.findByUser(user);
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-		// If a token exists, delete it
-		if (existingToken != null) {
-			System.out.println("Deleting existing token: " + existingToken);
-			passwordResetTokenRepository.delete(existingToken);
-		}
+    public PasswordResetTokenService(PasswordResetTokenRepository passwordResetTokenRepository) {
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
+    }
 
-		// Create new token and save
-		PasswordResetToken passwordResetToken = new PasswordResetToken(passwordToken, user);
-		System.out.println("Saving new token: " + passwordResetToken);
-		passwordResetTokenRepository.save(passwordResetToken);
-	}
+    @Transactional
+    public void createPasswordResetTokenForUser(Users user, String passwordToken) {
+        PasswordResetToken existingToken = passwordResetTokenRepository.findByUser(user);
+        if (existingToken != null) {
+            log.debug("Replacing existing password reset token for user: {}", user.getEmail());
+            passwordResetTokenRepository.delete(existingToken);
+        }
+        passwordResetTokenRepository.save(new PasswordResetToken(passwordToken, user));
+    }
 
-	public String validatePasswordResetToken(String passwordResetToken) {
-		PasswordResetToken passwordToken = passwordResetTokenRepository.findByToken(passwordResetToken);
-		if (passwordToken == null) {
-			throw new RuntimeException("Invalid verification token");
-		}
+    public String validatePasswordResetToken(String passwordResetToken) {
+        PasswordResetToken passwordToken = passwordResetTokenRepository.findByToken(passwordResetToken);
+        if (passwordToken == null) {
+            throw new RuntimeException("Invalid verification token");
+        }
+        if (passwordToken.isExpired()) {
+            throw new RuntimeException("Link already expired, please resend link");
+        }
+        return "valid";
+    }
 
-		Calendar calendar = Calendar.getInstance();
-		if ((passwordToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-			throw new RuntimeException("Link already expired, resend link");
-		}
-		return "valid";
-	}
-
-	public Optional<Users> findUserByPasswordToken(String passwordResetToken) {
-		return Optional.ofNullable(passwordResetTokenRepository.findByToken(passwordResetToken).getUser());
-	}
-
-	public PasswordResetToken findPasswordResetToken(String token) {
-		return passwordResetTokenRepository.findByToken(token);
-	}
-
+    public Optional<Users> findUserByPasswordToken(String passwordResetToken) {
+        PasswordResetToken token = passwordResetTokenRepository.findByToken(passwordResetToken);
+        return Optional.ofNullable(token != null ? token.getUser() : null);
+    }
 }

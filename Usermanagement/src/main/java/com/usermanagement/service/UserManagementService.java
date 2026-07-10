@@ -1,30 +1,26 @@
 package com.usermanagement.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.usermanagement.dto.ReqRes;
-
 import com.usermanagement.entity.Users;
 import com.usermanagement.entity.VerificationToken;
 import com.usermanagement.event.RegistrationCompleteEvent;
-
 import com.usermanagement.jwt.JWTUtils;
 import com.usermanagement.repo.OTPRepo;
 import com.usermanagement.repo.PasswordResetTokenRepository;
 import com.usermanagement.repo.UsersRepo;
 import com.usermanagement.repo.VerificationTokenRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,424 +31,312 @@ import java.util.UUID;
 @Service
 public class UserManagementService {
 
-	@Autowired
-	private UsersRepo usersRepo;
-	@Autowired
-	private PasswordResetTokenRepository passwordResetTokenRepository;
-	@Autowired
-	private VerificationTokenRepository verificationTokenRepository;
-	@Autowired
-	private OTPRepo otpRepo;
-	@Autowired
-	private JWTUtils jwtUtils;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private ApplicationEventPublisher eventPublisher;
-	@Autowired
-	private PasswordResetTokenService passwordResetTokenService;
+    private static final Logger log = LoggerFactory.getLogger(UserManagementService.class);
 
-	// Login
-	public ReqRes login(ReqRes loginRequest) {
-		try {
-			// Fetch user by email
-			Optional<Users> optionalUser = usersRepo.findByEmail(loginRequest.getEmail());
+    private final UsersRepo usersRepo;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
+    private final OTPRepo otpRepo;
+    private final JWTUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
+    private final PasswordResetTokenService passwordResetTokenService;
 
-			if (optionalUser.isPresent()) {
-				Users user = optionalUser.get(); // Extract the Users object from Optional
+    public UserManagementService(UsersRepo usersRepo,
+                                 PasswordResetTokenRepository passwordResetTokenRepository,
+                                 VerificationTokenRepository verificationTokenRepository,
+                                 OTPRepo otpRepo,
+                                 JWTUtils jwtUtils,
+                                 AuthenticationManager authenticationManager,
+                                 PasswordEncoder passwordEncoder,
+                                 ApplicationEventPublisher eventPublisher,
+                                 PasswordResetTokenService passwordResetTokenService) {
+        this.usersRepo = usersRepo;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
+        this.otpRepo = otpRepo;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.eventPublisher = eventPublisher;
+        this.passwordResetTokenService = passwordResetTokenService;
+    }
 
-				// Check if user is enabled
-				if (!user.isEnabled()) {
-					// User is not verified
-					ReqRes response = new ReqRes();
-					response.setStatusCode(403); // Forbidden
-					response.setMessage("User is not verified.Please check your email for a verification link.");
-					return response;
-				}
+    public ReqRes login(ReqRes loginRequest) {
+        ReqRes response = new ReqRes();
+        Optional<Users> optionalUser = usersRepo.findByEmail(loginRequest.getEmail());
 
-				// Authenticate the user
-				Authentication authentication = authenticationManager.authenticate(
-						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        if (optionalUser.isEmpty()) {
+            response.setStatusCode(404);
+            response.setMessage("User not found");
+            return response;
+        }
 
-				// Set the authentication context
-				SecurityContextHolder.getContext().setAuthentication(authentication);
+        Users user = optionalUser.get();
+        if (!user.isEnabled()) {
+            response.setStatusCode(403);
+            response.setMessage("User is not verified. Please check your email for a verification link.");
+            return response;
+        }
 
-				// Get user details
-				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // Let AuthenticationException propagate — caught by GlobalExceptionHandler
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
-				// Generate JWT token
-				String jwtToken = jwtUtils.generateToken(userDetails);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String jwtToken = jwtUtils.generateToken(userDetails);
+        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
 
-				// Extract expiration time from the token
-				Date accessTokenExpiration = jwtUtils.extractExpiration(jwtToken);
+        response.setStatusCode(200);
+        response.setEmail(userDetails.getUsername());
+        response.setRole(user.getRole());
+        response.setAccessToken(jwtToken);
+        response.setExpirationAccessTokenTime(jwtUtils.extractExpiration(jwtToken).toString());
+        response.setRefreshToken(refreshToken);
+        response.setExpirationRefreshTokenTime(jwtUtils.extractExpiration(refreshToken).toString());
+        response.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
+        response.setMessage("Successfully Logged In");
+        return response;
+    }
 
-				// Generate refresh token
-				String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
-				Date refreshTokenExpiration = jwtUtils.extractExpiration(refreshToken);
+    public ReqRes refreshToken(ReqRes refreshTokenRequest) {
+        ReqRes response = new ReqRes();
 
-				// Assuming role is a single value, convert it into a List<String>
-				List<String> roles = Collections.singletonList(user.getRole());
+        if (refreshTokenRequest.getRefreshToken() == null || refreshTokenRequest.getRefreshToken().isBlank()) {
+            response.setStatusCode(400);
+            response.setMessage("Refresh token is required.");
+            return response;
+        }
 
-				// Prepare response
-				ReqRes response = new ReqRes();
-				response.setEmail(userDetails.getUsername());
-				response.setStatusCode(200);
-				response.setRole(String.join(",", roles)); // Convert roles to a comma-separated string
-				response.setAccessToken(jwtToken);
-				response.setExpirationAccessTokenTime(accessTokenExpiration.toString());
-				response.setRefreshToken(refreshToken);
-				response.setExpirationRefreshTokenTime(refreshTokenExpiration.toString());
-				response.setAdmin(user.getRole().equalsIgnoreCase("ADMIN"));
-				response.setMessage("Successfully Logged In");
+        String email = jwtUtils.extractUsername(refreshTokenRequest.getRefreshToken());
+        Users user = usersRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found: " + email));
 
-				return response;
+        if (!jwtUtils.isTokenValid(refreshTokenRequest.getRefreshToken(), user)) {
+            response.setStatusCode(403);
+            response.setMessage("Invalid or expired refresh token");
+            return response;
+        }
 
-			} else {
-				// User not found
-				ReqRes response = new ReqRes();
-				response.setStatusCode(404); // Not found
-				response.setMessage("User not found");
-				return response;
-			}
+        String newJwtToken = jwtUtils.generateToken(user);
+        String newRefreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
 
-		} catch (AuthenticationException exception) {
-			// Authentication failed
-			ReqRes response = new ReqRes();
-			response.setStatusCode(500); // Internal Server Error
-			response.setMessage("Bad credentials");
-			return response;
-		}
-	}
+        response.setStatusCode(200);
+        response.setAccessToken(newJwtToken);
+        response.setExpirationAccessTokenTime(jwtUtils.extractExpiration(newJwtToken).toString());
+        response.setRefreshToken(newRefreshToken);
+        response.setExpirationRefreshTokenTime(jwtUtils.extractExpiration(newRefreshToken).toString());
+        response.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
+        response.setMessage("Successfully Refreshed Token");
+        return response;
+    }
 
-	public ReqRes refreshToken(ReqRes refreshTokenRequest) {
-		ReqRes response = new ReqRes();
+    @Transactional
+    public ReqRes registerUser(ReqRes registrationRequest, String applicationUrl) {
+        ReqRes resp = new ReqRes();
+        Users user = new Users();
+        user.setEmail(registrationRequest.getEmail());
+        user.setCity(registrationRequest.getCity());
+        user.setRole("USER");
+        user.setFirstName(registrationRequest.getFirstName());
+        user.setLastName(registrationRequest.getLastName());
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        Users savedUser = usersRepo.save(user);
+        resp.setUsers(savedUser);
+        resp.setMessage("User Saved Successfully");
+        resp.setStatusCode(200);
+        eventPublisher.publishEvent(new RegistrationCompleteEvent(savedUser, applicationUrl));
+        return resp;
+    }
 
-		if (refreshTokenRequest.getRefreshToken() == null || refreshTokenRequest.getRefreshToken().isEmpty()) {
-			response.setStatusCode(400);
-			response.setMessage("Refresh token is required.");
-//			throw new InvalidUserDataException("Refresh token is required.");
-			return response;
-		}
+    @Transactional
+    public ReqRes registerAdmin(ReqRes registrationRequest) {
+        Users user = new Users();
+        user.setEmail(registrationRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        user.setCity(registrationRequest.getCity());
+        user.setRole(registrationRequest.getRole());
+        user.setFirstName(registrationRequest.getFirstName());
+        user.setLastName(registrationRequest.getLastName());
+        user.setEnabled(true);
+        Users savedUser = usersRepo.save(user);
 
-		try {
-			String ourEmail = jwtUtils.extractUsername(refreshTokenRequest.getRefreshToken());
+        ReqRes response = new ReqRes();
+        response.setEmail(savedUser.getEmail());
+        response.setUsers(savedUser);
+        response.setMessage("Admin registered successfully.");
+        response.setStatusCode(200);
+        return response;
+    }
 
-			Users users = usersRepo.findByEmail(ourEmail)
-					.orElseThrow(() -> new RuntimeException("User Not found with email " + ourEmail));
+    public ReqRes getAllUsers() {
+        ReqRes reqRes = new ReqRes();
+        List<Users> result = usersRepo.findAll();
+        if (!result.isEmpty()) {
+            reqRes.setUsersList(result);
+            reqRes.setStatusCode(200);
+            reqRes.setMessage("Successful");
+            reqRes.setAdmin(true);
+        } else {
+            reqRes.setStatusCode(404);
+            reqRes.setMessage("No users found");
+        }
+        return reqRes;
+    }
 
-			if (jwtUtils.isTokenValid(refreshTokenRequest.getRefreshToken(), users)) {
-				String newJwtToken = jwtUtils.generateToken(users);
-				Date newAccessTokenExpiration = jwtUtils.extractExpiration(newJwtToken);
+    @Transactional
+    public ReqRes deleteUser(Integer userId) {
+        ReqRes reqRes = new ReqRes();
+        Optional<Users> userOptional = usersRepo.findById(userId);
+        if (userOptional.isEmpty()) {
+            reqRes.setStatusCode(404);
+            reqRes.setMessage("User not found for deletion");
+            return reqRes;
+        }
+        verificationTokenRepository.deleteByUserId(userId);
+        passwordResetTokenRepository.deleteByUserId(userId);
+        otpRepo.deleteByUserId(userId);
+        usersRepo.deleteById(userId);
+        log.info("Deleted user with id: {}", userId);
+        reqRes.setStatusCode(200);
+        reqRes.setAdmin("ADMIN".equalsIgnoreCase(userOptional.get().getRole()));
+        reqRes.setMessage("User deleted successfully");
+        return reqRes;
+    }
 
-				var newRefreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), users);
-				Date newRefreshTokenExpiration = jwtUtils.extractExpiration(newRefreshToken);
-				System.out.println("new refreshToken" + newRefreshToken);
-				response.setStatusCode(200);
-				response.setAccessToken(newJwtToken);
-				response.setExpirationAccessTokenTime(newAccessTokenExpiration.toString());
-//				response.setRefreshToken(refreshTokenRequest.getRefreshToken());
-				response.setRefreshToken(newRefreshToken);
+    @Transactional
+    public ReqRes updateUser(Integer userId, Users updatedUser) {
+        ReqRes reqRes = new ReqRes();
+        Optional<Users> userOptional = usersRepo.findById(userId);
+        if (userOptional.isEmpty()) {
+            reqRes.setStatusCode(404);
+            reqRes.setMessage("User not found for update");
+            return reqRes;
+        }
+        Users existingUser = userOptional.get();
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setCity(updatedUser.getCity());
+        existingUser.setRole(updatedUser.getRole());
 
-				response.setExpirationRefreshTokenTime(newRefreshTokenExpiration.toString());
-				response.setAdmin(users.getRole().equalsIgnoreCase("ADMIN"));
-				response.setMessage("Successfully Refreshed Token");
-				System.out.println("Refresh response" + response);
-			} else {
-				response.setStatusCode(403);
-				response.setMessage("Invalid Refresh Token");
-				throw new RuntimeException("Invalid refresh token.");
-			}
+        if (!existingUser.isEnabled()) {
+            existingUser.setEnabled(updatedUser.isEnabled());
+        }
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
 
-			return response;
-		} catch (Exception e) {
-			response.setStatusCode(500);
-			response.setMessage(e.getMessage());
-//			throw new TokenRefreshException("An error occurred while refreshing the token: " + e.getMessage());
-			return response;
-		}
-	}
+        Users savedUser = usersRepo.save(existingUser);
+        reqRes.setUsers(savedUser);
+        reqRes.setAdmin("ADMIN".equalsIgnoreCase(savedUser.getRole()));
+        reqRes.setStatusCode(200);
+        reqRes.setMessage("User updated successfully");
+        return reqRes;
+    }
 
-	// CRUD
-	public ReqRes registerUser(ReqRes registrationRequest, String applicationUrl) {
-		ReqRes resp = new ReqRes();
+    public ReqRes getMyInfo(String email) {
+        ReqRes reqRes = new ReqRes();
+        Optional<Users> userOptional = usersRepo.findByEmail(email);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            reqRes.setUsers(user);
+            reqRes.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
+            reqRes.setStatusCode(200);
+            reqRes.setMessage("Successful");
+        } else {
+            reqRes.setStatusCode(404);
+            reqRes.setMessage("User not found");
+        }
+        return reqRes;
+    }
 
-		try {
-			Users user = new Users();
-			user.setEmail(registrationRequest.getEmail());
-			user.setCity(registrationRequest.getCity());
-//            user.setRole(registrationRequest.getRole());
-			user.setRole("USER");
-			user.setFirstName(registrationRequest.getFirstName());
-			user.setLastName(registrationRequest.getLastName());
-			user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-			Users ourUsersResult = usersRepo.save(user);
-			if (ourUsersResult.getId() > 0) {
-				resp.setUsers(ourUsersResult);
-				resp.setMessage("User Saved Successfully");
-				resp.setStatusCode(200);
-				eventPublisher.publishEvent(new RegistrationCompleteEvent(ourUsersResult, applicationUrl));
-			}
+    public ReqRes getUsersById(Integer id) {
+        ReqRes reqRes = new ReqRes();
+        Users user = usersRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        reqRes.setUsers(user);
+        reqRes.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
+        reqRes.setStatusCode(200);
+        reqRes.setMessage("User with id '" + id + "' found successfully");
+        return reqRes;
+    }
 
-		} catch (Exception e) {
-			resp.setStatusCode(500);
-			resp.setError(e.getMessage());
-		}
-		return resp;
-	}
+    public Optional<Users> findUserByEmail(String email) {
+        return usersRepo.findByEmail(email);
+    }
 
-	public ReqRes registerAdmin(ReqRes registrationRequest) {
-		Users user = new Users();
-		user.setEmail(registrationRequest.getEmail());
-		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-		user.setCity(registrationRequest.getCity());
-		user.setRole(registrationRequest.getRole());
-		user.setFirstName(registrationRequest.getFirstName());
-		user.setLastName(registrationRequest.getLastName());
-		user.setEnabled(true); // Enable the user without email verification
-		Users savedUser = usersRepo.save(user);
+    @Transactional
+    public void saveUserVerificationToken(Users theUser, String token) {
+        verificationTokenRepository.save(new VerificationToken(token, theUser));
+    }
 
-		ReqRes response = new ReqRes();
-		response.setEmail(savedUser.getEmail());
-		response.setUsers(savedUser);
-		response.setMessage("Admin registered successfully.");
-		response.setStatusCode(200);
-		return response;
-	}
+    @Transactional
+    public String validateToken(String theToken) {
+        VerificationToken token = verificationTokenRepository.findByToken(theToken);
+        if (token == null) {
+            return "Invalid verification token";
+        }
+        if (token.isExpired()) {
+            verificationTokenRepository.delete(token);
+            return "Verification link already expired, Please click the link below to receive a new verification link";
+        }
+        token.getUser().setEnabled(true);
+        usersRepo.save(token.getUser());
+        return "valid";
+    }
 
-	public ReqRes getAllUsers() {
-		ReqRes reqRes = new ReqRes();
-		System.out.println("ALL Users" + reqRes);
-		try {
-			List<Users> result = usersRepo.findAll();
-			System.out.println("ALL Users" + result);
-			if (!result.isEmpty()) {
-				reqRes.setUsersList(result);
-				reqRes.setStatusCode(200);
-				reqRes.setMessage("Successful");
-				reqRes.setAdmin(true);
-			} else {
-				reqRes.setStatusCode(404);
-				reqRes.setMessage("No users found");
-			}
-			return reqRes;
-		} catch (Exception e) {
-			reqRes.setStatusCode(500);
-			reqRes.setMessage(e.getMessage());
-			return reqRes;
-		}
-	}
+    @Transactional
+    public VerificationToken generateNewVerificationToken(String oldToken) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(oldToken);
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationToken.setExpirationTime(verificationToken.getTokenExpirationTime());
+        return verificationTokenRepository.save(verificationToken);
+    }
 
-	public ReqRes deleteUser(Integer userId) {
-		ReqRes reqRes = new ReqRes();
-		try {
-			Optional<Users> userOptional = usersRepo.findById(userId);
-			if (userOptional.isPresent()) {
-				// Deleting verification tokens
-				verificationTokenRepository.deleteByUserId(userId);
-				System.out.println("Deleted verification token for userId: " + userId);
+    public Users getUserByToken(String token) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        return verificationToken != null ? verificationToken.getUser() : null;
+    }
 
-				// Deleting password reset tokens
-				passwordResetTokenRepository.deleteByUserId(userId);
-				System.out.println("Deleted password reset token for userId: " + userId);
+    @Transactional
+    public void resetChangePassword(Users theUser, String newPassword) {
+        theUser.setPassword(passwordEncoder.encode(newPassword));
+        usersRepo.save(theUser);
+    }
 
-				// Deleting OTP
-				otpRepo.deleteByUserId(userId);
-				System.out.println("Deleted otp for userId: " + userId);
+    public boolean oldPasswordIsValid(Users user, String oldPassword) {
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
 
-				// Deleting user
-				usersRepo.deleteById(userId);
-				System.out.println("Deleted user for userId: " + userId);
-				Users user = userOptional.get();
-				reqRes.setStatusCode(200);
-				reqRes.setAdmin(user.getRole().equalsIgnoreCase("ADMIN"));
-				reqRes.setMessage("User deleted successfully");
-			} else {
-				reqRes.setStatusCode(404);
-				reqRes.setMessage("User not found for deletion");
-			}
-		} catch (Exception e) {
-			reqRes.setStatusCode(500);
-			reqRes.setMessage("Error occurred while deleting user: " + e.getMessage());
-			e.printStackTrace();
-		}
-		return reqRes;
-	}
+    @Transactional
+    public boolean changePassword(Users user, String oldPassword, String newPassword) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return false;
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepo.save(user);
+        return true;
+    }
 
-	public ReqRes updateUser(Integer userId, Users updatedUser) {
-		ReqRes reqRes = new ReqRes();
-		try {
-			Optional<Users> userOptional = usersRepo.findById(userId);
-			if (userOptional.isPresent()) {
-				Users existingUser = userOptional.get();
-				existingUser.setEmail(updatedUser.getEmail());
-				existingUser.setFirstName(updatedUser.getFirstName());
-				existingUser.setLastName(updatedUser.getLastName());
-				existingUser.setCity(updatedUser.getCity());
-				existingUser.setRole(updatedUser.getRole());
+    public String validatePasswordResetToken(String token) {
+        return passwordResetTokenService.validatePasswordResetToken(token);
+    }
 
-				if ("ADMIN".equalsIgnoreCase(updatedUser.getRole())) {
-					reqRes.setAdmin(true);
+    public Users findUserByPasswordToken(String token) {
+        return passwordResetTokenService.findUserByPasswordToken(token)
+                .orElseThrow(() -> new RuntimeException("No user found for password reset token"));
+    }
 
-				} else if ("USER".equalsIgnoreCase(updatedUser.getRole())) {
-					reqRes.setAdmin(false);
-				}
+    public void createPasswordResetTokenForUser(Users user, String passwordResetToken) {
+        passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
+    }
 
-				if (!existingUser.isEnabled()) {
-					existingUser.setEnabled(updatedUser.isEnabled());
-				}
-
-				// Check if password is present in the request
-				if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-					// Encode the password and update it
-					existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-				}
-
-				Users savedUser = usersRepo.save(existingUser);
-				reqRes.setUsers(savedUser);
-				reqRes.setStatusCode(200);
-				reqRes.setMessage("User updated successfully");
-			} else {
-				reqRes.setStatusCode(404);
-				reqRes.setMessage("User not found for update");
-			}
-		} catch (Exception e) {
-			reqRes.setStatusCode(500);
-			reqRes.setMessage("Error occurred while updating user: " + e.getMessage());
-		}
-		return reqRes;
-	}
-
-	public ReqRes getMyInfo(String email) {
-		ReqRes reqRes = new ReqRes();
-		try {
-			Optional<Users> userOptional = usersRepo.findByEmail(email);
-			if (userOptional.isPresent()) {
-				Users user = userOptional.get();
-
-				reqRes.setUsers(user);
-				reqRes.setAdmin(user.getRole().equalsIgnoreCase("ADMIN"));
-				reqRes.setStatusCode(200);
-				reqRes.setMessage("successful");
-			} else {
-				reqRes.setStatusCode(404);
-				reqRes.setMessage("User not found for update");
-			}
-
-		} catch (Exception e) {
-			reqRes.setStatusCode(500);
-			reqRes.setMessage("Error occurred while getting user info: " + e.getMessage());
-		}
-		return reqRes;
-
-	}
-
-	// Search
-	public ReqRes getUsersById(Integer id) {
-		ReqRes reqRes = new ReqRes();
-		try {
-			Users usersById = usersRepo.findById(id)
-					.orElseThrow(() -> new RuntimeException("User Not found with id " + id));
-			reqRes.setUsers(usersById);
-			reqRes.setAdmin(usersById.getRole().equalsIgnoreCase("ADMIN"));
-			reqRes.setStatusCode(200);
-			reqRes.setMessage("Users with id '" + id + "' found successfully");
-		} catch (Exception e) {
-			reqRes.setStatusCode(500);
-			reqRes.setMessage(e.getMessage());
-		}
-		return reqRes;
-	}
-
-	public Optional<Users> findUserByEmail(String email) {
-		return usersRepo.findByEmail(email);
-	}
-
-	// Verfication Token
-	public void saveUserVerificationToken(Users theUser, String token) {
-		var verificationToken = new VerificationToken(token, theUser);
-		verificationTokenRepository.save(verificationToken);
-	}
-
-	public String validateToken(String theToken) {
-		VerificationToken token = verificationTokenRepository.findByToken(theToken);
-		if (token == null) {
-			return "Invalid verification token";
-		}
-		Users user = token.getUser();
-		Calendar calendar = Calendar.getInstance();
-		if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-			return "Verification link already expired,"
-					+ " Please, click the link below to receive a new verification link";
-		}
-		user.setEnabled(true);
-		usersRepo.save(user);
-		return "valid";
-	}
-
-	public VerificationToken generateNewVerificationToken(String oldToken) {
-		VerificationToken verificationToken = verificationTokenRepository.findByToken(oldToken);
-		var verificationTokenTime = new VerificationToken();
-		verificationToken.setToken(UUID.randomUUID().toString());
-		verificationToken.setExpirationTime(verificationTokenTime.getTokenExpirationTime());
-		return verificationTokenRepository.save(verificationToken);
-	}
-
-	public Users getUserByToken(String token) {
-		// Retrieve the verification token from the repository
-		VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
-
-		// Check if the token is valid
-		if (verificationToken != null) {
-			// Retrieve the user associated with the token
-			Users user = verificationToken.getUser();
-			return user;
-		}
-
-		// Return null if the token is not valid or the user is not found
-		return null;
-	}
-
-	// Password
-	public void resetChangePassword(Users theUser, String newPassword) {
-		theUser.setPassword(passwordEncoder.encode(newPassword));
-		usersRepo.save(theUser);
-	}
-
-	public boolean oldPasswordIsValid(Users user, String oldPassword) {
-		return passwordEncoder.matches(oldPassword, user.getPassword());
-	}
-
-	public boolean changePassword(Users user, String oldPassword, String newPassword) {
-		if (passwordEncoder.matches(oldPassword, user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(newPassword));
-			usersRepo.save(user);
-			return true; // Password successfully changed
-		}
-		return false; // Old password is incorrect
-	}
-
-	public String validatePasswordResetToken(String token) {
-		return passwordResetTokenService.validatePasswordResetToken(token);
-	}
-
-	public Users findUserByPasswordToken(String token) {
-		return passwordResetTokenService.findUserByPasswordToken(token).get();
-	}
-
-	public void createPasswordResetTokenForUser(Users user, String passwordResetToken) {
-		passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
-	}
-
-	public String createUniquePasswordResetToken(Users user) {
-		String token;
-		do {
-			token = UUID.randomUUID().toString();
-		} while (passwordResetTokenRepository.findByToken(token) != null);
-
-		createPasswordResetTokenForUser(user, token);
-		return token;
-	}
-
+    @Transactional
+    public String createUniquePasswordResetToken(Users user) {
+        String token = UUID.randomUUID().toString();
+        createPasswordResetTokenForUser(user, token);
+        return token;
+    }
 }
