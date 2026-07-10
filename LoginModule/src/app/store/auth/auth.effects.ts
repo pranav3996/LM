@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import { StorageService } from 'src/app/service/storage.service';
+import { AuthResponse } from 'src/app/models/api.models';
 import { AuthActions } from './auth.actions';
 
 @Injectable()
@@ -18,20 +19,21 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap(({ email, password }: { email: string; password: string }) =>
         this.authService.login(email, password).pipe(
-          map((response: any) => {
-            if (response.statusCode === 200) {
-              return AuthActions.loginSuccess({
-                accessToken: response.accessToken,
-                refreshToken: response.refreshToken,
-                role: response.role,
-                email: response.email,
-                expirationAccessTokenTime: response.expirationAccessTokenTime,
-                expirationRefreshTokenTime: response.expirationRefreshTokenTime,
-              });
-            }
-            return AuthActions.loginFailure({ error: response.message || 'Login failed' });
-          }),
-          catchError((error: any) => of(AuthActions.loginFailure({ error: error.message || 'An error occurred' })))
+          map((res: AuthResponse) =>
+            res.statusCode === 200
+              ? AuthActions.loginSuccess({
+                  accessToken: res.accessToken,
+                  refreshToken: res.refreshToken,
+                  role: res.role,
+                  email: res.email,
+                  expirationAccessTokenTime: res.expirationAccessTokenTime,
+                  expirationRefreshTokenTime: res.expirationRefreshTokenTime,
+                })
+              : AuthActions.loginFailure({ error: res.message || 'Login failed' })
+          ),
+          catchError((err: Error) =>
+            of(AuthActions.loginFailure({ error: err.message || 'An error occurred' }))
+          )
         )
       )
     )
@@ -45,6 +47,8 @@ export class AuthEffects {
         this.storage.setItem('refreshToken', refreshToken);
         this.storage.setItem('role', role);
         this.storage.setItem('email', email);
+        this.storage.setItem('expirationAccessTokenTime', expirationAccessTokenTime);
+        this.storage.setItem('expirationRefreshTokenTime', expirationRefreshTokenTime);
         this.authService.setLogoutTimer(expirationAccessTokenTime);
         this.authService.updateInactivityTime(expirationRefreshTokenTime);
         this.router.navigate(['/profile']);
@@ -56,10 +60,7 @@ export class AuthEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      tap(() => {
-        this.storage.clear();
-        this.router.navigate(['/login']);
-      })
+      tap(() => this.authService.logOut())
     ),
     { dispatch: false }
   );
@@ -69,15 +70,17 @@ export class AuthEffects {
       ofType(AuthActions.refreshToken),
       switchMap(() =>
         this.authService.refreshToken().pipe(
-          map((response: any) =>
+          map((res: AuthResponse) =>
             AuthActions.refreshTokenSuccess({
-              accessToken: response.accessToken,
-              refreshToken: response.refreshToken,
-              expirationAccessTokenTime: response.expirationAccessTokenTime,
-              expirationRefreshTokenTime: response.expirationRefreshTokenTime,
+              accessToken: res.accessToken,
+              refreshToken: res.refreshToken,
+              expirationAccessTokenTime: res.expirationAccessTokenTime,
+              expirationRefreshTokenTime: res.expirationRefreshTokenTime,
             })
           ),
-          catchError((error: any) => of(AuthActions.refreshTokenFailure({ error: error.message })))
+          catchError((err: Error) =>
+            of(AuthActions.refreshTokenFailure({ error: err.message }))
+          )
         )
       )
     )

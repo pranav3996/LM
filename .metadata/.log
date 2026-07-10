@@ -2475,3 +2475,1038 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2026-07-07 21:44:39.106 -----------------------------------------------
+eclipse.buildId=4.25.0.202409101855
+java.version=21.0.4
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-07 21:44:49.605
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-07 21:44:54.217
+!MESSAGE Logback config file: D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-07-07 21:44:57.016
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-07 21:44:57.016
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-07-07 21:44:57.891
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-07 21:44:57.891
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-07 21:45:07.855
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.4.v20240802-1551\jre\bin\javaw.exe
+-Dsts.lsp.client=eclipse
+-Xmx1024m
+-XX:TieredStopAtLevel=1
+-Xlog:jni+resolve=off
+-XX:ErrorFile=D:/Tech/Java Angular/Login-Module-Spring_Angular/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1783440907853
+-Dlanguageserver.hover-timeout=225
+-jar
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.57.0.202409101848\servers\spring-boot-language-server\spring-boot-language-server-1.57.0-SNAPSHOT-exec.jar
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-07 21:45:07.856
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-07 21:45:07.908
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 14236
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-07 21:45:11.003
+!MESSAGE Boot project ADDED: Usermanagement
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-07 21:45:11.008
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-07 21:45:11.013
+!MESSAGE Started Boot LS process
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-07-07 21:45:11.498
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\prana'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2026-07-08 21:56:43.080 -----------------------------------------------
+eclipse.buildId=4.25.0.202409101855
+java.version=21.0.4
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-08 21:56:46.988
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-08 21:56:48.634
+!MESSAGE Logback config file: D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-07-08 21:56:49.489
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-08 21:56:49.489
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-07-08 21:56:49.923
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-08 21:56:49.923
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-08 21:56:54.747
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.4.v20240802-1551\jre\bin\javaw.exe
+-Dsts.lsp.client=eclipse
+-Xmx1024m
+-XX:TieredStopAtLevel=1
+-Xlog:jni+resolve=off
+-XX:ErrorFile=D:/Tech/Java Angular/Login-Module-Spring_Angular/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1783528014746
+-Dlanguageserver.hover-timeout=225
+-jar
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.57.0.202409101848\servers\spring-boot-language-server\spring-boot-language-server-1.57.0-SNAPSHOT-exec.jar
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-08 21:56:54.747
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-08 21:56:54.769
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 13056
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-08 21:56:56.260
+!MESSAGE Boot project ADDED: Usermanagement
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-08 21:56:56.262
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-07-08 21:56:56.263
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\prana'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-08 21:56:56.269
+!MESSAGE Started Boot LS process
+!SESSION 2026-07-10 21:22:05.272 -----------------------------------------------
+eclipse.buildId=4.25.0.202409101855
+java.version=21.0.4
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-10 21:22:18.579
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-10 21:22:26.731
+!MESSAGE Logback config file: D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-07-10 21:22:30.648
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-10 21:22:30.648
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-07-10 21:22:31.951
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-10 21:22:31.951
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-10 21:22:57.982
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.4.v20240802-1551\jre\bin\javaw.exe
+-Dsts.lsp.client=eclipse
+-Xmx1024m
+-XX:TieredStopAtLevel=1
+-Xlog:jni+resolve=off
+-XX:ErrorFile=D:/Tech/Java Angular/Login-Module-Spring_Angular/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1783698777976
+-Dlanguageserver.hover-timeout=225
+-jar
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.57.0.202409101848\servers\spring-boot-language-server\spring-boot-language-server-1.57.0-SNAPSHOT-exec.jar
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:22:57.984
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-10 21:22:58.445
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 5600
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:23:50.753
+!MESSAGE Boot project ADDED: Usermanagement
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:23:50.753
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:23:50.781
+!MESSAGE Started Boot LS process
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-07-10 21:23:53.449
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\prana'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2026-07-10 21:55:40.733 -----------------------------------------------
+eclipse.buildId=4.25.0.202409101855
+java.version=21.0.4
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-10 21:55:55.272
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-07-10 21:56:20.797
+!MESSAGE Logback config file: D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-07-10 21:56:26.874
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-10 21:56:26.875
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-07-10 21:56:28.325
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-07-10 21:56:28.325
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.core.filebuffers 4 0 2026-07-10 21:56:44.180
+!MESSAGE The content type with id "org.eclipse.wst.jsdt.core.jsSource" specified in the extension point does not exist.
+
+!ENTRY org.eclipse.core.filebuffers 4 0 2026-07-10 21:56:44.181
+!MESSAGE The content type with id "org.eclipse.wst.jsdt.core.jsSource" specified in the extension point does not exist.
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-10 21:56:50.090
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.4.v20240802-1551\jre\bin\javaw.exe
+-Dsts.lsp.client=eclipse
+-Xmx1024m
+-XX:TieredStopAtLevel=1
+-Xlog:jni+resolve=off
+-XX:ErrorFile=D:/Tech/Java Angular/Login-Module-Spring_Angular/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1783700810086
+-Dlanguageserver.hover-timeout=225
+-jar
+C:\Users\prana\Downloads\sts4.25\sts-4.25.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.57.0.202409101848\servers\spring-boot-language-server\spring-boot-language-server-1.57.0-SNAPSHOT-exec.jar
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:56:50.094
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2026-07-10 21:56:50.221
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 2664
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:56:55.064
+!MESSAGE Validated and fetched latest manifest
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:57:00.810
+!MESSAGE Boot project ADDED: Usermanagement
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:57:00.817
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-10 21:57:00.829
+!MESSAGE Started Boot LS process
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-07-10 21:57:01.864
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\prana'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:04.634
+!MESSAGE Downloaded clients.zip to D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\amazon-q-eclipse\lsp\AmazonQAgentic\1.73.0
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:19.128
+!MESSAGE Downloaded servers.zip to D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\amazon-q-eclipse\lsp\AmazonQAgentic\1.73.0
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:21.931
+!MESSAGE Installing Amazon Q language server v1.73.0 to D:\Tech\Java Angular\Login-Module-Spring_Angular\.metadata\.plugins\amazon-q-eclipse\lsp\AmazonQAgentic\1.73.0 (Attribution notice for aws-lsp-codewhisperer.js can be found at: https://aws-language-servers.us-east-1.amazonaws.com/af2c5911-590c-4642-abc2-ae39f3eb0caf/THIRD_PARTY_LICENSES)
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:22.724
+!MESSAGE Injecting IDE trusted certificates from C:\Users\prana\AppData\Local\Temp\eclipse-q-extra-ca10470431675392496099.pem into NODE_EXTRA_CA_CERTS
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:23.417
+!MESSAGE Initializing communication with Amazon Q Lsp Server
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.638
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Registering bearer credentials update handler
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.640
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.518Z] lserver: SecurityScan server has been initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.641
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Registering IAM credentials update handler
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.642
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.511Z] lserver: Amazon Q Inline Suggestion server has been initialised
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.643
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.626Z] lserver: Amazon Q Service server has been initialised
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.644
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Initializing runtime with encryption
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.644
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.624Z] lserver: Workspace context server has been initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.645
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.625Z] lserver: Amazon Q Service server has been initialised
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.647
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:31.619Z] lserver: QCodeAnalysisServer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.648
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.521Z] lserver: Creating identity server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.649
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.521Z] lserver: Q Chat server has been initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.650
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.519Z] lserver: Amazon Q Configuration server has been initialised
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.657
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:31.646Z] lserver: Logging level changed to log
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.661
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.650Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.663
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.651Z] lserver: TransformConfigurationServer: Constructor called - server created
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.664
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.651Z] lserver: Manager instance is initialize
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.664
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.651Z] lserver: Enabled Q Developer Profile support: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.665
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.651Z] lserver: Reading enableDeveloperProfileSupport setting from AWSInitializationOptions
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.666
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.652Z] lserver: TransformConfigurationServer: Features runtime available: true
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:31.667
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:31.649Z] lserver: Server context is currently not supported in AmazonQ For Eclipse
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.669
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Initializing server "AWS CodeWhisperer" version "1.73.0" with capabilities:
+{"executeCommandProvider":{"commands":["aws/atxTransform/listOrCreateWorkspace","aws/atxTransform/listJobs","aws/atxTransform/startTransform","aws/atxTransform/getTransformInfo","aws/atxTransform/uploadPlan","aws/atxTransform/stopJob","aws/atxTransform/setCheckpoints","aws/atxTransform/updateWorkspace","aws/atxTransform/uploadPackages","aws/atxTransform/sendMessage","aws/atxTransform/listMessages","aws/atxTransform/batchGetMessages","aws/atxTransform/listArtifacts","aws/atxTransform/downloadArtifact","aws/atxTransform/completeLocalBuildHitl","aws/atxTransform/getJobDashboard","aws/atxTransform/getJobReport","aws/atxTransform/uploadCustomPlan","aws/atxTransform/loadOlderWorklogs","aws/chat/manageSubscription","aws/qNetTransform/startTransform","aws/qNetTransform/getTransform","aws/qNetTransform/pollTransform","aws/qNetTransform/pollTransformForPlan","aws/qNetTransform/getTransformPlan","aws/qNetTransform/cancelTransform","aws/qNetTransform/downloadArtifacts","aws/qNetTransform/cancelPolling","aws/codewhisperer/runSecurityScan","aws/codewhisperer/cancelSecurityScan"]},"textDocumentSync":{"openClose":true,"change":2,"save":{"includeText":true}},"workspace":{"workspaceFolders":{"supported":true,"changeNotifications":true},"fileOperations":{"didCreate":{"filters":[{"pattern":{"glob":"{**/*.abap,**/*.c,**/*.cpp,**/*.cs,**/*.dart,**/*.h,**/*.hcl,**/*.cc,**/*.hpp,**/*.go,**/*.java,**/*.js,**/*.json,**/*.jsonc,**/*.jsx,**/*.kt,**/*.kts,**/*.lua,**/*.wlua,**/*.php,**/*.ps1,**/*.psm1,**/*.py,**/*.r,**/*.rb,**/*.rs,**/*.sc,**/*.scala,**/*.sh,**/*.sql,**/*.sv,**/*.svh,**/*.swift,**/*.tf,**/*.ts,**/*.tsx,**/*.vh,**/*.vue,**/*.yaml,**/*.yml}","matches":"file"}}]},"didRename":{"filters":[{"pattern":{"glob":"{**/*.abap,**/*.c,**/*.cpp,**/*.cs,**/*.dart,**/*.h,**/*.hcl,**/*.cc,**/*.hpp,**/*.go,**/*.java,**/*.js,**/*.json,**/*.jsonc,**/*.jsx,**/*.kt,**/*.kts,**/*.lua,**/*.wlua,**/*.php,**/*.ps1,**/*.psm1,**/*.py,**/*.r,**/*.rb,**/*.rs,**/*.sc,**/*.scala,**/*.sh,**/*.sql,**/*.sv,**/*.svh,**/*.swift,**/*.tf,**/*.ts,**/*.tsx,**/*.vh,**/*.vue,**/*.yaml,**/*.yml}","matches":"file"}}]},"didDelete":{"filters":[{"pattern":{"glob":"{**/*.abap,**/*.c,**/*.cpp,**/*.cs,**/*.dart,**/*.h,**/*.hcl,**/*.cc,**/*.hpp,**/*.go,**/*.java,**/*.js,**/*.json,**/*.jsonc,**/*.jsx,**/*.kt,**/*.kts,**/*.lua,**/*.wlua,**/*.php,**/*.ps1,**/*.psm1,**/*.py,**/*.r,**/*.rb,**/*.rs,**/*.sc,**/*.scala,**/*.sh,**/*.sql,**/*.sv,**/*.svh,**/*.swift,**/*.tf,**/*.ts,**/*.tsx,**/*.vh,**/*.vue,**/*.yaml,**/*.yml}","matches":"file"}}]}}},"configurationProvider":{"sections":["aws.transformProfiles","aws.atx.transformProfiles","aws.q","aws.q.customizations","aws.q.developerProfiles"]},"chatOptions":{"quickActions":{"quickActionsCommandGroups":[{"commands":[{"command":"/help","description":"Learn more about Amazon Q","icon":"help"},{"command":"/clear","description":"Clear this session","icon":"trash"},{"command":"/compact","description":"Compact this conversation","icon":"folder"}]}]},"mcpServers":true,"modelSelection":true,"history":true,"export":true,"shortcut":false,"showLogs":false,"reroute":false,"codeReviewInChat":false}}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.670
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.652Z] lserver: TransformConfigurationServer: Initialize called
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.671
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.652Z] lserver: TransformConfigurationServer: Features keys: credentialsProvider, lsp, workspace, logging, runtime, sdkInitializator
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:31.730
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:31.659Z] lserver: Initialized Runtimes OperationalTelemetry with optOut=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.266
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.723Z] lserver: Client initialization params: {"processId":27964,"rootPath":"/D:/Tech/Java Angular/Login-Module-Spring_Angular/Usermanagement/","rootUri":"file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/","initializationOptions":{"aws":{"clientInfo":{"extension":{"name":"AmazonQ For Eclipse","version":"2.7.4.202606182124"},"clientId":"353633c0-6f4a-496b-9670-5d9b1dcfdbeb","name":"Spring Tool Suite 4","version":"4.25.0.202409101855"},"awsClientCapabilities":{"q":{"developerProfiles":true,"pinnedContextEnabled":true,"customizationsWithMetadata":true,"modelSelection":true,"mcp":true},"window":{"showSaveFileDialog":true}}}},"capabilities":{"workspace":{"applyEdit":true,"workspaceEdit":{"documentChanges":true,"resourceOperations":["create","delete","rename"],"failureHandling":"undo","changeAnnotationSupport":{"groupsOnLabel":true}},"didChangeWatchedFiles":{"relativePatternSupport":true,"dynamicRegistration":true},"symbol":{"tagSupport":{"valueSet":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]},"dynamicRegistration":true},"executeCommand":{"dynamicRegistration":true},"workspaceFolders":true,"configuration":true,"codeLens":{"refreshSupport":true},"fileOperations":{"willCreate":true,"willRename":true,"willDelete":true}},"textDocument":{"synchronization":{"willSave":true,"willSaveWaitUntil":true,"didSave":true},"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"insertTextModeSupport":{"valueSet":[1,2]}},"contextSupport":true,"insertTextMode":2,"completionList":{"itemDefaults":["commitCharacters","editRange","insertTextFormat","insertTextMode"]},"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"]},"signatureHelp":{},"references":{},"documentHighlight":{},"documentSymbol":{"symbolKind":{"valueSet":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]},"hierarchicalDocumentSymbolSupport":true,"tagSupport":{"valueSet":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]}},"formatting":{"dynamicRegistration":true},"rangeFormatting":{},"onTypeFormatting":{"dynamicRegistration":true},"definition":{"linkSupport":true},"typeDefinition":{"linkSupport":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"resolveSupport":{"properties":["edit"]},"dynamicRegistration":true},"codeLens":{},"documentLink":{},"colorProvider":{},"rename":{"prepareSupport":true},"publishDiagnostics":{},"foldingRange":{"lineFoldingOnly":true,"foldingRangeKind":{"valueSet":["comment","imports","region"]},"foldingRange":{"collapsedText":false}},"callHierarchy":{},"selectionRange":{},"inlayHint":{}},"window":{"workDoneProgress":true,"showMessage":{},"showDocument":{"support":true}}},"clientInfo":{"name":"AmazonQ For Eclipse","version":"2.7.4.202606182124"},"trace":"off","workspaceFolders":[{"uri":"file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/","name":"Usermanagement"}]}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.269
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:31.731Z] lserver: In IAM Auth mode: false
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.271
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.727Z] lserver: [SERVER] Initialized telemetry-dependent components: CodePercentageTracker, CodeDiffTracker, periodicLogging=false
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:35.272
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:31.788Z] lserver: Agentic Review is currently not supported
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.274
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.787Z] lserver: Chat configuration telemetry preference to OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.276
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.786Z] lserver: Chat configuration updated customizationArn to undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.278
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:31.782Z] lserver: Watching 4 MCP config paths with chokidar
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.280
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.740Z] lserver: Initializing database at C:\Users\prana\.aws\amazonq\history\chat-history-76bcddeb7fa362f26ca113126fd0b98d.json
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.283
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.788Z] lserver: Updating configuration of local context server
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:35.285
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:31.790Z] lserver: Initializing local project context
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.359
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.819Z] lserver: ATXTransformServer initialized (local-build-verification support enabled)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.361
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.820Z] lserver: Attached new listener and notified of current config.
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:36.364
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:35.236Z] lserver: Error getting db file size: Error: ENOENT: no such file or directory, stat 'C:\Users\prana\.aws\amazonq\history\chat-history-76bcddeb7fa362f26ca113126fd0b98d.json'
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.365
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.232Z] lserver: Local context server has been initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.368
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:35.231Z] lserver: Attached new listener and notified of current config.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.369
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.229Z] lserver: Processing 1 workspace folders...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.371
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:31.820Z] lserver: Attached new listener and notified of current config.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.732
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:35.282Z] lserver: [SERVER] Tracking document open with RecentEditTracker: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.735
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.527Z] lserver: Current history total size: 1640255 Bytes, max allowed: 209715200 Bytes
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.736
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:35.282Z] lserver: Document opened: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:36.738
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:35.286Z] lserver: Creating new collection
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.071
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.564Z] lserver: Migrated agent config to CLI format: C:\Users\prana\.aws\amazonq\agents\default.json
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.073
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:36.366Z] lserver: Read configuration customizationArn=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.075
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:36.033Z] lserver: File watcher triggered - isProgrammaticChange: false, lastProgrammaticState: false
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.077
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:36.223Z] lserver: ProcessWorkspaceFolders complete. 40 files found. 0 files exceeded 10 MB
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.079
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:36.033Z] lserver: MCP config file changed: C:\Users\prana\.aws\amazonq\agents\default.json
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.081
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.566Z] lserver: MCP: Manager initialized, waiting for auth before discovering servers
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.084
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.623Z] lserver: Auth not ready (state: PENDING_CONNECTION), waiting before discovering MCP servers
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.085
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:35.566Z] lserver: MCP manager: initialized with 2 configs
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.087
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:36.366Z] lserver: Read configuration optOutTelemetryPreference=OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.296
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:36.368Z] lserver: Read configuration customizationArn=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.298
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:36.368Z] lserver: Read configuration optOutTelemetryPreference=OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.486
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.221Z] lserver: Read configuration shareCodeWhispererContentWithAWS=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.488
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.221Z] lserver: Read сonfiguration includeSuggestionsWithCodeReferences=false
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.580
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.496Z] lserver: Read сonfiguration includeSuggestionsWithCodeReferences=false
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.583
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.496Z] lserver: Chat configuration updated customizationArn to undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.586
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.496Z] lserver: Chat configuration telemetry preference to OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.589
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.496Z] lserver: Read configuration shareCodeWhispererContentWithAWS=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.591
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:37.498Z] lserver: Initializing local project context
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:37.596
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:37.498Z] lserver: Updating configuration of local context server
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:38.273
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:38.148Z] lserver: Reinitializing MCP servers
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:38.274
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:38.149Z] lserver: MCP: closing all clients and tracked processes
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:38.276
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:38.270Z] lserver: Agent config not found at d:\Tech\Java Angular\Login-Module-Spring_Angular\Usermanagement\.amazonq\agents\default.json, skipping.
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:39.818
+!MESSAGE 21:57:39.816 [pool-13-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 1
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:40.254
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:40.251Z] lserver: MCP config not found at d:\Tech\Java Angular\Login-Module-Spring_Angular\Usermanagement\.amazonq\mcp.json, skipping.
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:42.010
+!MESSAGE 21:57:39.901 [pool-13-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:42.018
+!MESSAGE 21:57:42.018 [Simple-Language-Server main thread] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorRemote - updating settings for remote processses to track - done
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:42.056
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:42.054Z] lserver: MCP config not found at C:\Users\prana\.aws\amazonq\mcp.json, skipping.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:42.057
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:42.054Z] lserver: MCP servers reinitialization completed. Total servers: 0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:42.058
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:42.054Z] lserver: Using agent configuration
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:42.058
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:42.054Z] lserver: Successfully processed 2 agent config files and legacy MCP configs
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:42.059
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:42.054Z] lserver: Loaded 0 servers from legacy MCP configs
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:42.438
+!MESSAGE 21:57:42.031 [Simple-Language-Server main thread] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorRemote - updating settings for remote processses to track - done
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:42.523
+!MESSAGE 21:57:42.513 [pool-2-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:43.011
+!MESSAGE 21:57:42.920 [pool-5-thread-1] INFO  o.s.i.v.b.j.utils.SpringIndexerJava - scan java files restored cached dependency data: 0 - no. of cached dependencies: {}
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:43.146
+!MESSAGE 21:57:43.143 [pool-5-thread-1] INFO  o.s.i.v.b.j.utils.SpringIndexerJava - reconciling stats - timer: 0
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:43.292
+!MESSAGE 21:57:43.289 [Project-Reconciler-1] INFO  o.s.i.v.boot.app.RestTemplateFactory - Environment size: 49
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:47.141
+!MESSAGE 21:57:47.140 [Project-Reconciler-1] INFO  o.s.i.v.boot.app.RestTemplateFactory - Environment size: 49
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:57:47.365
+!MESSAGE 21:57:47.364 [Project-Reconciler-1] INFO  o.s.i.v.boot.app.RestTemplateFactory - Env var https_proxy: null
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:57:49.479
+!MESSAGE [LS:Amazon Q Language Server][Warning]	[2026-07-10T16:27:49.476Z] lserver: Auth not ready after 10000ms, starting profile monitor without discovery
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:49.480
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:49.476Z] lserver: ProfileStatusMonitor started - checking MCP configuration every 24 hours
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:49.865
+!MESSAGE Attempting to login...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:49.958
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:27:49.954Z] lserver: Context index built successfully
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:49.959
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:49.956Z] lserver: Retrieving SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:49.971
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:49.966Z] lserver: SSO token not found.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:50.005
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:49.971Z] lserver: Client registration is not cached or has expired, creating a new registration.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.113
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.112Z] lserver: Caching client registration.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.114
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.112Z] lserver: Storing client registration.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.122
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.116Z] lserver: Returning client registration.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.123
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.121Z] lserver: Requesting AmazonQ For Eclipse to open SSO OIDC authorization login website.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.124
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.116Z] lserver: Starting local authorization web server...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.124
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.118Z] lserver: Local authorization web server started.
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:57:51.125
+!MESSAGE Opening URI: https://oidc.us-east-1.amazonaws.com/authorize?response_type=code&client_id=Dr_iA9TqwZs1IbNE07lbXnVzLWVhc3QtMQ&scopes=codewhisperer%3Aanalysis%2Ccodewhisperer%3Acompletions%2Ccodewhisperer%3Aconversations%2Ccodewhisperer%3Ataskassist%2Ccodewhisperer%3Atransformations&redirect_uri=http%3A%2F%2F127.0.0.1%3A57578%2Foauth%2Fcallback&state=5d24e4fc-6300-4766-bae6-9e04f63dfaa8&code_challenge=hnMFVkkM9vg_A297ekh-h716tUBCf0fbo81cJTmt9KE&code_challenge_method=S256
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:57:51.126
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:27:51.121Z] lserver: Waiting for authorization code...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.841
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.835Z] lserver: Web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.842
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.840Z] lserver: Web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.842
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.837Z] lserver: Calling SSO OIDC to create SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.843
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.837Z] lserver: Authorization code returned.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.844
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.836Z] lserver: Redirecting to local web page.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.844
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.836Z] lserver: Authorization code returned.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.845
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.835Z] lserver: Authorization web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.915
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.913Z] lserver: Web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.939
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.938Z] lserver: Web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.974
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.972Z] lserver: Web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:00.998
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:00.997Z] lserver: Web request received on local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.412
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.408Z] lserver: Storing and returning created SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.413
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.409Z] lserver: Disposing of local authorization web server.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.420
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.410Z] lserver: Storing SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.421
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.416Z] lserver: Retrieving SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.447
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.442Z] lserver: SSO token before refresh window.  Returning current SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.448
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.442Z] lserver: Successfully retrieved existing or newly authenticated SSO token.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.448
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.442Z] lserver: Auto-refreshing SSO token in 3319004.4982242747 milliseconds.
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:58:02.463
+!MESSAGE Successfully logged in
+
+!ENTRY amazon-q-eclipse 1 0 2026-07-10 21:58:02.466
+!MESSAGE Triggering configuration pull from Amazon Q LSP server
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.468
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Decoding encrypted credentials token
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-07-10 21:58:02.469
+!MESSAGE [LS:Amazon Q Language Server][Warning]	Runtime: metadata for bearer token connection was not provided - requesting from client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.470
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Storing Q credentials in bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.471
+!MESSAGE [LS:Amazon Q Language Server][Info]	Decoding JWT token
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.471
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.468Z] lserver: updateConfiguration called before workspaceFolderManager initialized, skipping
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.472
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Successfully saved bearer credentials
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.473
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.471Z] lserver: Read configuration customizationArn=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.473
+!MESSAGE [LS:Amazon Q Language Server][Info]	Runtime: Connection metadata updated
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.474
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.473Z] lserver: Read сonfiguration includeSuggestionsWithCodeReferences=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.475
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.471Z] lserver: Read configuration optOutTelemetryPreference=OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.476
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.471Z] lserver: Read configuration optOutTelemetryPreference=OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.477
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.471Z] lserver: Read configuration customizationArn=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.478
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:28:02.474Z] lserver: Initializing local project context
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.479
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.474Z] lserver: Updating configuration of local context server
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.480
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.474Z] lserver: Chat configuration telemetry preference to OPTIN
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.481
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.474Z] lserver: Read configuration shareCodeWhispererContentWithAWS=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.482
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.474Z] lserver: Chat configuration updated customizationArn to undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.482
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.473Z] lserver: Read сonfiguration includeSuggestionsWithCodeReferences=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:02.483
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:02.473Z] lserver: Read configuration shareCodeWhispererContentWithAWS=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.454
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.355Z] lserver: Received ready notification
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.601
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.467Z] lserver: Cache miss or expired, fetching models from API
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.603
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.469Z] lserver: Detected New connection type: builderId
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.610
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.469Z] lserver: Resetting Q-only services
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.620
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.469Z] lserver: Q services reset complete
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.623
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.470Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.625
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.472Z] lserver: Passing client for class CodeWhispererRuntimeClient to sdkInitializator (v3) for additional setup (e.g. proxy)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:06.626
+!MESSAGE [LS:Amazon Q Language Server][Error]	[2026-07-10T16:28:06.491Z] lserver: empty user context, skipping ab config fetching
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.628
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.491Z] lserver: Configured CodeWhispererServiceToken instance settings:
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.629
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.490Z] lserver: Configured AWS SDK V3 Proxy for client.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.631
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.475Z] lserver: Using standard proxy util
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.632
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.506Z] lserver: Initialized Amazon Q service with builderId connection
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.633
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.506Z] lserver: Q StreamingClient service for connection type builderId was initialized, region=us-east-1
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.634
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.499Z] lserver: Using standard proxy util
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.636
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.506Z] lserver: Configured AWS SDK V3 Proxy for client.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.637
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.494Z] lserver: Passing client for class CodeWhispererStreaming to sdkInitializator (v3) for additional setup (e.g. proxy)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.638
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.492Z] lserver: Creating Q-specific credentials provider for streaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.640
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.492Z] lserver: Q CodeWhispererToken service for connection type builderId was initialized, region=us-east-1
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.641
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.492Z] lserver: customUserAgent=AWS-Language-Servers AWS-CodeWhisperer/1.73.0 AmazonQ-For-Eclipse/2.7.4.202606182124 Spring-Tool-Suite-4/4.25.0.202409101855 ClientId/353633c0-6f4a-496b-9670-5d9b1dcfdbeb, customizationArn=undefined, shareCodeWhispererContentWithAWS=true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.647
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.631Z] lserver: Adding tab: q7l7fp
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.675
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.632Z] lserver: Creating new historyId=293a1bc2-4db0-4393-88b3-49332fb2717a for tabId=q7l7fp
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:06.676
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:06.632Z] lserver: Setting historyIdMapping: tabId=q7l7fp, historyId=293a1bc2-4db0-4393-88b3-49332fb2717a
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:07.076
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:07.047Z] lserver: received 137 context command items
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.036
+!MESSAGE [LS:Amazon Q Language Server][Error]	[2026-07-10T16:28:08.035Z] lserver: setpaidtier
+    request: {"statusOnly":true}
+    response: {"$metadata":{"httpStatusCode":200,"requestId":"a895411d-75cc-4f3f-91f6-8d73cf2a2fde","httpHeaders":{"date":"Fri, 10 Jul 2026 16:28:07 GMT","content-type":"application/json","content-length":"64","connection":"keep-alive","x-amzn-requestid":"a895411d-75cc-4f3f-91f6-8d73cf2a2fde","x-xss-protection":"1; mode=block","strict-transport-security":"max-age=47304000; includeSubDomains","x-frame-options":"DENY","cache-control":"no-cache","x-content-type-options":"nosniff"},"attempts":1,"totalRetryDelay":0},"status":"INACTIVE"}
+    requestId: undefined
+    httpStatusCode: undefined
+    headers: undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:08.037
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:08.035Z] lserver: setPaidTierMode: getSubscriptionStatus: none undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:08.038
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:08.035Z] lserver: setPaidTierMode: mode=freetier
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:08.199
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:08.197Z] lserver: Model Response:  {
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "8d7d0310-1d27-4b9d-a159-a7f5d31458bb",
+    "httpHeaders": {
+      "date": "Fri, 10 Jul 2026 16:28:08 GMT",
+      "content-type": "application/json",
+      "content-length": "3493",
+      "connection": "keep-alive",
+      "x-amzn-requestid": "8d7d0310-1d27-4b9d-a159-a7f5d31458bb",
+      "x-xss-protection": "1; mode=block",
+      "strict-transport-security": "max-age=47304000; includeSubDomains",
+      "x-frame-options": "DENY",
+      "cache-control": "no-cache",
+      "x-content-type-options": "nosniff"
+    },
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "defaultModel": {
+    "description": "Models chosen by task for optimal usage and consistent quality",
+    "modelId": "auto",
+    "modelName": "Auto",
+    "promptCaching": {
+      "maximumCacheCheckpointsPerRequest": 4,
+      "minimumTokensPerCacheCheckpoint": 1024,
+      "supportsPromptCaching": true
+    },
+    "rateMultiplier": 1,
+    "rateUnit": "Credit",
+    "supportedInputTypes": [
+      "TEXT",
+      "IMAGE"
+    ],
+    "tokenLimits": {
+      "maxInputTokens": 200000
+    }
+  },
+  "models": [
+    {
+      "description": "Models chosen by task for optimal usage and consistent quality",
+      "modelId": "auto",
+      "modelName": "Auto",
+      "promptCaching": {
+        "maximumCacheCheckpointsPerRequest": 4,
+        "minimumTokensPerCacheCheckpoint": 1024,
+        "supportsPromptCaching": true
+      },
+      "rateMultiplier": 1,
+      "rateUnit": "Credit",
+      "supportedInputTypes": [
+        "TEXT",
+        "IMAGE"
+      ],
+      "tokenLimits": {
+        "maxInputTokens": 200000
+      }
+    },
+    {
+      "description": "The Claude Sonnet 4.5 model",
+      "modelId": "claude-sonnet-4.5",
+      "modelName": "Claude Sonnet 4.5",
+      "promptCaching": {
+        "maximumCacheCheckpointsPerRequest": 4,
+        "minimumTokensPerCacheCheckpoint": 1024,
+        "supportsPromptCaching": true
+      },
+      "rateMultiplier": 1.3,
+      "rateUnit": "Credit",
+      "supportedInputTypes": [
+        "TEXT",
+        "IMAGE"
+      ],
+      "tokenLimits": {
+        "maxInputTokens": 200000
+      }
+    },
+    {
+      "description": "Hybrid reasoning and coding for regular use",
+      "modelId": "claude-sonnet-4",
+      "modelName": "Claude Sonnet 4",
+      "promptCaching": {
+        "maximumCacheCheckpointsPerRequest": 4,
+        "minimumTokensPerCacheCheckpoint": 1024,
+        "supportsPromptCaching": true
+      },
+      "rateMultiplier": 1.3,
+      "rateUnit": "Credit",
+      "supportedInputTypes": [
+        "TEXT",
+        "IMAGE"
+      ],
+      "tokenLimits": {
+        "maxInputTokens": 200000
+      }
+    },
+    {
+      "description": "The latest Claude Haiku model",
+      "modelId": "claude-haiku-4.5",
+      "modelName": "Claude Haiku 4.5",
+      "promptCaching": {
+        "maximumCacheCheckpointsPerRequest": 4,
+        "minimumTokensPerCacheCheckpoint": 4096,
+        "supportsPromptCaching": true
+      },
+      "rateMultiplier": 0.4,
+      "rateUnit": "Credit",
+      "supportedInputTypes": [
+        "TEXT",
+        "IMAGE"
+      ],
+      "tokenLimits": {
+        "maxInputTokens": 200000
+      }
+    },
+    {
+      "modelId": "deepseek-3.2",
+      "modelName": "deepseek-3.2"
+    },
+    {
+      "modelId": "minimax-m2.5",
+      "modelName": "minimax-m2.5"
+    },
+    {
+      "modelId": "minimax-m2.1",
+      "modelName": "minimax-m2.1"
+    },
+    {
+      "modelId": "glm-5",
+      "modelName": "glm-5"
+    },
+    {
+      "modelId": "qwen3-coder-next",
+      "modelName": "qwen3-coder-next"
+    }
+  ]
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:08.200
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:08.198Z] lserver: Models cached at timestamp: 1783700888197
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:08.201
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:08.198Z] lserver: Model set for initial selection: auto, tokenLimits: {"maxInputTokens":200000,"maxOverallCharacters":700000,"inputLimit":600000,"compactionThreshold":489999}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:08.202
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:08.197Z] lserver: Creating new settings
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.667
+!MESSAGE sClient.getGenerations(SpringProjectsClient.java:48)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.670
+!MESSAGE 	at org.springframework.ide.vscode.boot.validation.generations.json.ResolvedSpringProject.getGenerations(ResolvedSpringProject.java:43)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.672
+!MESSAGE 	at org.springframework.ide.vscode.boot.validation.generations.GenerationsValidator.getGenerationForJavaProject(GenerationsValidator.java:45)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.675
+!MESSAGE 	at org.springframework.ide.vscode.boot.validation.generations.GenerationsValidator.validate(GenerationsValidator.java:62)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.677
+!MESSAGE 	at org.springframework.ide.vscode.boot.validation.generations.ProjectVersionDiagnosticProvider.getDiagnostics(ProjectVersionDiagnosticProvider.java:60)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.680
+!MESSAGE 	at org.springframework.ide.vscode.boot.validation.BootVersionValidationEngine.reconcile(BootVersionValidationEngine.java:50)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.682
+!MESSAGE 	at org.springframework.ide.vscode.boot.common.ProjectReconcileScheduler.lambda$scheduleValidation$0(ProjectReconcileScheduler.java:85)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.684
+!MESSAGE 	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.687
+!MESSAGE 	at org.springframework.ide.vscode.boot.common.ProjectReconcileScheduler.lambda$scheduleValidation$1(ProjectReconcileScheduler.java:83)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.689
+!MESSAGE 	at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:171)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.691
+!MESSAGE 	at reactor.core.publisher.FluxOnAssembly$OnAssemblySubscriber.onNext(FluxOnAssembly.java:539)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.693
+!MESSAGE 	at reactor.core.publisher.MonoPublishOn$PublishOnSubscriber.run(MonoPublishOn.java:181)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.695
+!MESSAGE 	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.698
+!MESSAGE 	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.700
+!MESSAGE 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.703
+!MESSAGE 	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.705
+!MESSAGE 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.707
+!MESSAGE 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.710
+!MESSAGE 	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.712
+!MESSAGE Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "support" (class org.springframework.ide.vscode.boot.validation.generations.json.Generation), not marked as ignorable (5 known properties: "ossSupportEndDate", "_links", "name", "commercialSupportEndDate", "initialReleaseDate"])
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.715
+!MESSAGE  at [Source: UNKNOWN; byte offset: #UNKNOWN] (through reference chain: org.springframework.ide.vscode.boot.validation.generations.json.Generations["generations"]->java.util.ArrayList[0]->org.springframework.ide.vscode.boot.validation.generations.json.Generation["support"])
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.718
+!MESSAGE 	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.721
+!MESSAGE 	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1153)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.724
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2241)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.726
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1793)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.729
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1771)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.733
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:316)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.735
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:177)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.738
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer._deserializeFromArray(CollectionDeserializer.java:361)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.740
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:246)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.742
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:30)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.744
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.impl.FieldProperty.deserializeAndSet(FieldProperty.java:138)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.747
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:310)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.750
+!MESSAGE 	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:177)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.754
+!MESSAGE 	at com.fasterxml.jackson.databind.ObjectMapper._convert(ObjectMapper.java:4619)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 21:58:08.757
+!MESSAGE 	... 21 common frames omitted
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:13.344
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:13.274Z] lserver: Removing tab: q7l7fp
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:13.345
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:13.274Z] lserver: Updating tab open state: historyId=293a1bc2-4db0-4393-88b3-49332fb2717a, isOpen=false
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.300
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.296Z] lserver: Adding tab: sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.302
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.296Z] lserver: Setting historyIdMapping: tabId=sm9m0n, historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.303
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.296Z] lserver: Creating new historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0 for tabId=sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.306
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.297Z] lserver: setPaidTierMode: mode=freetier
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.310
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.308Z] lserver: Using cached models, last updated at: 2026-07-10T16:28:08.197Z
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.311
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.308Z] lserver: Model set for initial selection: auto, tokenLimits: {"maxInputTokens":200000,"maxOverallCharacters":700000,"inputLimit":600000,"compactionThreshold":489999}

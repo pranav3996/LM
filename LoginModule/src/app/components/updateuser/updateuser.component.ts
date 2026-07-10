@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserActions } from 'src/app/store/user/user.actions';
-import { selectSelectedUser, selectUserError, selectUserLoading } from 'src/app/store/user/user.selectors';
+import { AdminService } from 'src/app/service/admin.service';
+import { UserData } from 'src/app/models/api.models';
 
 @Component({
   selector: 'app-updateuser',
@@ -17,25 +19,30 @@ export class UpdateuserComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private adminService = inject(AdminService);
 
   userId!: string;
-  userData: any = {};
+  userData: Partial<UserData> = {};
   roles: string[] = ['ADMIN', 'USER'];
 
-  selectedUser$ = this.store.select(selectSelectedUser);
-  error$ = this.store.select(selectUserError);
-  loading$ = this.store.select(selectUserLoading);
+  // Bind directly to service observables
+  selectedUser$ = this.adminService.selectedUser$;
+  error$ = this.adminService.error$;
+  loading$ = this.adminService.loading$;
+
+  constructor() {
+    this.adminService.selectedUser$.pipe(takeUntilDestroyed()).subscribe((user) => {
+      if (user) {
+        const { firstName, lastName, email, enabled, role, city } = user;
+        this.userData = { firstName, lastName, email, enabled, role, city };
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || '';
     if (this.userId) {
       this.store.dispatch(UserActions.loadUserById({ userId: this.userId }));
-      this.selectedUser$.subscribe((user) => {
-        if (user) {
-          const { firstName, lastName, email, enabled, role, city } = user;
-          this.userData = { firstName, lastName, email, enabled, role, city };
-        }
-      });
     }
   }
 

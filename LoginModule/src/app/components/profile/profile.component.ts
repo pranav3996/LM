@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { UserActions } from 'src/app/store/user/user.actions';
-import { selectProfile, selectUserError } from 'src/app/store/user/user.selectors';
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,9 +15,12 @@ import { selectProfile, selectUserError } from 'src/app/store/user/user.selector
 export class ProfileComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
+  private commonService = inject(CommonService);
 
-  profile$ = this.store.select(selectProfile);
-  error$ = this.store.select(selectUserError);
+  // profile$ emits ProfileResponse — template accesses profileInfo?.users?.firstName etc.
+  profile$ = this.commonService.profile$;
+  error$ = this.commonService.error$;
+  loading$ = this.commonService.loading$;
 
   ngOnInit(): void {
     this.store.dispatch(UserActions.loadProfile());

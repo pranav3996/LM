@@ -1,20 +1,17 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { AdminService } from './admin.service';
+import { ApiResponse, UserData } from '../models/api.models';
 
-@Injectable({
-  providedIn: 'root'
-})
+/**
+ * @deprecated Use AdminService.userRegister() directly.
+ * Kept for backward compatibility.
+ */
+@Injectable({ providedIn: 'root' })
 export class UserRegisterService {
-  private http = inject(HttpClient);
+  private adminService = inject(AdminService);
 
-  // private BASE_URL = "http://localhost:1010/user/register";
-  private BASE_URL = environment.USER_REGISTER_URL;
-
-  userRegister(userData: any): Observable<any> {
-    const url = `${this.BASE_URL}`;
-    return this.http.post<any>(url, userData);
+  userRegister(userData: UserData): Observable<ApiResponse> {
+    return this.adminService.userRegister(userData);
   }
-
 }

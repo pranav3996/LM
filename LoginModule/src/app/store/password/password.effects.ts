@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 import { PasswordService } from 'src/app/service/password.service';
+import { PasswordResponse } from 'src/app/models/api.models';
 import Swal from 'sweetalert2';
 import { PasswordActions } from './password.actions';
 
@@ -19,11 +20,13 @@ export class PasswordEffects {
       switchMap(({ email }: { email: string }) =>
         this.passwordService.sendOTP(email).pipe(
           timeout(10000),
-          map((response: any) => {
-            Swal.fire({ icon: 'success', title: 'OTP Sent', text: response.message, confirmButtonColor: '#ffb74d' });
-            return PasswordActions.sendOTPSuccess({ message: response.message });
+          map((res: PasswordResponse) => {
+            Swal.fire({ icon: 'success', title: 'OTP Sent', text: res.message, confirmButtonColor: '#ffb74d' });
+            return PasswordActions.sendOTPSuccess({ message: res.message });
           }),
-          catchError((error: any) => of(PasswordActions.sendOTPFailure({ error: error.error?.message || 'Internal Server Error' })))
+          catchError((err: any) =>
+            of(PasswordActions.sendOTPFailure({ error: err.error?.message || 'Internal Server Error' }))
+          )
         )
       )
     )
@@ -35,11 +38,13 @@ export class PasswordEffects {
       switchMap(({ email }: { email: string }) =>
         this.passwordService.resendOTP(email).pipe(
           timeout(10000),
-          map((response: any) => {
-            Swal.fire({ icon: 'success', title: 'OTP Re-sent', text: response.message, confirmButtonColor: '#ffb74d' });
-            return PasswordActions.resendOTPSuccess({ message: response.message });
+          map((res: PasswordResponse) => {
+            Swal.fire({ icon: 'success', title: 'OTP Re-sent', text: res.message, confirmButtonColor: '#ffb74d' });
+            return PasswordActions.resendOTPSuccess({ message: res.message });
           }),
-          catchError((error: any) => of(PasswordActions.resendOTPFailure({ error: error.error?.message || 'Internal Server Error' })))
+          catchError((err: any) =>
+            of(PasswordActions.resendOTPFailure({ error: err.error?.message || 'Internal Server Error' }))
+          )
         )
       )
     )
@@ -51,7 +56,9 @@ export class PasswordEffects {
       switchMap(({ email, otp }: { email: string; otp: string }) =>
         this.passwordService.verifyOTP(email, otp).pipe(
           map(() => PasswordActions.verifyOTPSuccess()),
-          catchError((error: any) => of(PasswordActions.verifyOTPFailure({ error: error.error?.message || 'OTP verification failed' })))
+          catchError((err: any) =>
+            of(PasswordActions.verifyOTPFailure({ error: err.error?.message || 'OTP verification failed' }))
+          )
         )
       )
     )
@@ -62,13 +69,13 @@ export class PasswordEffects {
       ofType(PasswordActions.resetPasswordOTP),
       switchMap(({ email, otp, newPassword }: { email: string; otp: string; newPassword: string }) =>
         this.passwordService.resetPasswordOtp(email, otp, newPassword).pipe(
-          map((response: any) => {
-            Swal.fire({ title: 'Password Reset Successful!', text: response.message, icon: 'success', confirmButtonColor: '#ffb74d', confirmButtonText: 'OK' })
+          map((res: PasswordResponse) => {
+            Swal.fire({ title: 'Password Reset Successful!', text: res.message, icon: 'success', confirmButtonColor: '#ffb74d', confirmButtonText: 'OK' })
               .then(() => this.router.navigate(['/login']));
             return PasswordActions.resetPasswordOTPSuccess();
           }),
-          catchError((error: any) => {
-            const msg = error.error?.message || 'Failed to reset password.';
+          catchError((err: any) => {
+            const msg = err.error?.message || 'Failed to reset password.';
             Swal.fire({ title: 'Error!', text: msg, icon: 'error', confirmButtonColor: '#d33', confirmButtonText: 'OK' });
             return of(PasswordActions.resetPasswordOTPFailure({ error: msg }));
           })
@@ -87,7 +94,9 @@ export class PasswordEffects {
               .then(() => this.router.navigate(['/login']));
             return PasswordActions.resetPasswordTokenSuccess();
           }),
-          catchError((error: any) => of(PasswordActions.resetPasswordTokenFailure({ error: error.message || 'Failed to reset password.' })))
+          catchError((err: Error) =>
+            of(PasswordActions.resetPasswordTokenFailure({ error: err.message || 'Failed to reset password.' }))
+          )
         )
       )
     )
@@ -98,8 +107,10 @@ export class PasswordEffects {
       ofType(PasswordActions.changePassword),
       switchMap(({ email, oldPassword, newPassword }: { email: string; oldPassword: string; newPassword: string }) =>
         this.passwordService.changePassword(email, oldPassword, newPassword).pipe(
-          map((response: any) => PasswordActions.changePasswordSuccess({ message: response.message })),
-          catchError((error: any) => of(PasswordActions.changePasswordFailure({ error: error.error?.message || error.message })))
+          map((res: PasswordResponse) => PasswordActions.changePasswordSuccess({ message: res.message })),
+          catchError((err: any) =>
+            of(PasswordActions.changePasswordFailure({ error: err.error?.message || err.message }))
+          )
         )
       )
     )

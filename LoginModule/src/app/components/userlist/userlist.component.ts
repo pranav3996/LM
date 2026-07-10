@@ -3,9 +3,10 @@ import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserActions } from 'src/app/store/user/user.actions';
-import { selectUsers, selectUserError } from 'src/app/store/user/user.selectors';
+import { AdminService } from 'src/app/service/admin.service';
+import { UserRecord } from 'src/app/models/api.models';
 
 import * as Papa from 'papaparse';
 import * as XLSX from 'xlsx';
@@ -21,21 +22,29 @@ import Swal from 'sweetalert2';
 export class UserlistComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
+  private adminService = inject(AdminService);
 
-  users$: Observable<any[]> = this.store.select(selectUsers);
-  error$: Observable<string | null> = this.store.select(selectUserError);
+  // Expose service observables directly to the template
+  users$ = this.adminService.users$;
+  error$ = this.adminService.error$;
+  loading$ = this.adminService.loading$;
+  uploadProgress$ = this.adminService.uploadProgress$;
 
-  users: any[] = [];
-  selectedUsers: any[] = [];
+  // Local UI state only — not duplicating server data
+  users: UserRecord[] = [];
+  selectedUsers: UserRecord[] = [];
   allSelected = false;
 
   readonly fileInput = viewChild.required<ElementRef>('fileInput');
+  readonly displayedColumns = ['srNo', 'id', 'firstName', 'lastName', 'email', 'role', 'city', 'enabled', 'action'];
 
-  displayedColumns: string[] = ['srNo', 'id', 'firstName', 'lastName', 'email', 'role', 'city', 'enabled', 'action'];
+  constructor() {
+    // takeUntilDestroyed must be called in constructor (injection context)
+    this.adminService.users$.pipe(takeUntilDestroyed()).subscribe((users) => (this.users = users));
+  }
 
   ngOnInit(): void {
     this.store.dispatch(UserActions.loadUsers());
-    this.users$.subscribe((users) => (this.users = users));
   }
 
   searchUser(userId: string): void {
@@ -52,12 +61,12 @@ export class UserlistComponent implements OnInit {
     this.selectedUsers = this.allSelected ? [...this.users] : [];
   }
 
-  isSelected(user: any): boolean {
+  isSelected(user: UserRecord): boolean {
     return this.selectedUsers.some((u) => u.id === user.id);
   }
 
-  onCheckboxChange(event: any, user: any): void {
-    if (event.target.checked) {
+  onCheckboxChange(event: Event, user: UserRecord): void {
+    if ((event.target as HTMLInputElement).checked) {
       this.selectedUsers.push(user);
     } else {
       this.selectedUsers = this.selectedUsers.filter((u) => u.id !== user.id);
@@ -95,20 +104,21 @@ export class UserlistComponent implements OnInit {
     document.body.removeChild(link);
   }
 
-  convertToCSV(data: any[]): string {
-    const header = this.displayedColumns.filter((c) => c !== 'action').map((c) => c.toUpperCase());
+  convertToCSV(data: UserRecord[]): string {
+    const cols = this.displayedColumns.filter((c) => c !== 'action');
+    const header = cols.map((c) => c.toUpperCase());
     const rows = data.map((row, i) =>
-      this.displayedColumns.filter((c) => c !== 'action').map((col) => (col === 'srNo' ? i + 1 : row[col]))
+      cols.map((col) => (col === 'srNo' ? i + 1 : (row as any)[col]))
     );
     return Papa.unparse([header, ...rows]);
   }
 
   downloadExcel(): void {
     const filteredData = this.users.map((user, i) => {
-      const obj: { [key: string]: any } = {};
+      const obj: Record<string, unknown> = {};
       this.displayedColumns.forEach((col) => {
         if (col === 'srNo') obj[col] = i + 1;
-        else if (col !== 'action') obj[col] = user[col];
+        else if (col !== 'action') obj[col] = (user as any)[col];
       });
       return obj;
     });

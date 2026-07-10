@@ -25,15 +25,12 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { provideServiceWorker } from '@angular/service-worker';
 
-// NgRx
+// NgRx — root store (global/cross-cutting state only)
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { authReducer } from './store/auth/auth.reducer';
-import { userReducer } from './store/user/user.reducer';
-import { passwordReducer } from './store/password/password.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
-import { UserEffects } from './store/user/user.effects';
-import { PasswordEffects } from './store/password/password.effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -64,12 +61,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
     provideRouter(routes),
-    provideStore({
-      auth: authReducer,
-      user: userReducer,
-      password: passwordReducer,
-    }),
-    provideEffects([AuthEffects, UserEffects, PasswordEffects]),
+    // Root store: only global auth state
+    provideStore({ auth: authReducer }),
+    provideEffects([AuthEffects]),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',

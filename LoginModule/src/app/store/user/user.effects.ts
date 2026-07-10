@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AdminService } from 'src/app/service/admin.service';
 import { CommonService } from 'src/app/service/common.service';
-import { UserRegisterService } from 'src/app/service/user-register.service';
+import { ApiResponse, ProfileResponse, UploadEvent, UserRecord, UserResponse } from 'src/app/models/api.models';
 import Swal from 'sweetalert2';
 import { UserActions } from './user.actions';
 
@@ -13,7 +13,6 @@ export class UserEffects {
   private actions$ = inject(Actions);
   private adminService = inject(AdminService);
   private commonService = inject(CommonService);
-  private userRegisterService = inject(UserRegisterService);
   private router = inject(Router);
 
   loadProfile$ = createEffect(() =>
@@ -21,8 +20,10 @@ export class UserEffects {
       ofType(UserActions.loadProfile),
       switchMap(() =>
         this.commonService.getYourProfile().pipe(
-          map((profile: any) => UserActions.loadProfileSuccess({ profile })),
-          catchError((error: any) => of(UserActions.loadProfileFailure({ error: error.message || 'Failed to load profile' })))
+          map((profile: ProfileResponse) => UserActions.loadProfileSuccess({ profile })),
+          catchError((err: Error) =>
+            of(UserActions.loadProfileFailure({ error: err.message || 'Failed to load profile' }))
+          )
         )
       )
     )
@@ -33,13 +34,12 @@ export class UserEffects {
       ofType(UserActions.loadUsers),
       switchMap(() =>
         this.adminService.getAllUsers().pipe(
-          map((response: any) => {
-            if (response?.statusCode === 200 && response.usersList) {
-              return UserActions.loadUsersSuccess({ users: response.usersList });
-            }
-            return UserActions.loadUsersFailure({ error: 'No users found.' });
-          }),
-          catchError((error: any) => of(UserActions.loadUsersFailure({ error: error.message })))
+          map((res: UserResponse) =>
+            res?.statusCode === 200 && res.usersList
+              ? UserActions.loadUsersSuccess({ users: res.usersList })
+              : UserActions.loadUsersFailure({ error: 'No users found.' })
+          ),
+          catchError((err: Error) => of(UserActions.loadUsersFailure({ error: err.message })))
         )
       )
     )
@@ -50,13 +50,14 @@ export class UserEffects {
       ofType(UserActions.loadUserById),
       switchMap(({ userId }: { userId: string }) =>
         this.adminService.getUsersById(userId).pipe(
-          map((response: any) => {
-            if (response?.users) {
-              return UserActions.loadUserByIdSuccess({ user: response.users });
-            }
-            return UserActions.loadUserByIdFailure({ error: response.message || 'User not found' });
-          }),
-          catchError((error: any) => of(UserActions.loadUserByIdFailure({ error: error.error?.message || error.message })))
+          map((res: UserResponse) =>
+            res?.users
+              ? UserActions.loadUserByIdSuccess({ user: res.users })
+              : UserActions.loadUserByIdFailure({ error: res.message || 'User not found' })
+          ),
+          catchError((err: any) =>
+            of(UserActions.loadUserByIdFailure({ error: err.error?.message || err.message }))
+          )
         )
       )
     )
@@ -67,11 +68,12 @@ export class UserEffects {
       ofType(UserActions.updateUser),
       switchMap(({ userId, userData }: { userId: string; userData: any }) =>
         this.adminService.updateUser(userId, userData).pipe(
-          map((res: any) => {
-            if (res.statusCode === 200) return UserActions.updateUserSuccess();
-            return UserActions.updateUserFailure({ error: res.message });
-          }),
-          catchError((error: any) => of(UserActions.updateUserFailure({ error: error.message })))
+          map((res: ApiResponse) =>
+            res.statusCode === 200
+              ? UserActions.updateUserSuccess()
+              : UserActions.updateUserFailure({ error: res.message })
+          ),
+          catchError((err: Error) => of(UserActions.updateUserFailure({ error: err.message })))
         )
       )
     )
@@ -91,7 +93,7 @@ export class UserEffects {
       switchMap(({ userId }: { userId: string }) =>
         this.adminService.deleteUser(userId).pipe(
           map(() => UserActions.deleteUserSuccess({ userId })),
-          catchError((error: any) => of(UserActions.deleteUserFailure({ error: error.message })))
+          catchError((err: Error) => of(UserActions.deleteUserFailure({ error: err.message })))
         )
       )
     )
@@ -102,8 +104,10 @@ export class UserEffects {
       ofType(UserActions.adminRegister),
       switchMap(({ userData }: { userData: any }) =>
         this.adminService.adminRegister(userData).pipe(
-          map((response: any) => UserActions.adminRegisterSuccess({ message: response.message })),
-          catchError((error: any) => of(UserActions.adminRegisterFailure({ error: error.message || 'An error occurred' })))
+          map((res: ApiResponse) => UserActions.adminRegisterSuccess({ message: res.message })),
+          catchError((err: Error) =>
+            of(UserActions.adminRegisterFailure({ error: err.message || 'An error occurred' }))
+          )
         )
       )
     )
@@ -124,9 +128,11 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.userRegister),
       switchMap(({ userData }: { userData: any }) =>
-        this.userRegisterService.userRegister(userData).pipe(
-          map((response: any) => UserActions.userRegisterSuccess({ message: response.message })),
-          catchError((error: any) => of(UserActions.userRegisterFailure({ error: error.message || 'An error occurred' })))
+        this.adminService.userRegister(userData).pipe(
+          map((res: ApiResponse) => UserActions.userRegisterSuccess({ message: res.message })),
+          catchError((err: Error) =>
+            of(UserActions.userRegisterFailure({ error: err.message || 'An error occurred' }))
+          )
         )
       )
     )
@@ -148,18 +154,17 @@ export class UserEffects {
       ofType(UserActions.uploadFile),
       switchMap(({ file }: { file: File }) =>
         this.adminService.uploadFile(file).pipe(
-          map((response: any) => {
-            if (response?.status === 'progress') {
-              return UserActions.uploadFileProgress({ progress: response.message });
-            } else if (response?.status === 'success') {
-              Swal.fire('Success', response.message, 'success');
-              return UserActions.uploadFileSuccess({ message: response.message });
+          map((res: UploadEvent) => {
+            if (res?.status === 'progress') return UserActions.uploadFileProgress({ progress: res.message });
+            if (res?.status === 'success') {
+              Swal.fire('Success', res.message, 'success');
+              return UserActions.uploadFileSuccess({ message: res.message });
             }
-            return UserActions.uploadFileFailure({ error: response?.message || 'Upload failed' });
+            return UserActions.uploadFileFailure({ error: res?.message || 'Upload failed' });
           }),
-          catchError((error: any) => {
-            Swal.fire({ icon: 'error', title: 'Upload Error', text: error.message });
-            return of(UserActions.uploadFileFailure({ error: error.message }));
+          catchError((err: Error) => {
+            Swal.fire({ icon: 'error', title: 'Upload Error', text: err.message });
+            return of(UserActions.uploadFileFailure({ error: err.message }));
           })
         )
       )

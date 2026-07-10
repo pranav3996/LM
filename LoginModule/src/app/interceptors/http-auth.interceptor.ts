@@ -3,88 +3,64 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
+import { StorageService } from '../service/storage.service';
 
 @Injectable()
 export class HttpAuthInterceptor implements HttpInterceptor {
   private authService = inject(AuthService);
+  private storage = inject(StorageService);
 
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    const accessToken = this.storage.getItem('accessToken');
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    // const accessToken = localStorage.getItem('accessToken');
-    const accessToken = sessionStorage.getItem('accessToken');
-    console.log('Intercepting request to:', req.url);
-
-    if (accessToken) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${accessToken}`),
-      });
-
-      return next.handle(cloned).pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('HTTP Error:', error);
-          if (error.status === 403) {
-            return this.handle403Error(req, next);
-          }
-          return throwError(error);
-        })
-      );
-    } else {
+    if (!accessToken) {
       return next.handle(req);
     }
+
+    return next.handle(this.addTokenHeader(req, accessToken)).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          return this.handle403Error(req, next);
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  private handle403Error(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    console.log('Handling 403 error, calling refresh token...');
+  private handle403Error(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (!this.authService.refreshTokenInProgress) {
       this.authService.refreshTokenInProgress = true;
       this.authService.refreshTokenSubject.next(null);
 
       return this.authService.refreshToken().pipe(
-        switchMap((response: any) => {
-          console.log('Refresh token process complete:', response);
+        switchMap((response) => {
           this.authService.refreshTokenInProgress = false;
           this.authService.refreshTokenSubject.next(response.accessToken);
-
-          if (response && response.accessToken) {
-            // localStorage.setItem('accessToken', response.accessToken);
-            sessionStorage.setItem('accessToken', response.accessToken);
-            const expirationAccessTokenTime =
-              response.expirationAccessTokenTime;
-            this.authService.setLogoutTimer(expirationAccessTokenTime);
+          if (response?.accessToken) {
+            this.storage.setItem('accessToken', response.accessToken);
+            this.authService.setLogoutTimer(response.expirationAccessTokenTime);
           }
-
-          return next.handle(
-            this.addTokenHeader(request, response.accessToken)
-          );
+          return next.handle(this.addTokenHeader(request, response.accessToken));
         }),
         catchError((err) => {
-          console.error('Error during refresh token process:', err);
           this.authService.refreshTokenInProgress = false;
           this.authService.logOut();
-          return throwError(err);
-        })
-      );
-    } else {
-      return this.authService.refreshTokenSubject.pipe(
-        switchMap((accessToken: any) => {
-          if (accessToken) {
-            return next.handle(this.addTokenHeader(request, accessToken));
-          }
-          return throwError('Refresh token failed');
+          return throwError(() => err);
         })
       );
     }
+
+    return this.authService.refreshTokenSubject.pipe(
+      switchMap((token) => {
+        if (token) {
+          return next.handle(this.addTokenHeader(request, token));
+        }
+        return throwError(() => new Error('Refresh token failed'));
+      })
+    );
   }
 
-  private addTokenHeader(request: HttpRequest<any>, token: string) {
-    return request.clone({
-      headers: request.headers.set('Authorization', `Bearer ${token}`),
-    });
+  private addTokenHeader(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+    return request.clone({ headers: request.headers.set('Authorization', `Bearer ${token}`) });
   }
 }
