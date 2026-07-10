@@ -1,33 +1,56 @@
-HELP.md
+# ==========================================
+# Spring Boot (Usermanagement module)
+# STS/Eclipse .gitignore
+# ==========================================
+
+# === Eclipse / STS Workspace Metadata ===
+.metadata/
+.apt_generated/
+.sts4-cache/
+.springBeans
+.factorypath
+
+# === Eclipse Project Files ===
+.project
+.classpath
+.settings/
+
+# === Maven Build Output ===
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# === Gradle Build Output ===
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+.gradle/
 
-### IntelliJ IDEA ###
-.idea
+# === Log / Temp / Backup Files ===
+*.log
+*.tmp
+*.bak
+hs_err_pid*.log
+
+# === IntelliJ IDEA ===
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# === VS Code ===
+.vscode/
+
+# === NetBeans ===
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# === OS Files ===
+.DS_Store
+Thumbs.db
+
+HELP.md

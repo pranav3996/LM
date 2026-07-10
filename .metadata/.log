@@ -3510,3 +3510,386 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.lsp4e 1 0 2026-07-10 21:58:27.311
 !MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:28:27.308Z] lserver: Model set for initial selection: auto, tokenLimits: {"maxInputTokens":200000,"maxOverallCharacters":700000,"inputLimit":600000,"compactionThreshold":489999}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.481
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.476Z] lserver: Received chat prompt
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.482
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.479Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.482
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.479Z] lserver: Getting instance of CodeWhispererStreaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.507
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:04.482Z] lserver: remote workspaceId: undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.508
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:04.482Z] lserver: System Information: {"languageServerVersion":"1.73.0","clientName":"AmazonQ For Eclipse","clientVersion":"2.7.4.202606182124","OS":"win32","OSVersion":"10.0.26200","ComputeEnv":"unknown","extensionVersion":"2.7.4.202606182124"}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.508
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.485Z] lserver: Q credentials provider: getCredentials for bearer, token present: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.509
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.483Z] lserver: Getting messages for tabId=sm9m0n, historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0, numMessages=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.509
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:04.483Z] lserver: Fixing history: tabId=sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.509
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.487Z] lserver: QRetryStrategy: Initial retry token acquired for scope: undefined, attempt count reset to 0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.509
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.485Z] lserver: Q credentials provider: getCredentials for bearer, token present: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.510
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.485Z] lserver: Q credentials provider: checking hasCredentials for type bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.510
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.485Z] lserver: Q credentials provider: checking hasCredentials for type bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.510
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.484Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:04.510
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:04.484Z] lserver: Getting instance of CodeWhispererStreaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:06.290
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:06.286Z] lserver: QRetryStrategy: Request succeeded after 1 total attempts
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:06.291
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:06.288Z] lserver: Creating new tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:06.292
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:06.288Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:06.292
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:06.287Z] lserver: generateAssistantResponse/SendMessage ResponseMetadata: {
+  "httpStatusCode": 200,
+  "requestId": "3eb114b2-dc8e-46ae-aede-903dab820e38",
+  "attempts": 1,
+  "totalRetryDelay": 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:07.643
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:07.640Z] lserver: ToolUseEvent: tooluse_B7nVIW6SGswxvZb9JCv3nm listDirectory {
+  "path": "d:\\Tech\\Java Angular\\Login-Module-Spring_Angular\\U...",
+  "maxDepth": 3
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:09.211
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:09.209Z] lserver: ToolUseEvent: tooluse_vzYC9DaQlbIYclmZd2qFyu executeBash {
+  "command": "cd /d \"d:\\Tech\\Java Angular\\Login-Module-Spring_An...",
+  "cwd": "d:\\Tech\\Java Angular\\Login-Module-Spring_Angular",
+  "explanation": "Check what files are currently tracked and untrack..."
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:09.241
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:09.234Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:09.241
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:09.235Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:09.244
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:09.242Z] lserver: Prompting for tool approval for tool: listDirectory
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:15.651
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:15.647Z] lserver: onButtonClick event with params: {"tabId":"sm9m0n","messageId":"tooluse_B7nVIW6SGswxvZb9JCv3nm_permission","buttonId":"allow-tools"}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:15.657
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:15.651Z] lserver: Reading directory in tree like format: d:\Tech\Java Angular\Login-Module-Spring_Angular\Usermanagement to max depth: 3
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:15.672
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:15.671Z] lserver: Skipping directory .cache due to match in [node_modules, dist, build, out, .git, .svn, .hg, .idea, .vscode, .vs, .metals, .bloop, .ensime_cache, .project, .venv, venv, .virtualenv, eggs, .eggs, sdist, .ipynb_checkpoints, .env, .aws-sam, .brazil, .rvm, .gem, .cache, .sass-cache, .pytest_cache, __pycache__, tmp]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:15.683
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:15.680Z] lserver: Prompting for tool approval for tool: executeBash
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:17.807
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:17.804Z] lserver: onButtonClick event with params: {"tabId":"sm9m0n","messageId":"tooluse_vzYC9DaQlbIYclmZd2qFyu","buttonId":"run-shell-command"}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:17.835
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:17.808Z] lserver: Command: (not started) [where cd]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:17.939
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:17.915Z] lserver: Command: (not started) [cmd.exe /c help cd]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.116
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:18.093Z] lserver: Invoking C:\Windows\System32\cmd.exe command: "cd /d "d:\Tech\Java Angular\Login-Module-Spring_Angular" && git ls-files --others --exclude-standard && echo "---TRACKED---" && git ls-files" in cwd: "d:\Tech\Java Angular\Login-Module-Spring_Angular"
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.117
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:18.094Z] lserver: Command: (not started) [C:\Windows\System32\cmd.exe /u /c cd /d "d:\Tech\Java Angular\Login-Module-Spring_Angular" && git ls-files --others --exclude-standard && echo "---TRACKED---" && git ls-files]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.447
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:18.429Z] lserver: Fixing history: tabId=sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.448
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:18.429Z] lserver: Getting messages for tabId=sm9m0n, historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0, numMessages=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.451
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:18.447Z] lserver: Getting instance of CodeWhispererStreaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.452
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:18.447Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.452
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:18.447Z] lserver: Q credentials provider: checking hasCredentials for type bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.453
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:18.447Z] lserver: Q credentials provider: getCredentials for bearer, token present: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:18.454
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:18.448Z] lserver: QRetryStrategy: Initial retry token acquired for scope: undefined, attempt count reset to 0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:19.917
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:19.913Z] lserver: QRetryStrategy: Request succeeded after 1 total attempts
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:19.918
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:19.914Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:19.919
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:19.914Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:19.920
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:19.914Z] lserver: generateAssistantResponse/SendMessage ResponseMetadata: {
+  "httpStatusCode": 200,
+  "requestId": "21021f9e-0898-424d-b870-ff3231df2b91",
+  "attempts": 1,
+  "totalRetryDelay": 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:21.590
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:21.588Z] lserver: ToolUseEvent: tooluse_cGlRYEKoDepyDOLVvBxpj7 fsRead {
+  "paths": [
+    "d:\\Tech\\Java Angular\\Login-Module-Spring_Angular\\U...",
+    "d:\\Tech\\Java Angular\\Login-Module-Spring_Angular\\...."
+  ]
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:21.617
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:21.615Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:21.618
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:21.615Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:21.619
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:21.618Z] lserver: Prompting for tool approval for tool: fsRead
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.605
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.601Z] lserver: onButtonClick event with params: {"tabId":"sm9m0n","messageId":"tooluse_cGlRYEKoDepyDOLVvBxpj7_permission","buttonId":"allow-tools"}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.613
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:23.607Z] lserver: Reading file: d:\Tech\Java Angular\Login-Module-Spring_Angular\Usermanagement\.gitignore
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.615
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:23.612Z] lserver: Read file: d:\Tech\Java Angular\Login-Module-Spring_Angular\Usermanagement\.gitignore, size: 428
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.616
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:23.612Z] lserver: Reading file: d:\Tech\Java Angular\Login-Module-Spring_Angular\.gitignore
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.617
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:23.615Z] lserver: Read file: d:\Tech\Java Angular\Login-Module-Spring_Angular\.gitignore, size: 714
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.620
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:23.617Z] lserver: Fixing history: tabId=sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.620
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.617Z] lserver: Getting messages for tabId=sm9m0n, historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0, numMessages=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.622
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.618Z] lserver: Getting instance of CodeWhispererStreaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.622
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.620Z] lserver: QRetryStrategy: Initial retry token acquired for scope: undefined, attempt count reset to 0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.623
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.619Z] lserver: Q credentials provider: checking hasCredentials for type bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.624
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.619Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:23.626
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:23.619Z] lserver: Q credentials provider: getCredentials for bearer, token present: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:25.013
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:25.011Z] lserver: generateAssistantResponse/SendMessage ResponseMetadata: {
+  "httpStatusCode": 200,
+  "requestId": "6ce993f4-8db3-4b73-86f6-951622707efa",
+  "attempts": 1,
+  "totalRetryDelay": 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:25.014
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:25.011Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:25.015
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:25.011Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:25.016
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:25.011Z] lserver: QRetryStrategy: Request succeeded after 1 total attempts
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:37.280
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:37.277Z] lserver: ToolUseEvent: tooluse_CaGUAAbHRV00lV8L3eZsSh fsWrite {
+  "command": "create",
+  "path": "d:\\Tech\\Java Angular\\Login-Module-Spring_Angular\\....",
+  "fileText": "# ==========================================\n# Spr...",
+  "explanation": "Overwrite the root .gitignore with a comprehensive..."
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:37.301
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:37.300Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:37.302
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:37.300Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:37.302
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:37.301Z] lserver: Prompting for tool approval for tool: fsWrite
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.567
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.563Z] lserver: onButtonClick event with params: {"tabId":"sm9m0n","messageId":"tooluse_CaGUAAbHRV00lV8L3eZsSh_permission","buttonId":"allow-tools"}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.893
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.887Z] lserver: SendTelemetryEvent succeeded, requestId: 9827a00d-e620-49b9-a86d-717bca30c49a
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.901
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:44.891Z] lserver: Fixing history: tabId=sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.902
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.892Z] lserver: Getting messages for tabId=sm9m0n, historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0, numMessages=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.905
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.901Z] lserver: Getting instance of CodeWhispererStreaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.907
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.903Z] lserver: QRetryStrategy: Initial retry token acquired for scope: undefined, attempt count reset to 0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.909
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.902Z] lserver: Q credentials provider: getCredentials for bearer, token present: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.912
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.902Z] lserver: Q credentials provider: checking hasCredentials for type bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:44.914
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:44.901Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:46.294
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:46.292Z] lserver: QRetryStrategy: Request succeeded after 1 total attempts
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:46.294
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:46.127Z] lserver: received 4490 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:46.295
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:46.292Z] lserver: generateAssistantResponse/SendMessage ResponseMetadata: {
+  "httpStatusCode": 200,
+  "requestId": "819070ba-0495-41a1-8e5a-3a49d152c8d9",
+  "attempts": 1,
+  "totalRetryDelay": 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:46.295
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:46.292Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:46.295
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:46.292Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.596
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.595Z] lserver: ToolUseEvent: tooluse_jGhCPwIVOdG8CWoQeJm3VP fsWrite {
+  "command": "create",
+  "explanation": "Overwrite the Usermanagement module .gitignore to ...",
+  "fileText": "# ==========================================\n# Spr...",
+  "path": "d:\\Tech\\Java Angular\\Login-Module-Spring_Angular\\U..."
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.626
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.624Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.626
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.624Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.923
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.921Z] lserver: SendTelemetryEvent succeeded, requestId: 3268c3d0-f844-45aa-b0a8-a6b524f0f8b3
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.927
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:49.923Z] lserver: Fixing history: tabId=sm9m0n
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.928
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.923Z] lserver: Getting messages for tabId=sm9m0n, historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0, numMessages=undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.932
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.925Z] lserver: Getting instance of CodeWhispererStreaming client
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.934
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.928Z] lserver: QRetryStrategy: Initial retry token acquired for scope: undefined, attempt count reset to 0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.935
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.926Z] lserver: Q credentials provider: checking hasCredentials for type bearer
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.936
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.926Z] lserver: Q credentials provider: getCredentials for bearer, token present: true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:49.936
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:49.925Z] lserver: Region not provided by caller or runtime, falling back to default region (us-east-1) and endpoint
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:01:50.264
+!MESSAGE 22:01:50.248 [pool-2-thread-8] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:01:52.106
+!MESSAGE 22:01:52.053 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: 6
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:01:52.250
+!MESSAGE 22:01:52.220 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: 6
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:01:52.521
+!MESSAGE 22:01:52.518 [pool-4-thread-2] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:01:56.598
+!MESSAGE 22:01:56.566 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file created event: 12
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:56.836
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:51.057Z] lserver: QRetryStrategy: Request succeeded after 1 total attempts
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:56.837
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:51.057Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:56.840
+!MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-10T16:31:51.057Z] lserver: generateAssistantResponse/SendMessage ResponseMetadata: {
+  "httpStatusCode": 200,
+  "requestId": "16d53073-772e-4bfa-9628-fe1e1532a1cf",
+  "attempts": 1,
+  "totalRetryDelay": 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:56.842
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:51.057Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:01:56.845
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:31:51.158Z] lserver: received 4490 context command items
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:01:57.101
+!MESSAGE 22:01:57.098 [pool-4-thread-2] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-10 22:02:08.952
+!MESSAGE 22:01:57.572 [pool-4-thread-2] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:13.163
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:11.149Z] lserver: received 4490 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:13.165
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:12.384Z] lserver: received 4490 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:13.165
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:11.853Z] lserver: received 4490 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:13.398
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:13.390Z] lserver: Adding message to history: tabId=sm9m0n, tabType=cwc, conversationId=a9d0bf53-57d6-4529-bf41-05a006be16f4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:13.399
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:13.391Z] lserver: Updating existing tab with historyId=3d462e46-9511-446f-8183-bacc7e5cf0b0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:13.696
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:13.683Z] lserver: SendTelemetryEvent succeeded, requestId: a76bae0f-d11e-40b4-a14c-7604b9cacbd4
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:15.215
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:13.805Z] lserver: received 4502 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-10 22:02:15.216
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-10T16:32:14.425Z] lserver: received 4502 context command items

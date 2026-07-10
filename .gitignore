@@ -1,13 +1,38 @@
-# === Java / Spring Boot ===
-/target/
-/build/
+# ==========================================
+# Spring Boot + Angular | STS/Eclipse
+# Root-level .gitignore
+# ==========================================
+
+# === Eclipse / STS Workspace Metadata ===
+.metadata/
+.apt_generated/
+.sts4-cache/
+.springBeans
+.factorypath
+
+# === Eclipse Project Files ===
+.project
+.classpath
+.settings/
+
+# === Maven Build Output ===
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# === Gradle Build Output ===
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+.gradle/
 
 # === Angular / Node ===
-/node_modules
-/dist
-/tmp
-/out-tsc
-/.angular/cache
+node_modules/
+dist/
+tmp/
+out-tsc/
+.angular/cache/
 
 # === Package Manager Logs ===
 npm-debug.log*
@@ -15,16 +40,17 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# === IDEs & Editors ===
+# === Log / Temp / Backup Files ===
+*.log
+*.tmp
+*.bak
+hs_err_pid*.log
+
+# === IntelliJ IDEA ===
 .idea/
+*.iws
 *.iml
-.project
-.classpath
-.settings/
-.springBeans
-.c9/
-*.launch
-*.sublime-workspace
+*.ipr
 
 # === VS Code ===
 .vscode/*
@@ -33,19 +59,18 @@ pnpm-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# === Testing / Coverage ===
-/coverage
-/test-output
-/testem.log
+# === NetBeans ===
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-# === Miscellaneous ===
-.sass-cache/
-.connect.lock
-/libpeerconnection.log
-/typings
-/.history/
+# === Testing / Coverage ===
+/coverage/
+/test-output/
+/testem.log
 
 # === OS Files ===
 .DS_Store
 Thumbs.db
-/.metadata/
