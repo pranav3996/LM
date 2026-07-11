@@ -134,6 +134,9 @@ public class UserManagementService {
 
     @Transactional
     public ReqRes registerUser(ReqRes registrationRequest, String applicationUrl) {
+        if (usersRepo.findByEmail(registrationRequest.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("An account with this email already exists. Please try with a different email.");
+        }
         ReqRes resp = new ReqRes();
         Users user = new Users();
         user.setEmail(registrationRequest.getEmail());
@@ -279,17 +282,22 @@ public class UserManagementService {
             return "Invalid verification token";
         }
         if (token.isExpired()) {
-            verificationTokenRepository.delete(token);
+            // Do NOT delete — keep the record so resend can look it up by this token
             return "Verification link already expired, Please click the link below to receive a new verification link";
         }
-        token.getUser().setEnabled(true);
-        usersRepo.save(token.getUser());
+        Users user = token.getUser();
+        user.setEnabled(true);
+        usersRepo.save(user);
+        verificationTokenRepository.delete(token);
         return "valid";
     }
 
     @Transactional
     public VerificationToken generateNewVerificationToken(String oldToken) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(oldToken);
+        if (verificationToken == null) {
+            throw new IllegalArgumentException("No verification token found. Please register again.");
+        }
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setExpirationTime(verificationToken.getTokenExpirationTime());
         return verificationTokenRepository.save(verificationToken);

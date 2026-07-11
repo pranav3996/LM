@@ -56,6 +56,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     public void sendVerificationEmail(Users user, String url)
             throws MessagingException, UnsupportedEncodingException {
         String senderName = appProperties.getMail().getSenderName();
+        String senderEmail = appProperties.getMail().getSenderEmail();
         String mailContent = "<p>Hi, " + user.getFirstName() + ",</p>"
                 + "<p>Thank you for registering with us.</p>"
                 + "<p>Please follow the link below to complete your registration.</p>"
@@ -64,16 +65,18 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setFrom(appProperties.getMail().getSenderName());
+        helper.setFrom(senderEmail, senderName);
         helper.setTo(user.getEmail());
         helper.setSubject("Email Verification");
         helper.setText(mailContent, true);
+        log.info("Sending verification email to: {} via {}", user.getEmail(), senderEmail);
         mailSender.send(message);
     }
 
     public void sendPasswordResetVerificationEmail(Users user, String url)
             throws MessagingException, UnsupportedEncodingException {
         String senderName = appProperties.getMail().getSenderName();
+        String senderEmail = appProperties.getMail().getSenderEmail();
         String mailContent = "<p>Dear " + user.getFirstName() + ",</p>"
                 + "<p>You have requested to reset your password.</p>"
                 + "<p>Click the link below to change your password:</p>"
@@ -82,10 +85,11 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setFrom(senderName);
+        helper.setFrom(senderEmail, senderName);
         helper.setTo(user.getEmail());
         helper.setSubject("Password Reset Request");
         helper.setText(mailContent, true);
+        log.info("Sending password reset email to: {} via {}", user.getEmail(), senderEmail);
         mailSender.send(message);
     }
 }

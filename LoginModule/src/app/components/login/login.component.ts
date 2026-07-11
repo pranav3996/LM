@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
 import { NgModel, NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
+import { UserActions } from 'src/app/store/user/user.actions';
 import { selectAuthError, selectAuthLoading } from 'src/app/store/auth/auth.selectors';
 
 @Component({
@@ -13,12 +14,21 @@ import { selectAuthError, selectAuthLoading } from 'src/app/store/auth/auth.sele
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, AsyncPipe],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private router = inject(Router);
 
   loading$ = this.store.select(selectAuthLoading);
   error$ = this.store.select(selectAuthError);
+
+  ngOnInit(): void {
+    this.store.dispatch(AuthActions.clearError());
+    this.store.dispatch(UserActions.clearError());
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(AuthActions.clearError());
+  }
 
   handleSubmit(authForm: NgForm): void {
     if (!authForm.valid) return;
@@ -26,10 +36,12 @@ export class LoginComponent {
   }
 
   switchToSignUp(): void {
+    this.store.dispatch(AuthActions.clearError());
     this.router.navigate(['/user-register']);
   }
 
   handleForgotPassword(): void {
+    this.store.dispatch(AuthActions.clearError());
     this.router.navigate(['/forgot-password']);
   }
 

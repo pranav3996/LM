@@ -28,9 +28,12 @@ public class AppProperties {
 
     public static class Mail {
         private String senderName = "Login Service";
+        private String senderEmail = "no-reply@example.com";
 
         public String getSenderName() { return senderName; }
         public void setSenderName(String senderName) { this.senderName = senderName; }
+        public String getSenderEmail() { return senderEmail; }
+        public void setSenderEmail(String senderEmail) { this.senderEmail = senderEmail; }
     }
 
     public static class Cors {

@@ -49,15 +49,21 @@ public class UserRegistrationController {
     }
 
     @GetMapping("/resend-verification-token")
-    public String resendVerificationToken(@RequestParam("token") String oldToken,
-                                          HttpServletRequest request)
+    public ResponseEntity<String> resendVerificationToken(@RequestParam("token") String oldToken,
+                                                          HttpServletRequest request)
             throws MessagingException, UnsupportedEncodingException {
-        VerificationToken verificationToken = userManagementService.generateNewVerificationToken(oldToken);
+        VerificationToken verificationToken;
+        try {
+            verificationToken = userManagementService.generateNewVerificationToken(oldToken);
+        } catch (IllegalArgumentException e) {
+            log.warn("Resend failed — token not found: {}", oldToken);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         Users user = verificationToken.getUser();
         String url = getApplicationUrl(request) + "/user/verifyEmail?token=" + verificationToken.getToken();
         eventListener.sendVerificationEmail(user, url);
         log.info("Resent verification email to: {}", user.getEmail());
-        return "A new verification link has been sent to your email. Please check to activate your account.";
+        return ResponseEntity.ok("A new verification link has been sent to your email. Please check to activate your account.");
     }
 
     private String getApplicationUrl(HttpServletRequest request) {

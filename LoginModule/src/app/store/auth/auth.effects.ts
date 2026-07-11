@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
@@ -31,8 +32,8 @@ export class AuthEffects {
                 })
               : AuthActions.loginFailure({ error: res.message || 'Login failed' })
           ),
-          catchError((err: Error) =>
-            of(AuthActions.loginFailure({ error: err.message || 'An error occurred' }))
+          catchError((err: HttpErrorResponse) =>
+            of(AuthActions.loginFailure({ error: err.error?.message || 'An error occurred' }))
           )
         )
       )
@@ -78,8 +79,8 @@ export class AuthEffects {
               expirationRefreshTokenTime: res.expirationRefreshTokenTime,
             })
           ),
-          catchError((err: Error) =>
-            of(AuthActions.refreshTokenFailure({ error: err.message }))
+          catchError((err: HttpErrorResponse) =>
+            of(AuthActions.refreshTokenFailure({ error: err.error?.message || err.message }))
           )
         )
       )
