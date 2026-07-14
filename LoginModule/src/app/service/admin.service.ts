@@ -142,6 +142,19 @@ export class AdminService {
     );
   }
 
+  /**
+   * Returns true if the email is already registered.
+   * Used by the emailUniqueValidator async validator.
+   */
+  checkEmailExists(email: string): Observable<boolean> {
+    return this.http
+      .get<{ exists: boolean }>(`${this.BASE_URL}/check-email`, { params: { email } })
+      .pipe(
+        map((res) => res.exists),
+        catchError(() => of(false))
+      );
+  }
+
   uploadFile(file: File): Observable<UploadEvent> {
     const formData = new FormData();
     formData.append('file', file, file.name);

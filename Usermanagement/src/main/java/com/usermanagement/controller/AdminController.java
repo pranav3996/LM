@@ -27,6 +27,11 @@ public class AdminController {
         this.uploadFileService = uploadFileService;
     }
 
+    @GetMapping("/check-email")
+    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
+        return ResponseEntity.ok(Map.of("exists", userManagementService.existsByEmail(email)));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<ReqRes> register(@RequestBody ReqRes registrationRequest) {
         return ResponseEntity.ok(userManagementService.registerAdmin(registrationRequest));

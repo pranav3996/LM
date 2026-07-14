@@ -270,6 +270,10 @@ public class UserManagementService {
         return usersRepo.findByEmail(email);
     }
 
+    public boolean existsByEmail(String email) {
+        return usersRepo.existsByEmail(email);
+    }
+
     @Transactional
     public void saveUserVerificationToken(Users theUser, String token) {
         verificationTokenRepository.save(new VerificationToken(token, theUser));

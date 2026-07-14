@@ -53,6 +53,7 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/v3/api-docs/**"
                 ).permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/admin/check-email").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/adminuser/**", "/reset/change-password").hasAnyAuthority("ADMIN", "USER")
                 .anyRequest().authenticated()

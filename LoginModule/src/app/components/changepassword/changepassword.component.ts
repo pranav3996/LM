@@ -6,6 +6,7 @@ import { AsyncPipe } from '@angular/common';
 import { StorageService } from 'src/app/service/storage.service';
 import { PasswordActions } from 'src/app/store/password/password.actions';
 import { selectPasswordError, selectPasswordLoading } from 'src/app/store/password/password.selectors';
+import { HasUnsavedChanges } from 'src/app/guard/unsaved-changes.guard';
 
 @Component({
   selector: 'app-changepassword',
@@ -14,7 +15,7 @@ import { selectPasswordError, selectPasswordLoading } from 'src/app/store/passwo
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, AsyncPipe],
 })
-export class ChangepasswordComponent implements OnInit {
+export class ChangepasswordComponent implements OnInit, HasUnsavedChanges {
   private fb = inject(FormBuilder);
   private store = inject(Store);
   private storage = inject(StorageService);
@@ -30,6 +31,10 @@ export class ChangepasswordComponent implements OnInit {
       oldPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  hasUnsavedChanges(): boolean {
+    return this.changePasswordForm.dirty;
   }
 
   ngOnInit(): void {

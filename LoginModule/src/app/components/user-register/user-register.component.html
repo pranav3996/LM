@@ -1,21 +1,122 @@
 <div class="container">
   <div class="register form">
     <header>Register</header>
-    <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
-      <input type="text" placeholder="First Name" ngModel name="firstName" required />
-      <input type="text" placeholder="Last Name" ngModel name="lastName" required />
-      <input type="text" placeholder="Email" ngModel name="email" required email />
-      <input type="text" placeholder="City" ngModel name="city" required />
-      <input type="password" placeholder="Password" ngModel name="password" required minlength="6" />
 
-      @if (error$ | async; as error) {
-      <div class="error">{{ error }}</div>
-      }
-      <!-- <button type="submit" [disabled]="!authForm.valid">Register</button> -->
-      <div class="mt-4">
-        <button type="submit" class="button" [disabled]="!authForm.valid">SignUp</button>
-        <button type="button" class="button" (click)="switchToSignUp()">Switch to Login</button>
+    <form [formGroup]="form" (ngSubmit)="handleSubmit()" novalidate>
+
+      <!-- First Name -->
+      <div class="field-group">
+        <input
+          type="text"
+          placeholder="First Name"
+          formControlName="firstName"
+          [class.input-error]="firstName.invalid && firstName.touched"
+        />
+        @if (firstName.touched && firstName.hasError('required')) {
+          <span class="field-error">First name is required.</span>
+        } @else if (firstName.touched && firstName.hasError('minlength')) {
+          <span class="field-error">Minimum 2 characters.</span>
+        }
       </div>
+
+      <!-- Last Name -->
+      <div class="field-group">
+        <input
+          type="text"
+          placeholder="Last Name"
+          formControlName="lastName"
+          [class.input-error]="lastName.invalid && lastName.touched"
+        />
+        @if (lastName.touched && lastName.hasError('required')) {
+          <span class="field-error">Last name is required.</span>
+        } @else if (lastName.touched && lastName.hasError('minlength')) {
+          <span class="field-error">Minimum 2 characters.</span>
+        }
+      </div>
+
+      <!-- Email -->
+      <div class="field-group">
+        <input
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+          [class.input-error]="email.invalid && email.touched"
+        />
+        @if (email.touched && email.hasError('required')) {
+          <span class="field-error">Email is required.</span>
+        } @else if (email.touched && email.hasError('email')) {
+          <span class="field-error">Enter a valid email address.</span>
+        } @else if (email.pending) {
+          <span class="field-hint">Checking availability...</span>
+        } @else if (email.touched && email.hasError('emailTaken')) {
+          <span class="field-error">This email is already registered.</span>
+        }
+      </div>
+
+      <!-- City -->
+      <div class="field-group">
+        <input
+          type="text"
+          placeholder="City"
+          formControlName="city"
+          [class.input-error]="city.invalid && city.touched"
+        />
+        @if (city.touched && city.hasError('required')) {
+          <span class="field-error">City is required.</span>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="field-group">
+        <input
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+          [class.input-error]="password.invalid && password.touched"
+        />
+        @if (password.touched && password.hasError('required')) {
+          <span class="field-error">Password is required.</span>
+        } @else if (password.touched && password.hasError('minlength')) {
+          <span class="field-error">Password must be at least 6 characters.</span>
+        }
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="field-group">
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          formControlName="confirmPassword"
+          [class.input-error]="
+            confirmPassword.touched &&
+            (confirmPassword.hasError('required') || form.hasError('passwordMismatch'))
+          "
+        />
+        @if (confirmPassword.touched && confirmPassword.hasError('required')) {
+          <span class="field-error">Please confirm your password.</span>
+        } @else if (confirmPassword.touched && form.hasError('passwordMismatch')) {
+          <span class="field-error">Passwords do not match.</span>
+        }
+      </div>
+
+      <!-- NgRx server error -->
+      @if (error$ | async; as error) {
+        <div class="error">{{ error }}</div>
+      }
+
+      <div class="mt-4">
+        <button
+          type="submit"
+          class="button"
+          [disabled]="form.invalid || form.pending || (loading$ | async)"
+        >
+          @if (loading$ | async) { Signing up... } @else { Sign Up }
+        </button>
+        <button type="button" class="button" (click)="switchToLogin()">
+          Switch to Login
+        </button>
+      </div>
+
     </form>
   </div>
 </div>

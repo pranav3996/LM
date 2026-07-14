@@ -1,3 +1,4 @@
+@defer (on idle) {
 <form [formGroup]="multiStepForms" (ngSubmit)="submit()">
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     @for (step of steps; track step; let index = $index; let last = $last) {
@@ -28,6 +29,13 @@
     }
   </mat-horizontal-stepper>
 </form>
+} @placeholder {
+  <div style="text-align:center;padding:2rem;">Loading form...</div>
+} @loading (minimum 300ms) {
+  <div style="text-align:center;padding:2rem;">Initializing stepper...</div>
+} @error {
+  <div style="text-align:center;padding:2rem;color:red;">Failed to load the form. Please refresh.</div>
+}
 
 <!-- Scroll error-->
 <!-- <form [formGroup]="myForm" (ngSubmit)="onSubmit()">

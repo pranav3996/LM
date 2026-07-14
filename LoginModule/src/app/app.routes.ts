@@ -26,6 +26,7 @@ import { PasswordEffects } from './store/password/password.effects';
 
 // guards
 import { adminGuard, usersGuard } from './guard/user.guard';
+import { unsavedChangesGuard } from './guard/unsaved-changes.guard';
 
 // Shared feature providers
 const userFeature = [provideState('user', userReducer), provideEffects([UserEffects])];
@@ -36,12 +37,14 @@ export const routes: Routes = [
   {
     path: 'user-register',
     component: UserRegisterComponent,
+    canDeactivate: [unsavedChangesGuard],
     providers: [...userFeature],
   },
   {
     path: 'adminRegister',
     component: AdminRegisterComponent,
     canActivate: [adminGuard],
+    canDeactivate: [unsavedChangesGuard],
     providers: [...userFeature],
   },
   {
@@ -54,6 +57,7 @@ export const routes: Routes = [
     path: 'update/:id',
     component: UpdateuserComponent,
     canActivate: [adminGuard],
+    canDeactivate: [unsavedChangesGuard],
     providers: [...userFeature],
   },
   {
@@ -75,11 +79,12 @@ export const routes: Routes = [
   {
     path: 'change-password',
     component: ChangepasswordComponent,
+    canDeactivate: [unsavedChangesGuard],
     providers: [...passwordFeature],
   },
   { path: 'error', component: ErrorComponent },
   { path: 'access-denied', component: AccessDeniedComponent },
-  { path: 'multistepform', component: MultiStepFormComponent },
+  { path: 'multistepform', component: MultiStepFormComponent, canDeactivate: [unsavedChangesGuard] },
 
   // redirects & fallback
   { path: '', redirectTo: '/login', pathMatch: 'full' },

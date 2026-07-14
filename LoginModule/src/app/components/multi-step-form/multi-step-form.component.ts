@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { MatStepper, MatStep, MatStepLabel, MatStepperPrevious, MatStepperNext } from '@angular/material/stepper';
-
 import { MatButton } from '@angular/material/button';
+import { HasUnsavedChanges } from 'src/app/guard/unsaved-changes.guard';
 
 export interface StepType {
   label: string;
@@ -17,7 +17,7 @@ export interface StepType {
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, MatStepper, MatStep, MatStepLabel, FormlyModule, MatButton, MatStepperPrevious, MatStepperNext]
 })
-export class MultiStepFormComponent {
+export class MultiStepFormComponent implements HasUnsavedChanges {
   private fb = inject(FormBuilder);
 
   isLinear = true;
@@ -27,6 +27,10 @@ export class MultiStepFormComponent {
     fields: FormlyFieldConfig[];
     controlName: string;
   }>;
+
+  hasUnsavedChanges(): boolean {
+    return !!this.multiStepForms?.dirty;
+  }
 
   ngOnInit() {
     this.multiStepForms = this.fb.group({
