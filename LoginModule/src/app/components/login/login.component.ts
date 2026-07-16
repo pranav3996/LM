@@ -2,24 +2,24 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@
 import { NgModel, NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { UserActions } from 'src/app/store/user/user.actions';
 import { selectAuthError, selectAuthLoading } from 'src/app/store/auth/auth.selectors';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private router = inject(Router);
 
-  loading$ = this.store.select(selectAuthLoading);
-  error$ = this.store.select(selectAuthError);
+  readonly loading = toSignal(this.store.select(selectAuthLoading), { initialValue: false });
+  readonly error = toSignal(this.store.select(selectAuthError), { initialValue: null });
 
   ngOnInit(): void {
     this.store.dispatch(AuthActions.clearError());

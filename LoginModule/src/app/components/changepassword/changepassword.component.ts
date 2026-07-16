@@ -2,18 +2,18 @@ import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/cor
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
 import { StorageService } from 'src/app/service/storage.service';
 import { PasswordActions } from 'src/app/store/password/password.actions';
 import { selectPasswordError, selectPasswordLoading } from 'src/app/store/password/password.selectors';
 import { HasUnsavedChanges } from 'src/app/guard/unsaved-changes.guard';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-changepassword',
   templateUrl: './changepassword.component.html',
   styleUrls: ['./changepassword.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, ReactiveFormsModule, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 export class ChangepasswordComponent implements OnInit, HasUnsavedChanges {
   private fb = inject(FormBuilder);
@@ -22,8 +22,8 @@ export class ChangepasswordComponent implements OnInit, HasUnsavedChanges {
   private router = inject(Router);
 
   changePasswordForm: FormGroup;
-  error$ = this.store.select(selectPasswordError);
-  loading$ = this.store.select(selectPasswordLoading);
+  readonly error = toSignal(this.store.select(selectPasswordError), { initialValue: null });
+  readonly loading = toSignal(this.store.select(selectPasswordLoading), { initialValue: false });
 
   constructor() {
     this.changePasswordForm = this.fb.group({

@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import Swal from 'sweetalert2';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { AuthService } from 'src/app/service/auth.service';
@@ -10,25 +10,22 @@ import { AuthService } from 'src/app/service/auth.service';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
 })
 export class HeaderComponent {
   private store = inject(Store);
   private authService = inject(AuthService);
 
-  // Plain booleans for the template — kept in sync with currentUser$ reactively
-  isAuthenticated = false;
-  isAdmin = false;
-  isUser = false;
+  readonly currentUser = toSignal(this.authService.currentUser$, {
+    initialValue: null,
+  });
 
-  constructor() {
-    this.authService.currentUser$.pipe(takeUntilDestroyed()).subscribe((user) => {
-      this.isAuthenticated = !!user;
-      this.isAdmin = user?.role === 'ADMIN';
-      this.isUser = user?.role === 'USER';
-    });
-  }
+  readonly isAuthenticated = computed(() => !!this.currentUser());
+
+  readonly isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
+
+  readonly isUser = computed(() => this.currentUser()?.role === 'USER');
 
   confirmSignOut(event: Event): void {
     Swal.fire({

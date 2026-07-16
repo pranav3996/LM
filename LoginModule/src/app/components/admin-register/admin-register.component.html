@@ -9,13 +9,6 @@
       <input type="text" placeholder="First Name" ngModel name="firstName" required />
       <input type="text" placeholder="Last Name" ngModel name="lastName" required />
       <input type="text" placeholder="Email" ngModel name="email" required email />
-      <!-- <input
-      type="text"
-      placeholder="Role"
-      ngModel
-      name="role"
-      required
-      /> -->
       <select ngModel name="role" required>
         <option value="" disabled selected>Select a role</option>
         @for (role of role; track role) {
@@ -25,8 +18,8 @@
       <input type="text" placeholder="City" ngModel name="city" required />
       <input type="password" placeholder="Password" ngModel name="password" required minlength="6" />
 
-      @if (error$ | async; as error) {
-      <div class="error">{{ error }}</div>
+      @if (error()) {
+      <div class="error">{{ error() }}</div>
       }
 
       <div class="mt-4">

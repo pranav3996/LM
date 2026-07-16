@@ -26,12 +26,12 @@
       <div class="forgot-password">
         <a (click)="handleForgotPassword()">Forgot Password?</a>
       </div>
-      @if (error$ | async; as error) {
-      <div class="error mt-4">{{ error }}</div>
+      @if (error()) {
+      <div class="error mt-4">{{ error() }}</div>
       }
 
       <div class="mt-4">
-        <button type="submit" class="button" [disabled]="!authForm.valid || (loading$ | async)">Login</button>
+        <button type="submit" class="button" [disabled]="!authForm.valid || loading()">Login</button>
         <button type="button" class="button" (click)="switchToSignUp()">Switch to SignUp</button>
       </div>
     </form>

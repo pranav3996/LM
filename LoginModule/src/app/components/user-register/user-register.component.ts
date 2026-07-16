@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { UserActions } from 'src/app/store/user/user.actions';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { selectUserError, selectUserLoading } from 'src/app/store/user/user.selectors';
@@ -18,16 +16,17 @@ import { emailUniqueValidator } from 'src/app/validators/email-unique.validator'
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe],
+  imports: [ReactiveFormsModule],
 })
 export class UserRegisterComponent implements OnInit, OnDestroy, HasUnsavedChanges {
   private fb = inject(FormBuilder);
   private store = inject(Store);
   private router = inject(Router);
   private adminService = inject(AdminService);
+  private submitted = signal(false);
 
-  error$ = this.store.select(selectUserError);
-  loading$ = this.store.select(selectUserLoading);
+  readonly loading = toSignal(this.store.select(selectUserLoading), { initialValue: false });
+  readonly error = toSignal(this.store.select(selectUserError), { initialValue: null });
 
   form = this.fb.nonNullable.group(
     {
@@ -45,18 +44,16 @@ export class UserRegisterComponent implements OnInit, OnDestroy, HasUnsavedChang
     { validators: passwordMatchValidator('password', 'confirmPassword') }
   );
 
-  private submitted = false;
-
   constructor() {
-    // Reset submitted if the server returns an error so the guard
-    // resumes protecting the dirty form while the user corrects and retries.
-    this.store.select(selectUserError)
-      .pipe(filter(Boolean), takeUntilDestroyed())
-      .subscribe(() => (this.submitted = false));
+    effect(() => {
+      if (this.error()) {
+        this.submitted.set(false);
+      }
+    })
   }
 
   hasUnsavedChanges(): boolean {
-    return !this.submitted && this.form.dirty;
+    return !this.submitted() && this.form.dirty;
   }
 
   ngOnInit(): void {
@@ -81,7 +78,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy, HasUnsavedChang
       this.form.markAllAsTouched();
       return;
     }
-    this.submitted = true;
+    this.submitted.set(true);
     const { confirmPassword, ...payload } = this.form.getRawValue();
     this.store.dispatch(UserActions.userRegister({ userData: { ...payload, role: 'USER' } }));
   }

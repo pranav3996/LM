@@ -5,7 +5,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
     selector: 'app-error',
     templateUrl: './error.component.html',
     styleUrls: ['./error.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [FaIconComponent]
 })
 export class ErrorComponent {

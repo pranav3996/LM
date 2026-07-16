@@ -1,6 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from './service/auth.service';
 
 import { HeaderComponent } from './components/header/header.component';
 
@@ -8,12 +7,11 @@ import { HeaderComponent } from './components/header/header.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HeaderComponent, RouterOutlet]
 })
 export class AppComponent {
   private router = inject(Router);
-  private authService = inject(AuthService);
 
   title = 'LoginModule';
 

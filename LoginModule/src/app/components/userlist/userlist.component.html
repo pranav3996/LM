@@ -32,7 +32,7 @@
   <table>
     <thead>
       <tr>
-        <th><span (click)="toggleSelectAll()">{{ allSelected ? 'Deselect All' : 'Select All' }}</span></th>
+        <th><span (click)="toggleSelectAll()">{{ allSelected() ? 'Deselect All' : 'Select All' }}</span></th>
         <th>SrNo</th>
         <th>ID</th>
         <th>First Name</th>
@@ -45,44 +45,53 @@
       </tr>
     </thead>
     @defer (on idle) {
-      @if (users$ | async; as users) {
-        @if (users.length > 0) {
-          @for (user of users; track user.id; let i = $index) {
-          <tr>
-            <td><input type="checkbox" [checked]="isSelected(user)" (change)="onCheckboxChange($event, user)" /></td>
-            <td>{{ i + 1 }}</td>
-            <td>{{ user.id }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
-            <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
-            <td>{{ user.city }}</td>
-            <td>
-              <button class="delete-button" (click)="deleteUser(user.id)">Delete</button>
-              <button class="update-button" (click)="navigateToUpdate(user.id)">Update</button>
-            </td>
-          </tr>
-          }
-          <tr>
-            <td colspan="10">
-              <button class="delete-button" (click)="deleteSelectedUsers()">Delete Selected Users</button>
-            </td>
-          </tr>
-        } @else {
-          @if (error$ | async; as error) {
-          <tr><td colspan="10" class="error-message">{{ error }}</td></tr>
-          } @else {
-          <tr><td colspan="10">No users found.</td></tr>
-          }
-        }
-      }
-    } @placeholder {
-      <tr><td colspan="10" style="text-align:center;padding:1rem;">Loading user data...</td></tr>
+    @if (users().length > 0) {
+    @for (user of users(); track user.id; let i = $index) {
+    <tr>
+      <td><input type="checkbox" [checked]="isSelected(user)" (change)="onCheckboxChange($event, user)" /></td>
+      <td>{{ i + 1 }}</td>
+      <td>{{ user.id }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
+      <td>{{ user.city }}</td>
+      <td>
+        <button class="delete-button" (click)="deleteUser(user.id)">Delete</button>
+        <button class="update-button" (click)="navigateToUpdate(user.id)">Update</button>
+      </td>
+    </tr>
+    }
+    <tr>
+      <td colspan="10">
+        <button class="delete-button" (click)="deleteSelectedUsers()">Delete Selected Users</button>
+      </td>
+    </tr>
+    } @else {
+    @if (error()) {
+    <tr>
+      <td colspan="10" class="error-message">{{ error() }}</td>
+    </tr>
+    } @else {
+    <tr>
+      <td colspan="10">No users found.</td>
+    </tr>
+    }
+    }
+    }
+    @placeholder {
+    <tr>
+      <td colspan="10" style="text-align:center;padding:1rem;">Loading user data...</td>
+    </tr>
     } @loading (minimum 300ms) {
-      <tr><td colspan="10" style="text-align:center;padding:1rem;">Fetching users...</td></tr>
+    <tr>
+      <td colspan="10" style="text-align:center;padding:1rem;">Fetching users...</td>
+    </tr>
     } @error {
-      <tr><td colspan="10" class="error-message">Failed to load user table.</td></tr>
+    <tr>
+      <td colspan="10" class="error-message">Failed to load user table.</td>
+    </tr>
     }
   </table>
 </div>

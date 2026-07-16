@@ -8,20 +8,20 @@
   <form #updateForm="ngForm" (ngSubmit)="updateUser()">
     <div class="form-group">
       <label for="">First Name: </label>
-      <input type="text" name="firstName" [(ngModel)]="userData.firstName" />
+      <input type="text" name="firstName" [(ngModel)]="userData().firstName" />
     </div>
     <div class="form-group">
       <label for="">Last Name: </label>
-      <input type="text" name="lastName" [(ngModel)]="userData.lastName" />
+      <input type="text" name="lastName" [(ngModel)]="userData().lastName" />
     </div>
     <div class="form-group">
       <label for="">Email: </label>
-      <input type="text" name="email" [(ngModel)]="userData.email" />
+      <input type="text" name="email" [(ngModel)]="userData().email" />
     </div>
 
     <div class="form-group">
       <label for="role">Role: </label>
-      <select name="role" [(ngModel)]="userData.role">
+      <select name="role" [(ngModel)]="userData().role">
         @for (role of roles; track role) {
         <option [value]="role">{{ role }}</option>
         }
@@ -32,20 +32,20 @@
       <label>Verified:</label>
       <div class="radio-group">
         <label>
-          <input type="radio" name="enabled" [(ngModel)]="userData.enabled" [value]="true" /> Yes
+          <input type="radio" name="enabled" [(ngModel)]="userData().enabled" [value]="true" /> Yes
         </label>
         <label>
-          <input type="radio" name="enabled" [(ngModel)]="userData.enabled" [value]="false" /> No
+          <input type="radio" name="enabled" [(ngModel)]="userData().enabled" [value]="false" /> No
         </label>
       </div>
     </div>
 
     <div class="form-group">
       <label for="">City: </label>
-      <input type="text" name="city" [(ngModel)]="userData.city" />
+      <input type="text" name="city" [(ngModel)]="userData().city" />
     </div>
-    @if (error$ | async; as error) {
-    <p class="error-message">{{ error }}</p>
+    @if (error()) {
+    <p class="error-message">{{ error() }}</p>
     }
     <button type="submit">Update</button>
   </form>

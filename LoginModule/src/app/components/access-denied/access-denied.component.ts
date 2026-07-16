@@ -5,7 +5,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
     selector: 'app-access-denied',
     templateUrl: './access-denied.component.html',
     styleUrls: ['./access-denied.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [FaIconComponent]
 })
 export class AccessDeniedComponent {

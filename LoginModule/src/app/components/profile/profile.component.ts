@@ -4,12 +4,13 @@ import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { UserActions } from 'src/app/store/user/user.actions';
 import { CommonService } from 'src/app/service/common.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
 })
 export class ProfileComponent implements OnInit {
@@ -19,8 +20,8 @@ export class ProfileComponent implements OnInit {
 
   // profile$ emits ProfileResponse — template accesses profileInfo?.users?.firstName etc.
   profile$ = this.commonService.profile$;
-  error$ = this.commonService.error$;
-  loading$ = this.commonService.loading$;
+  readonly error = toSignal(this.commonService.error$, { initialValue: null });
+  readonly loading = toSignal(this.commonService.loading$, { initialValue: false });
 
   ngOnInit(): void {
     this.store.dispatch(UserActions.loadProfile());

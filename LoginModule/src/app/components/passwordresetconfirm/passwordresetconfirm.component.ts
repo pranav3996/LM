@@ -1,17 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, input, signal } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
 import { PasswordActions } from 'src/app/store/password/password.actions';
 import { selectPasswordError } from 'src/app/store/password/password.selectors';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-passwordresetconfirm',
   templateUrl: './passwordresetconfirm.component.html',
   styleUrls: ['./passwordresetconfirm.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule],
 })
 export class PasswordresetconfirmComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -21,15 +21,15 @@ export class PasswordresetconfirmComponent implements OnInit {
   readonly email = input<string>('');
   readonly otp = input<string>('');
 
-  accessToken: string = '';
-  error$ = this.store.select(selectPasswordError);
+  accessToken = signal('');
+  error = toSignal(this.store.select(selectPasswordError), { initialValue: null });
 
   ngOnInit(): void {
-    this.accessToken = this.route.snapshot.queryParams['accessToken'];
+    this.accessToken.set(this.route.snapshot.queryParams['accessToken']);
   }
 
   resetPassword(resetPasswordForm: NgForm): void {
-    this.store.dispatch(PasswordActions.resetPasswordToken({ accessToken: this.accessToken, newPassword: resetPasswordForm.value.newPassword }));
+    this.store.dispatch(PasswordActions.resetPasswordToken({ accessToken: this.accessToken(), newPassword: resetPasswordForm.value.newPassword }));
   }
 
   resetPasswordOTP(resetPasswordForm: NgForm): void {

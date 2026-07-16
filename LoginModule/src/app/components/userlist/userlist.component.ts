@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ChangeDetectionStrategy, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ChangeDetectionStrategy, inject, viewChild, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { UserActions } from 'src/app/store/user/user.actions';
 import { AdminService } from 'src/app/service/admin.service';
 import { UserRecord } from 'src/app/models/api.models';
@@ -16,32 +15,26 @@ import Swal from 'sweetalert2';
   selector: 'app-userlist',
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, RouterLink, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, RouterLink],
 })
 export class UserlistComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
   private adminService = inject(AdminService);
 
-  // Expose service observables directly to the template
-  users$ = this.adminService.users$;
-  error$ = this.adminService.error$;
-  loading$ = this.adminService.loading$;
-  uploadProgress$ = this.adminService.uploadProgress$;
-
   // Local UI state only — not duplicating server data
-  users: UserRecord[] = [];
-  selectedUsers: UserRecord[] = [];
-  allSelected = false;
+  readonly users = toSignal(this.adminService.users$, { initialValue: [] as UserRecord[] });
+  readonly error = toSignal(this.adminService.error$, { initialValue: null });
+  readonly loading = toSignal(this.adminService.loading$, { initialValue: false });
+  readonly uploadProgress = toSignal(this.adminService.uploadProgress$, { initialValue: 0 });
+
+  selectedUsers = signal([] as UserRecord[]);
+  allSelected = signal(false);
 
   readonly fileInput = viewChild.required<ElementRef>('fileInput');
   readonly displayedColumns = ['srNo', 'id', 'firstName', 'lastName', 'email', 'role', 'city', 'enabled', 'action'];
 
-  constructor() {
-    // takeUntilDestroyed must be called in constructor (injection context)
-    this.adminService.users$.pipe(takeUntilDestroyed()).subscribe((users) => (this.users = users));
-  }
 
   ngOnInit(): void {
     this.store.dispatch(UserActions.loadUsers());
@@ -57,28 +50,28 @@ export class UserlistComponent implements OnInit {
   }
 
   toggleSelectAll(): void {
-    this.allSelected = !this.allSelected;
-    this.selectedUsers = this.allSelected ? [...this.users] : [];
+    this.allSelected.update(v => !v);
+    this.selectedUsers.set(this.allSelected() ? [...this.users()] : []);
   }
 
   isSelected(user: UserRecord): boolean {
-    return this.selectedUsers.some((u) => u.id === user.id);
+    return this.selectedUsers().some((u) => u.id === user.id);
   }
 
   onCheckboxChange(event: Event, user: UserRecord): void {
     if ((event.target as HTMLInputElement).checked) {
-      this.selectedUsers.push(user);
+      this.selectedUsers.update(users => [...users, user]);
     } else {
-      this.selectedUsers = this.selectedUsers.filter((u) => u.id !== user.id);
+      this.selectedUsers.update(users => users.filter((u) => u.id !== user.id));
     }
-    this.allSelected = this.selectedUsers.length === this.users.length;
+    this.allSelected.set(this.selectedUsers().length === this.users().length);
   }
 
   deleteSelectedUsers(): void {
-    if (this.selectedUsers.length > 0) {
-      this.selectedUsers.forEach((user) => this.deleteUser(user.id));
-      this.selectedUsers = [];
-      this.allSelected = false;
+    if (this.selectedUsers().length > 0) {
+      this.selectedUsers().forEach((user) => this.deleteUser(user.id));
+      this.selectedUsers.set([]);
+      this.allSelected.set(false);
     }
   }
 
@@ -93,7 +86,7 @@ export class UserlistComponent implements OnInit {
   }
 
   downloadCSV(): void {
-    const csvData = this.convertToCSV(this.users);
+    const csvData = this.convertToCSV(this.users());
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -114,7 +107,7 @@ export class UserlistComponent implements OnInit {
   }
 
   downloadExcel(): void {
-    const filteredData = this.users.map((user, i) => {
+    const filteredData = this.users().map((user, i) => {
       const obj: Record<string, unknown> = {};
       this.displayedColumns.forEach((col) => {
         if (col === 'srNo') obj[col] = i + 1;

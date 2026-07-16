@@ -7,13 +7,13 @@
     <!-- Left elements -->
     <!-- Right elements -->
     <ul class="navbar-nav flex-row d-none d-md-flex" style="margin-right: 10%; margin-top: 1%">
-      @if (isAuthenticated) {
+      @if (isAuthenticated()) {
       <li class="nav-item me-3 me-lg-1 active">
         <a class="nav-link" routerLink="/profile"><span> <i class="fas fa-solid fa-user fa-lg"></i></span></a>
       </li>
       }
 
-      @if (isAdmin) {
+      @if (isAdmin()) {
       <li class="nav-item me-3 me-lg-1 active">
         <a class="nav-link" routerLink="/users">
           <span><i class="fas fa-home fa-lg" style="font-size: 30px"></i></span></a>
