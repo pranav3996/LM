@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ProfileResponse } from '../models/api.models';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class CommonService {
@@ -11,33 +12,33 @@ export class CommonService {
   private PROFILE_URL = environment.PROFILE_URL;
 
   // ── State ──────────────────────────────────────────────────────────────────
-  private _profile$ = new BehaviorSubject<ProfileResponse | null>(null);
-  private _loading$ = new BehaviorSubject<boolean>(false);
-  private _error$ = new BehaviorSubject<string | null>(null);
+  private _profile = signal<ProfileResponse | null>(null);
+  private _loading = signal<boolean>(false);
+  private _error = signal<string | null>(null);
 
   // ── Public read-only observables ───────────────────────────────────────────
-  readonly profile$: Observable<ProfileResponse | null> = this._profile$.asObservable();
-  readonly loading$: Observable<boolean> = this._loading$.asObservable();
-  readonly error$: Observable<string | null> = this._error$.asObservable();
+  readonly profile$: Observable<ProfileResponse | null> = toObservable(this._profile);
+  readonly loading$: Observable<boolean> = toObservable(this._loading);
+  readonly error$: Observable<string | null> = toObservable(this._error);
 
   // ── Snapshot helpers ───────────────────────────────────────────────────────
-  getProfile(): ProfileResponse | null { return this._profile$.getValue(); }
-  clearProfile(): void { this._profile$.next(null); }
-  clearError(): void { this._error$.next(null); }
+  getProfile(): ProfileResponse | null { return this._profile(); }
+  clearProfile(): void { this._profile.set(null); }
+  clearError(): void { this._error.set(null); }
   refresh(): Observable<ProfileResponse> { return this.getYourProfile(); }
 
   // ── API ────────────────────────────────────────────────────────────────────
   getYourProfile(): Observable<ProfileResponse> {
-    this._loading$.next(true);
-    this._error$.next(null);
+    this._loading.set(true);
+    this._error.set(null);
     return this.http.get<ProfileResponse>(this.PROFILE_URL).pipe(
       tap((profile) => {
-        this._loading$.next(false);
-        this._profile$.next(profile);
+        this._loading.set(false);
+        this._profile.set(profile);
       }),
       catchError((err: HttpErrorResponse) => {
-        this._loading$.next(false);
-        this._error$.next(err.message);
+        this._loading.set(false);
+        this._error.set(err.message);
         throw err;
       })
     );

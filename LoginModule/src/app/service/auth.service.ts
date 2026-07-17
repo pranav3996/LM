@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import moment from 'moment';
 import { StorageService } from './storage.service';
 import { AuthResponse, LoginRequest, RefreshTokenRequest } from '../models/api.models';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export interface AuthUser {
   email: string;
@@ -28,18 +29,18 @@ export class AuthService {
   private activityTimeout: ReturnType<typeof setTimeout> | null = null;
 
   // ── State ──────────────────────────────────────────────────────────────────
-  private _currentUser$ = new BehaviorSubject<AuthUser | null>(this.rehydrate());
+  private readonly _currentUser = signal<AuthUser | null>(this.rehydrate());
 
   // ── Public read-only observables ───────────────────────────────────────────
-  readonly currentUser$: Observable<AuthUser | null> = this._currentUser$.asObservable();
-  readonly isAuthenticated$: Observable<boolean> = new BehaviorSubject<boolean>(false); // derived below
+  readonly currentUser$ = toObservable(this._currentUser);
+  //readonly isAuthenticated$: Observable<boolean> = new BehaviorSubject<boolean>(false); // derived below
 
   // Used by the interceptor for token-refresh coordination
   refreshTokenInProgress = false;
   refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   // ── Snapshot helpers ───────────────────────────────────────────────────────
-  getCurrentUser(): AuthUser | null { return this._currentUser$.getValue(); }
+  getCurrentUser(): AuthUser | null { return this._currentUser(); }
   isAuthenticated(): boolean { return !!this.storage.getItem('accessToken'); }
   isAdmin(): boolean { return this.storage.getItem('role') === 'ADMIN'; }
   isUser(): boolean { return this.storage.getItem('role') === 'USER'; }
@@ -49,7 +50,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(this.LOGIN_URL, { email, password } satisfies LoginRequest).pipe(
       tap((res) => {
         if (res?.accessToken) {
-          this._currentUser$.next({
+          this._currentUser.set({
             email: res.email,
             role: res.role,
             accessToken: res.accessToken,
@@ -76,9 +77,9 @@ export class AuthService {
           this.storage.setItem('expirationAccessTokenTime', res.expirationAccessTokenTime);
           this.storage.setItem('refreshToken', res.refreshToken);
           this.storage.setItem('expirationRefreshTokenTime', res.expirationRefreshTokenTime);
-          const current = this._currentUser$.getValue();
+          const current = this._currentUser();
           if (current) {
-            this._currentUser$.next({
+            this._currentUser.set({
               ...current,
               accessToken: res.accessToken,
               refreshToken: res.refreshToken,
@@ -98,7 +99,7 @@ export class AuthService {
   }
 
   logOut(): void {
-    this._currentUser$.next(null);
+    this._currentUser.set(null);
     this.storage.clear();
     this.router.navigate(['/login']);
   }
