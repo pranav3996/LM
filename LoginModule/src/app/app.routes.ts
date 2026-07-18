@@ -2,91 +2,97 @@ import { Routes } from '@angular/router';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
-// components
-import { LoginComponent } from './components/login/login.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { UserRegisterComponent } from './components/user-register/user-register.component';
-import { UserlistComponent } from './components/userlist/userlist.component';
-import { UpdateuserComponent } from './components/updateuser/updateuser.component';
-import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
-import { PasswordresetComponent } from './components/passwordreset/passwordreset.component';
-import { PasswordresetconfirmComponent } from './components/passwordresetconfirm/passwordresetconfirm.component';
-import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
-import { ErrorComponent } from './components/error/error.component';
-import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
-import { MultiStepFormComponent } from './components/multi-step-form/multi-step-form.component';
-
-// feature store — user
 import { userReducer } from './store/user/user.reducer';
 import { UserEffects } from './store/user/user.effects';
-
-// feature store — password
 import { passwordReducer } from './store/password/password.reducer';
 import { PasswordEffects } from './store/password/password.effects';
 
-// guards
 import { adminGuard, usersGuard } from './guard/user.guard';
 import { unsavedChangesGuard } from './guard/unsaved-changes.guard';
 
-// Shared feature providers
+// Shared feature store providers — registered per-route so they are only
+// instantiated when the route is actually activated (lazy feature stores).
 const userFeature = [provideState('user', userReducer), provideEffects([UserEffects])];
 const passwordFeature = [provideState('password', passwordReducer), provideEffects([PasswordEffects])];
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  // ── Public routes ────────────────────────────────────────────────────────
+  {
+    path: 'login',
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent),
+  },
   {
     path: 'user-register',
-    component: UserRegisterComponent,
+    loadComponent: () => import('./components/user-register/user-register.component').then(m => m.UserRegisterComponent),
     canDeactivate: [unsavedChangesGuard],
     providers: [...userFeature],
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('./components/passwordreset/passwordreset.component').then(m => m.PasswordresetComponent),
+    providers: [...passwordFeature],
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./components/passwordresetconfirm/passwordresetconfirm.component').then(m => m.PasswordresetconfirmComponent),
+    providers: [...passwordFeature],
+  },
+
+  // ── Authenticated routes ─────────────────────────────────────────────────
+  {
+    path: 'profile',
+    loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent),
+    canActivate: [usersGuard],
+    providers: [...userFeature],
+  },
+  {
+    path: 'change-password',
+    loadComponent: () => import('./components/changepassword/changepassword.component').then(m => m.ChangepasswordComponent),
+    canDeactivate: [unsavedChangesGuard],
+    providers: [...passwordFeature],
+  },
+  {
+    path: 'multistepform',
+    loadComponent: () => import('./components/multi-step-form/multi-step-form.component').then(m => m.MultiStepFormComponent),
+    canDeactivate: [unsavedChangesGuard],
+  },
+
+  // ── Admin-only routes ────────────────────────────────────────────────────
+  {
     path: 'adminRegister',
-    component: AdminRegisterComponent,
+    loadComponent: () => import('./components/admin-register/admin-register.component').then(m => m.AdminRegisterComponent),
     canActivate: [adminGuard],
     canDeactivate: [unsavedChangesGuard],
     providers: [...userFeature],
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [usersGuard],
-    providers: [...userFeature],
-  },
-  {
     path: 'update/:id',
-    component: UpdateuserComponent,
+    loadComponent: () => import('./components/updateuser/updateuser.component').then(m => m.UpdateuserComponent),
     canActivate: [adminGuard],
     canDeactivate: [unsavedChangesGuard],
     providers: [...userFeature],
   },
   {
     path: 'users',
-    component: UserlistComponent,
+    loadComponent: () => import('./components/userlist/userlist.component').then(m => m.UserlistComponent),
     canActivate: [adminGuard],
     providers: [...userFeature],
   },
-  {
-    path: 'forgot-password',
-    component: PasswordresetComponent,
-    providers: [...passwordFeature],
-  },
-  {
-    path: 'reset-password',
-    component: PasswordresetconfirmComponent,
-    providers: [...passwordFeature],
-  },
-  {
-    path: 'change-password',
-    component: ChangepasswordComponent,
-    canDeactivate: [unsavedChangesGuard],
-    providers: [...passwordFeature],
-  },
-  { path: 'error', component: ErrorComponent },
-  { path: 'access-denied', component: AccessDeniedComponent },
-  { path: 'multistepform', component: MultiStepFormComponent, canDeactivate: [unsavedChangesGuard] },
 
-  // redirects & fallback
+  // ── Utility routes ───────────────────────────────────────────────────────
+  {
+    path: 'error',
+    loadComponent: () => import('./components/error/error.component').then(m => m.ErrorComponent),
+  },
+  {
+    path: 'access-denied',
+    loadComponent: () => import('./components/access-denied/access-denied.component').then(m => m.AccessDeniedComponent),
+  },
+
+  // ── Redirects & fallback ─────────────────────────────────────────────────
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: LoginComponent },
+  {
+    path: '**',
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent),
+  },
 ];

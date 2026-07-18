@@ -9,7 +9,7 @@
   <p>Email: {{ profileInfo?.users?.email }}</p>
   <p>City: {{ profileInfo?.users?.city }}</p>
   @if (profileInfo?.users?.role === 'ADMIN') {
-  <button (click)="updateProfile($safeNavigationMigration(profileInfo?.users.id))">Update Profile</button>
+  <button (click)="updateProfile(profileInfo?.users?.id ?? '')">Update Profile</button>
   }
   }
 </div>

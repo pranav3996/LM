@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
 import { HeaderComponent } from './components/header/header.component';
 
 @Component({
@@ -8,24 +9,33 @@ import { HeaderComponent } from './components/header/header.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [HeaderComponent, RouterOutlet]
+  imports: [HeaderComponent, RouterOutlet],
 })
 export class AppComponent {
   private router = inject(Router);
 
   title = 'LoginModule';
 
-  private routesWithoutHeader: string[] = [
+  private readonly routesWithoutHeader = new Set([
     '/login',
     '/',
     '/user-register',
     '/forgot-password',
     '/reset-password',
-  ];
-  isLoginPage(): boolean {
-    const urlWithoutQueryParams = this.router.url.split('?')[0];
-    return this.routesWithoutHeader.includes(urlWithoutQueryParams);
-  }
+  ]);
 
+  // Derive current URL from NavigationEnd events — works correctly in SSR
+  // because it reacts to actual navigation rather than reading router.url
+  // which is always '/' on the server.
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => e.urlAfterRedirects.split('?')[0]),
+    ),
+    { initialValue: this.router.url.split('?')[0] },
+  );
 
+  readonly isLoginPage = computed(() =>
+    this.routesWithoutHeader.has(this.currentUrl()),
+  );
 }

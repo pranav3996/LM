@@ -1,66 +1,76 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
 import { StorageService } from '../service/storage.service';
 
-@Injectable()
-export class HttpAuthInterceptor implements HttpInterceptor {
-  private authService = inject(AuthService);
-  private storage = inject(StorageService);
+export const httpAuthInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<any> => {
+  const platformId = inject(PLATFORM_ID);
+  const authService = inject(AuthService);
+  const storage = inject(StorageService);
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const accessToken = this.storage.getItem('accessToken');
+  // SSR: no tokens available server-side — pass through unchanged
+  if (!isPlatformBrowser(platformId)) {
+    return next(req);
+  }
 
-    if (!accessToken) {
-      return next.handle(req);
-    }
+  const accessToken = storage.getItem('accessToken');
 
-    return next.handle(this.addTokenHeader(req, accessToken)).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          return this.handle403Error(req, next);
+  if (!accessToken) {
+    return next(req);
+  }
+
+  return next(addTokenHeader(req, accessToken)).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 403) {
+        return handle403Error(req, next, authService, storage);
+      }
+      return throwError(() => error);
+    }),
+  );
+};
+
+function handle403Error(
+  request: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+  authService: AuthService,
+  storage: StorageService,
+): Observable<any> {
+  if (!authService.refreshTokenInProgress) {
+    authService.refreshTokenInProgress = true;
+    authService.refreshTokenSubject.next(null);
+
+    return authService.refreshToken().pipe(
+      switchMap((response) => {
+        authService.refreshTokenInProgress = false;
+        authService.refreshTokenSubject.next(response.accessToken);
+        if (response?.accessToken) {
+          storage.setItem('accessToken', response.accessToken);
+          authService.setLogoutTimer(response.expirationAccessTokenTime);
         }
-        return throwError(() => error);
-      })
+        return next(addTokenHeader(request, response.accessToken));
+      }),
+      catchError((err) => {
+        authService.refreshTokenInProgress = false;
+        authService.logOut();
+        return throwError(() => err);
+      }),
     );
   }
 
-  private handle403Error(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (!this.authService.refreshTokenInProgress) {
-      this.authService.refreshTokenInProgress = true;
-      this.authService.refreshTokenSubject.next(null);
+  // Another request is already refreshing — wait for the new token
+  return authService.refreshTokenSubject.pipe(
+    filter((token): token is string => token !== null),
+    take(1),
+    switchMap((token) => next(addTokenHeader(request, token))),
+  );
+}
 
-      return this.authService.refreshToken().pipe(
-        switchMap((response) => {
-          this.authService.refreshTokenInProgress = false;
-          this.authService.refreshTokenSubject.next(response.accessToken);
-          if (response?.accessToken) {
-            this.storage.setItem('accessToken', response.accessToken);
-            this.authService.setLogoutTimer(response.expirationAccessTokenTime);
-          }
-          return next.handle(this.addTokenHeader(request, response.accessToken));
-        }),
-        catchError((err) => {
-          this.authService.refreshTokenInProgress = false;
-          this.authService.logOut();
-          return throwError(() => err);
-        })
-      );
-    }
-
-    return this.authService.refreshTokenSubject.pipe(
-      switchMap((token) => {
-        if (token) {
-          return next.handle(this.addTokenHeader(request, token));
-        }
-        return throwError(() => new Error('Refresh token failed'));
-      })
-    );
-  }
-
-  private addTokenHeader(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
-    return request.clone({ headers: request.headers.set('Authorization', `Bearer ${token}`) });
-  }
+function addTokenHeader(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+  return request.clone({ headers: request.headers.set('Authorization', `Bearer ${token}`) });
 }
