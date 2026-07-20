@@ -10122,3 +10122,154 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.lsp4e 1 0 2026-07-18 20:21:28.402
 !MESSAGE [LS:Amazon Q Language Server][Info]	[2026-07-18T14:51:28.390Z] lserver: Using agent configuration
+
+!ENTRY org.eclipse.jdt.core 2 0 2026-07-20 19:01:35.133
+!MESSAGE Java Index broken - will be automatically deleted to repair: file:/D:/Tech/Java%20Angular/Login-Module-Spring_Angular/.metadata/.plugins/org.eclipse.jdt.core/1865797976.index
+!STACK 0
+java.io.UTFDataFormatException
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readStreamChars(DiskIndex.java:988)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readChunk(DiskIndex.java:760)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readAllDocumentNames(DiskIndex.java:633)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.mergeWith(DiskIndex.java:527)
+	at org.eclipse.jdt.internal.core.index.Index.save(Index.java:228)
+	at org.eclipse.jdt.internal.core.index.MetaIndex.save(MetaIndex.java:99)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.saveMetaIndex(IndexManager.java:1236)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.saveIndexes(IndexManager.java:1212)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.notifyIdle(IndexManager.java:831)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.indexerLoop(JobManager.java:509)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:35.824
+!MESSAGE 19:01:35.799 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/config/AppProperties.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:35.831
+!MESSAGE 19:01:35.826 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/controller/UserManagementController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:35.841
+!MESSAGE 19:01:35.834 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/entity/OTP.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:36.620
+!MESSAGE 19:01:35.863 [pool-4-thread-2] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:36.625
+!MESSAGE 19:01:36.621 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/entity/PasswordResetToken.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:36.964
+!MESSAGE 19:01:36.629 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/util/PasswordRequestUtil.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:39.763
+!MESSAGE 19:01:39.458 [ForkJoinPool.commonPool-worker-2] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Removing and cleaning up name env for project file:/D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement
+
+!ENTRY org.eclipse.jdt.core 2 0 2026-07-20 19:01:40.738
+!MESSAGE Java Index broken - will be automatically deleted to repair: file:/D:/Tech/Java%20Angular/Login-Module-Spring_Angular/.metadata/.plugins/org.eclipse.jdt.core/1179842200.index
+!STACK 0
+java.io.UTFDataFormatException
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readStreamChars(DiskIndex.java:988)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readChunk(DiskIndex.java:760)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readAllDocumentNames(DiskIndex.java:633)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.mergeWith(DiskIndex.java:527)
+	at org.eclipse.jdt.internal.core.index.Index.save(Index.java:228)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.saveIndex(IndexManager.java:1144)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.saveIndexes(IndexManager.java:1187)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.notifyIdle(IndexManager.java:831)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.indexerLoop(JobManager.java:509)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:01:40.768
+!MESSAGE 19:01:40.744 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: 26
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:01:40.806
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:31:40.684Z] lserver: received 116 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:01:41.173
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:31:40.818Z] lserver: received 116 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:01:41.609
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:31:41.555Z] lserver: received 116 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:01:43.181
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:31:43.133Z] lserver: received 116 context command items
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2026-07-20 19:02:25.652
+!MESSAGE Classpath changed for project: Usermanagement
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:02:33.661
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:32:33.332Z] lserver: received 117 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:02:40.817
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:32:40.712Z] lserver: received 116 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:02:49.739
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:32:49.444Z] lserver: received 4223 context command items
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:02:51.335
+!MESSAGE 19:01:40.861 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: 26
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:02:51.336
+!MESSAGE 19:02:37.404 [pool-5-thread-1] INFO  o.s.i.v.b.j.u.SpringFactoriesIndexer - scan factories files for symbols for project: Usermanagement took ms: 181
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:03:02.746
+!MESSAGE 19:03:01.798 [pool-2-thread-8] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/src/main/java/com/usermanagement/UsermanagementApplication.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:03:02.816
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:33:02.789Z] lserver: received 116 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:03:10.975
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:33:10.508Z] lserver: received 4281 context command items
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:03:31.484
+!MESSAGE 19:03:31.483 [pool-13-thread-1] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorRemote - updating settings for remote processses to track - start
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:03:45.347
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:33:45.344Z] lserver: Document opened: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/target/generated-sources/annotations/com/usermanagement/mapper/UserMapperImpl.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:03:45.347
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:33:45.344Z] lserver: [SERVER] Tracking document open with RecentEditTracker: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/target/generated-sources/annotations/com/usermanagement/mapper/UserMapperImpl.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:04:02.879
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:34:02.876Z] lserver: Document closed: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/target/generated-sources/annotations/com/usermanagement/mapper/UserMapperImpl.java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:04:02.881
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:34:02.876Z] lserver: [SERVER] Tracking document close with RecentEditTracker: file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/target/generated-sources/annotations/com/usermanagement/mapper/UserMapperImpl.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:04:03.620
+!MESSAGE 19:04:03.619 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file deleted event: [file:///D:/Tech/Java%20Angular/Login-Module-Spring_Angular/Usermanagement/target/classes/com/usermanagement/mapper/UserMapperImpl.class]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:04:04.344
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:34:04.118Z] lserver: received 4281 context command items
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:04:04.521
+!MESSAGE [LS:Amazon Q Language Server][Log]	[2026-07-20T13:34:04.344Z] lserver: received 4281 context command items
+
+!ENTRY org.eclipse.jface 2 0 2026-07-20 19:04:10.062
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2026-07-20 19:04:10.062
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		WorkbenchHandlerServiceHandler("org.eclipse.jdt.ui.navigate.open.type"),
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolInWorkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		WorkbenchHandlerServiceHandler("org.eclipse.lsp4e.symbolInWorkspace"),
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:04:57.589
+!MESSAGE 19:04:57.588 [pool-13-thread-1] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorRemote - Creating RemoteStringBootApp: RemoteBootAppData [jmxurl=service:jmx:rmi:///jndi/rmi://127.0.0.1:65526/jmxrmi, host=127.0.0.1, urlScheme=http, port=null, manualConnect=false, keepChecking=true, processId=19368, processName=com.usermanagement.UsermanagementApplication. projectName=Usermanagement]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:04:57.742
+!MESSAGE 19:04:57.596 [pool-13-thread-1] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorService - Connecting to process: service:jmx:rmi:///jndi/rmi://127.0.0.1:65526/jmxrmi - retry no: 0
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-07-20 19:04:57.749
+!MESSAGE 19:04:57.748 [pool-6-thread-1] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorOverJMX - retrieve live data from: service:jmx:rmi:///jndi/rmi://127.0.0.1:65526/jmxrmi
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-07-20 19:26:27.805
+!MESSAGE [LS:Amazon Q Language Server][Log]	Refreshing indexes...

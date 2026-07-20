@@ -1,39 +1,72 @@
 <div class="container">
-  <input type="checkbox" id="check" />
   <div class="login form">
     <header>Login</header>
 
-    <form #authForm="ngForm" (ngSubmit)="handleSubmit(authForm)">
-      <input type="email" placeholder="Email" ngModel name="email" required email #email="ngModel" />
-      @if (email.touched && !email.valid) {
-      <div class="error">
-        @if (email.errors && email.errors['required']) {
-        Email is Required
-        }
-        @if (email.errors && email.errors['email']) {
-        Invalid Email
-        }
-      </div>
-      }
+    <form (submit)="handleSubmit($event)" novalidate>
 
-      <input type="password" placeholder="Password" ngModel name="password" required password #password="ngModel" />
-      @if (password.touched && !password.valid) {
-      <div class="error">
-        <ng-container>{{ getPasswordError(password) }}</ng-container>
+      <!-- Email -->
+      <div class="field-group">
+        <input
+          type="email"
+          placeholder="Email"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          (blur)="emailTouched.set(true)"
+          [class.input-error]="emailTouched() && emailErrors()"
+          autocomplete="email"
+        />
+        @if (emailTouched() && emailErrors()) {
+          <span class="field-error">{{ emailErrors() }}</span>
+        }
       </div>
-      }
+
+      <!-- Password -->
+      <div class="field-group">
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            placeholder="Password"
+            [value]="password()"
+            (input)="password.set($any($event.target).value)"
+            (blur)="passwordTouched.set(true)"
+            [class.input-error]="passwordTouched() && passwordErrors()"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="showPassword.set(!showPassword())"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+          >
+            <i [class]="showPassword() ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+          </button>
+        </div>
+        @if (passwordTouched() && passwordErrors()) {
+          <span class="field-error">{{ passwordErrors() }}</span>
+        }
+      </div>
+
 
       <div class="forgot-password">
         <a (click)="handleForgotPassword()">Forgot Password?</a>
       </div>
+
+      <!-- Server error -->
       @if (error()) {
-      <div class="error mt-4">{{ error() }}</div>
+        <div class="error mt-4">{{ error() }}</div>
       }
 
       <div class="mt-4">
-        <button type="submit" class="button" [disabled]="!authForm.valid || loading()">Login</button>
-        <button type="button" class="button" (click)="switchToSignUp()">Switch to SignUp</button>
+        <button type="submit" class="button" [disabled]="!formValid() || loading()">
+          @if (loading()) {
+            <span class="spinner" aria-hidden="true"></span> Logging in...
+          } @else {
+            Login
+          }
+        </button>
+        <button type="button" class="button" (click)="switchToSignUp()">Sign Up</button>
       </div>
+
     </form>
   </div>
 </div>

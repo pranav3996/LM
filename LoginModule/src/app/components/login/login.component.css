@@ -1,4 +1,3 @@
-/* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 * {
@@ -26,22 +25,6 @@ body {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.container .registration {
-  display: none;
-}
-
-#check:checked~.registration {
-  display: block;
-}
-
-#check:checked~.login {
-  display: none;
-}
-
-#check {
-  display: none;
-}
-
 .container .form {
   padding: 2rem;
 }
@@ -53,12 +36,13 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.form input {
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="text"] {
   height: 60px;
   width: 100%;
   padding: 0 15px;
   font-size: 17px;
-  margin-bottom: 1.3rem;
   border: 1px solid #ddd;
   border-radius: 6px;
   outline: none;
@@ -75,66 +59,107 @@ body {
   cursor: pointer;
 }
 
-.form input.button {
-  color: #fff;
-  background-color: #ffb74d;
-  font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: 1px;
-  margin-top: 1.7rem;
-  cursor: pointer;
-  transition: 0.4s;
-}
-
-.form input.button:hover {
-  background: #ffb74d;
-}
-
-.signup {
-  font-size: 17px;
-  text-align: center;
-}
-
-.signup label {
-  color: #ffb74d;
-  cursor: pointer;
-}
-
-.signup label:hover {
-  text-decoration: underline;
-}
-
-.mt-4 {
-  margin-top: 4px;
-}
-
 .button {
   padding: 10px 15px;
-
+  background-color: #ffb74d;
   color: #212529;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
-  margin-right: 5px;
-  /* Adjust the margin as needed */
-}
-
-button {
-  background-color: #ffb74d;
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 1px;
   margin-top: 1.7rem;
+  margin-right: 5px;
   cursor: pointer;
-  transition: 0.4s;
+  transition: background-color 0.4s;
 }
 
-.button:disabled,
-.button.disabled {
+.button:hover:not(:disabled) {
+  background-color: #ffa726;
+}
+
+.button:disabled {
   background-color: #f8d197;
   cursor: default;
 }
 
 .error {
   color: red;
+}
+
+.mt-4 {
+  margin-top: 4px;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Field groups (matches user-register pattern) ─────────────────── */
+.field-group {
+  position: relative;
+  margin-bottom: 0.25rem;
+}
+
+.field-group input {
+  margin-bottom: 0.25rem;
+}
+
+.input-error {
+  border-color: #e53935 !important;
+  background-color: #fff5f5;
+}
+
+.field-error {
+  display: block;
+  font-size: 0.78rem;
+  color: #e53935;
+  margin-bottom: 0.75rem;
+  padding-left: 4px;
+}
+
+/* ── Password visibility toggle ───────────────────────────────────── */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 48px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+.toggle-password:hover {
+  color: #555;
+}
+
+/* ── Loading spinner ──────────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #555;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
