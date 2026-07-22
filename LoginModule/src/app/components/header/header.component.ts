@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { toSignal } from '@angular/core/rxjs-interop';
 import Swal from 'sweetalert2';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { AuthService } from 'src/app/service/auth.service';
@@ -17,15 +16,13 @@ export class HeaderComponent {
   private store = inject(Store);
   private authService = inject(AuthService);
 
-  readonly currentUser = toSignal(this.authService.currentUser$, {
-    initialValue: null,
-  });
+  readonly currentUser = this.authService.currentUser;
 
-  readonly isAuthenticated = computed(() => !!this.currentUser());
+  readonly isAuthenticated = this.authService.isAuthenticated;
 
-  readonly isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
+  readonly isAdmin = this.authService.isAdmin;
 
-  readonly isUser = computed(() => this.currentUser()?.role === 'USER');
+  readonly isUser = this.authService.isUser;
 
   confirmSignOut(event: Event): void {
     Swal.fire({

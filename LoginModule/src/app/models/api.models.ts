@@ -8,15 +8,8 @@ export interface AuthResponse {
   statusCode: number;
   message: string;
   accessToken: string;
-  refreshToken: string;
   role: string;
   email: string;
-  expirationAccessTokenTime: string;
-  expirationRefreshTokenTime: string;
-}
-
-export interface RefreshTokenRequest {
-  refreshToken: string;
 }
 
 // ── User / Admin ──────────────────────────────────────────────────────────────

@@ -44,7 +44,9 @@ public class SecurityConfig {
             .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPointJwt))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/auth/**",
+                    "/auth/login",
+                    "/auth/refresh",
+                    "/auth/logout",
                     "/reset/**",
                     "/user/register",
                     "/user/verifyEmail",

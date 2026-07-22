@@ -83,7 +83,7 @@ export class UserEffects {
   updateUserSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateUserSuccess),
-      tap(() => this.router.navigate(['/users']))
+      tap(() => Swal.fire({ title: 'Success!', text: 'User updated successfully.', icon: 'success', confirmButtonColor: '#ffb74d', timer: 1500, showConfirmButton: false }))
     ),
     { dispatch: false }
   );

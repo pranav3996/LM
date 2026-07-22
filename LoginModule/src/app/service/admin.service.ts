@@ -192,16 +192,11 @@ export class AdminService {
       }),
       catchError((err: HttpErrorResponse) => {
         this._uploadProgress.set(null);
-        const message = err.error?.message || 'An error occurred';
-        this._error.set(message);
-        const details = {
-          statusCode: err.status,
-          timestamp: new Date().toISOString(),
-          message,
-          description: err.message,
-        };
-        console.error('File upload error:', details);
-        return of<UploadEvent>({ status: 'error', message, errorCode: err.status, details });
+        this._error.set(err.error?.message || 'An error occurred');
+        // Re-throw so the HTTP interceptor can intercept 401 and attempt a
+        // token refresh. Using of() here would swallow the error and prevent
+        // the interceptor's catchError from ever running.
+        throw err;
       })
     );
   }

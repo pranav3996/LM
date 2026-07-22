@@ -1,69 +1,90 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
-import { StorageService } from 'src/app/service/storage.service';
 import { AuthResponse } from 'src/app/models/api.models';
 import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-  private actions$ = inject(Actions);
-  private authService = inject(AuthService);
-  private storage = inject(StorageService);
-  private router = inject(Router);
+  private readonly actions$   = inject(Actions);
+  private readonly authService = inject(AuthService);
+  private readonly router      = inject(Router);
+  private readonly platformId  = inject(PLATFORM_ID);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap(({ email, password }: { email: string; password: string }) =>
+      switchMap(({ email, password }) =>
         this.authService.login(email, password).pipe(
           map((res: AuthResponse) =>
             res.statusCode === 200
-              ? AuthActions.loginSuccess({
-                  accessToken: res.accessToken,
-                  refreshToken: res.refreshToken,
-                  role: res.role,
-                  email: res.email,
-                  expirationAccessTokenTime: res.expirationAccessTokenTime,
-                  expirationRefreshTokenTime: res.expirationRefreshTokenTime,
-                })
+              ? AuthActions.loginSuccess({ role: res.role, email: res.email })
               : AuthActions.loginFailure({ error: res.message || 'Login failed' })
           ),
           catchError((err: HttpErrorResponse) =>
             of(AuthActions.loginFailure({ error: err.error?.message || 'An error occurred' }))
-          )
+          ),
         )
-      )
+      ),
     )
   );
 
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginSuccess),
-      tap(({ accessToken, refreshToken, role, email, expirationAccessTokenTime, expirationRefreshTokenTime }) => {
-        this.storage.setItem('accessToken', accessToken);
-        this.storage.setItem('refreshToken', refreshToken);
-        this.storage.setItem('role', role);
-        this.storage.setItem('email', email);
-        this.storage.setItem('expirationAccessTokenTime', expirationAccessTokenTime);
-        this.storage.setItem('expirationRefreshTokenTime', expirationRefreshTokenTime);
-        this.authService.setLogoutTimer(expirationAccessTokenTime);
-        this.authService.updateInactivityTime(expirationRefreshTokenTime);
-        this.router.navigate(['/profile']);
-      })
+      tap(() => this.router.navigate(['/profile'])),
     ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
+  /**
+   * Calls POST /auth/logout (withCredentials) so the server invalidates the
+   * HttpOnly cookie, then navigates to /login regardless of outcome.
+   * AuthService.logout() clears the in-memory token in both tap branches.
+   */
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      tap(() => this.authService.logOut())
+      switchMap(() =>
+        this.authService.logout().pipe(
+          map(() => AuthActions.logoutSuccess()),
+          catchError(() => of(AuthActions.logoutFailure())),
+        )
+      ),
+    )
+  );
+
+  logoutComplete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logoutSuccess, AuthActions.logoutFailure),
+      tap(() => this.router.navigate(['/login'])),
     ),
-    { dispatch: false }
+    { dispatch: false },
+  );
+
+  /**
+   * Silently restores a session from the HttpOnly cookie on app startup.
+   * Skipped entirely on the server (SSR) — no cookie is available there.
+   */
+  initSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.initSession),
+      switchMap(() => {
+        if (!isPlatformBrowser(this.platformId)) {
+          return of(AuthActions.initSessionFailure());
+        }
+        return this.authService.initSession().pipe(
+          map((res: AuthResponse) =>
+            AuthActions.initSessionSuccess({ role: res.role, email: res.email })
+          ),
+          catchError(() => of(AuthActions.initSessionFailure())),
+        );
+      }),
+    )
   );
 
   refreshToken$ = createEffect(() =>
@@ -72,30 +93,13 @@ export class AuthEffects {
       switchMap(() =>
         this.authService.refreshToken().pipe(
           map((res: AuthResponse) =>
-            AuthActions.refreshTokenSuccess({
-              accessToken: res.accessToken,
-              refreshToken: res.refreshToken,
-              expirationAccessTokenTime: res.expirationAccessTokenTime,
-              expirationRefreshTokenTime: res.expirationRefreshTokenTime,
-            })
+            AuthActions.refreshTokenSuccess({ role: res.role, email: res.email })
           ),
           catchError((err: HttpErrorResponse) =>
             of(AuthActions.refreshTokenFailure({ error: err.error?.message || err.message }))
-          )
+          ),
         )
-      )
+      ),
     )
-  );
-
-  refreshTokenSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.refreshTokenSuccess),
-      tap(({ accessToken, refreshToken, expirationAccessTokenTime }) => {
-        this.storage.setItem('accessToken', accessToken);
-        this.storage.setItem('refreshToken', refreshToken);
-        this.authService.setLogoutTimer(expirationAccessTokenTime);
-      })
-    ),
-    { dispatch: false }
   );
 }

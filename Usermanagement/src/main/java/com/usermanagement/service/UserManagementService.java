@@ -93,27 +93,28 @@ public class UserManagementService {
         response.setRole(user.getRole());
         response.setAccessToken(jwtToken);
         response.setExpirationAccessTokenTime(jwtUtils.extractExpiration(jwtToken).toString());
-        response.setRefreshToken(refreshToken);
-        response.setExpirationRefreshTokenTime(jwtUtils.extractExpiration(refreshToken).toString());
+        // refreshToken is intentionally NOT set on the response body — it is delivered via HttpOnly cookie
         response.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
         response.setMessage("Successfully Logged In");
+        // Return the raw refresh token value so the controller can write the cookie
+        response.setRefreshToken(refreshToken);
         return response;
     }
 
-    public ReqRes refreshToken(ReqRes refreshTokenRequest) {
+    public ReqRes refreshToken(String rawRefreshToken) {
         ReqRes response = new ReqRes();
 
-        if (refreshTokenRequest.getRefreshToken() == null || refreshTokenRequest.getRefreshToken().isBlank()) {
+        if (rawRefreshToken == null || rawRefreshToken.isBlank()) {
             response.setStatusCode(400);
-            response.setMessage("Refresh token is required.");
+            response.setMessage("Refresh token cookie is missing or empty.");
             return response;
         }
 
-        String email = jwtUtils.extractUsername(refreshTokenRequest.getRefreshToken());
+        String email = jwtUtils.extractUsername(rawRefreshToken);
         Users user = usersRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found: " + email));
 
-        if (!jwtUtils.isTokenValid(refreshTokenRequest.getRefreshToken(), user)) {
+        if (!jwtUtils.isTokenValid(rawRefreshToken, user)) {
             response.setStatusCode(403);
             response.setMessage("Invalid or expired refresh token");
             return response;
@@ -125,10 +126,11 @@ public class UserManagementService {
         response.setStatusCode(200);
         response.setAccessToken(newJwtToken);
         response.setExpirationAccessTokenTime(jwtUtils.extractExpiration(newJwtToken).toString());
-        response.setRefreshToken(newRefreshToken);
-        response.setExpirationRefreshTokenTime(jwtUtils.extractExpiration(newRefreshToken).toString());
+        // refreshToken is intentionally NOT set on the response body — it is delivered via HttpOnly cookie
         response.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
         response.setMessage("Successfully Refreshed Token");
+        // Return the raw refresh token value so the controller can write the cookie
+        response.setRefreshToken(newRefreshToken);
         return response;
     }
 

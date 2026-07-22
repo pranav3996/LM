@@ -1,76 +1,96 @@
-import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
+} from '@angular/common/http';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
-import { StorageService } from '../service/storage.service';
+
+/**
+ * URL suffixes for endpoints that must never trigger a token-refresh retry.
+ * Suffix matching is used instead of full-URL includes() so the check is
+ * robust against environment base-URL changes (dev absolute vs prod relative).
+ */
+const NO_RETRY_SUFFIXES = ['/auth/refresh', '/auth/logout', '/auth/login'];
+
+function isNoRetryUrl(url: string): boolean {
+  // Strip query string before suffix check so /auth/refresh?foo=bar is still matched.
+  const path = url.split('?')[0];
+  return NO_RETRY_SUFFIXES.some((suffix) => path.endsWith(suffix));
+}
 
 export const httpAuthInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<any> => {
-  const platformId = inject(PLATFORM_ID);
+  const platformId  = inject(PLATFORM_ID);
   const authService = inject(AuthService);
-  const storage = inject(StorageService);
 
-  // SSR: no tokens available server-side — pass through unchanged
+  // SSR: no in-memory token on the server — pass through unchanged
   if (!isPlatformBrowser(platformId)) {
     return next(req);
   }
 
-  const accessToken = storage.getItem('accessToken');
+  const token    = authService.getAccessToken();
+  const outgoing = token ? withBearer(req, token) : req;
 
-  if (!accessToken) {
-    return next(req);
-  }
-
-  return next(addTokenHeader(req, accessToken)).pipe(
+  return next(outgoing).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 403) {
-        return handle403Error(req, next, authService, storage);
+      // Pass the bare `req` (no Authorization header) to handle401 so the
+      // retry is built cleanly with only the fresh token attached.
+      if (error.status === 401 && !isNoRetryUrl(req.url)) {
+        return handle401(req, next, authService);
       }
       return throwError(() => error);
     }),
   );
 };
 
-function handle403Error(
-  request: HttpRequest<unknown>,
+function handle401(
+  original: HttpRequest<unknown>,
   next: HttpHandlerFn,
   authService: AuthService,
-  storage: StorageService,
 ): Observable<any> {
-  if (!authService.refreshTokenInProgress) {
-    authService.refreshTokenInProgress = true;
-    authService.refreshTokenSubject.next(null);
+  if (!authService.refreshInProgress) {
+    authService.refreshInProgress = true;
+    // Reset to null so concurrent requests block on filter() below.
+    // Bug 4 fix: without this reset, a stale non-null token from a previous
+    // successful refresh would pass the filter immediately with the old token.
+    authService.refreshSubject.next(null);
 
     return authService.refreshToken().pipe(
-      switchMap((response) => {
-        authService.refreshTokenInProgress = false;
-        authService.refreshTokenSubject.next(response.accessToken);
-        if (response?.accessToken) {
-          storage.setItem('accessToken', response.accessToken);
-          authService.setLogoutTimer(response.expirationAccessTokenTime);
-        }
-        return next(addTokenHeader(request, response.accessToken));
+      switchMap((res) => {
+        authService.refreshInProgress = false;
+        authService.refreshSubject.next(res.accessToken); // unblock queued requests
+        return next(withBearer(original, res.accessToken));
       }),
       catchError((err) => {
-        authService.refreshTokenInProgress = false;
-        authService.logOut();
+        authService.refreshInProgress = false;
+        authService.clearAuth();
+        // Bug 3 fix: emit the error on refreshSubject so every queued request
+        // that is waiting in the else-branch below receives it and errors out
+        // instead of hanging forever.
+        authService.refreshSubject.error(err);
+        // Re-initialise the subject so the service is usable again if the user
+        // manually navigates back to /login and logs in again.
+        authService.resetRefreshSubject();
         return throwError(() => err);
       }),
     );
   }
 
-  // Another request is already refreshing — wait for the new token
-  return authService.refreshTokenSubject.pipe(
+  // A refresh is already in-flight — queue this request until the new token arrives
+  return authService.refreshSubject.pipe(
     filter((token): token is string => token !== null),
     take(1),
-    switchMap((token) => next(addTokenHeader(request, token))),
+    switchMap((token) => next(withBearer(original, token))),
   );
 }
 
-function addTokenHeader(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
-  return request.clone({ headers: request.headers.set('Authorization', `Bearer ${token}`) });
+function withBearer(req: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+  return req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) });
 }

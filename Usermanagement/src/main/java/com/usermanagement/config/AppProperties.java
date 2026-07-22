@@ -15,8 +15,9 @@ public class AppProperties {
 
     public static class Jwt {
         private String secret;
-        private long expirationMs = 1800000;
-        private long refreshExpirationMs = 86400000;
+        private long expirationMs = 30000;
+        private long refreshExpirationMs = 60000;
+        private boolean cookieSecure = false;
 
         public String getSecret() { return secret; }
         public void setSecret(String secret) { this.secret = secret; }
@@ -24,6 +25,8 @@ public class AppProperties {
         public void setExpirationMs(long expirationMs) { this.expirationMs = expirationMs; }
         public long getRefreshExpirationMs() { return refreshExpirationMs; }
         public void setRefreshExpirationMs(long refreshExpirationMs) { this.refreshExpirationMs = refreshExpirationMs; }
+        public boolean isCookieSecure() { return cookieSecure; }
+        public void setCookieSecure(boolean cookieSecure) { this.cookieSecure = cookieSecure; }
     }
 
     public static class Mail {

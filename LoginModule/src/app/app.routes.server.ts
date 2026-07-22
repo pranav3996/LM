@@ -10,14 +10,15 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'error', renderMode: RenderMode.Prerender },
   { path: 'access-denied', renderMode: RenderMode.Prerender },
 
-  // ── Server: auth-protected or dynamic — rendered per-request ────────────
-  // These require a valid session or dynamic data so they cannot be prerendered.
-  { path: 'profile', renderMode: RenderMode.Server },
-  { path: 'users', renderMode: RenderMode.Server },
-  { path: 'adminRegister', renderMode: RenderMode.Server },
-  { path: 'update/:id', renderMode: RenderMode.Server },
-  { path: 'change-password', renderMode: RenderMode.Server },
-  { path: 'multistepform', renderMode: RenderMode.Server },
+  // ── Client: auth-protected routes — token lives in-memory in the browser,
+  // the SSR server has no token so it must not attempt authenticated API calls.
+  // RenderMode.Client sends a shell HTML; the browser fetches data after hydration.
+  { path: 'profile', renderMode: RenderMode.Client },
+  { path: 'users', renderMode: RenderMode.Client },
+  { path: 'adminRegister', renderMode: RenderMode.Client },
+  { path: 'update/:id', renderMode: RenderMode.Client },
+  { path: 'change-password', renderMode: RenderMode.Client },
+  { path: 'multistepform', renderMode: RenderMode.Client },
 
   // ── Fallback ─────────────────────────────────────────────────────────────
   { path: '', renderMode: RenderMode.Server },

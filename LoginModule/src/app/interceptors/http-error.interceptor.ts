@@ -5,18 +5,34 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+/**
+ * Global HTTP error handler — runs as the OUTER interceptor in the chain.
+ *
+ * Interceptor registration order in app.config.ts:
+ *   withInterceptors([httpErrorInterceptor, httpAuthInterceptor])
+ *
+ * Response error flow:
+ *   Spring Boot → httpAuthInterceptor.catchError (attempts token refresh)
+ *              → if refresh succeeds: request retried, no error propagates here
+ *              → if refresh fails:    clearAuth() called + 401 re-thrown
+ *              → httpErrorInterceptor.catchError sees the re-thrown 401
+ *              → navigates to /login
+ *
+ * This ordering guarantees the error interceptor only navigates AFTER the
+ * auth interceptor has exhausted its refresh attempt — no race condition.
+ */
 export const httpErrorInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<any> => {
-  const router = inject(Router);
+  const router     = inject(Router);
   const platformId = inject(PLATFORM_ID);
-  const isBrowser = isPlatformBrowser(platformId);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (isBrowser) {
+      if (isPlatformBrowser(platformId)) {
         switch (error.status) {
+          // 401: auth interceptor already cleared the session and re-threw.
           case 401:
             router.navigate(['/login']);
             break;
@@ -35,29 +51,3 @@ export const httpErrorInterceptor: HttpInterceptorFn = (
     }),
   );
 };
-
-// Legacy class-based export kept for backward compatibility during migration.
-// Remove once all usages are updated to the functional interceptor.
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler } from '@angular/common/http';
-
-@Injectable()
-export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        switch (error.status) {
-          case 401: this.router.navigate(['/login']); break;
-          case 403: this.router.navigate(['/access-denied']); break;
-          case 0:
-          case 500:
-          case 502:
-          case 503: this.router.navigate(['/error']); break;
-        }
-        return throwError(() => error);
-      }),
-    );
-  }
-}

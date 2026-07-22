@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, ViewChild, signal, effect, viewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal, effect, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
 import { FormsModule, NgForm } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserActions } from 'src/app/store/user/user.actions';
 import { AdminService } from 'src/app/service/admin.service';
 import { UserData } from 'src/app/models/api.models';
@@ -32,6 +33,8 @@ export class UpdateuserComponent implements OnInit, HasUnsavedChanges {
   error = toSignal(this.adminService.error$, { initialValue: null });
   loading = toSignal(this.adminService.loading$, { initialValue: false });
 
+  private actions$ = inject(Actions);
+
   constructor() {
     effect(() => {
       const user = this.selectedUser();
@@ -39,7 +42,15 @@ export class UpdateuserComponent implements OnInit, HasUnsavedChanges {
         const { firstName, lastName, email, role, city, enabled } = user;
         this.userData.set({ firstName, lastName, email, role, city, enabled });
       }
-    })
+    });
+
+    this.actions$.pipe(
+      ofType(UserActions.updateUserSuccess),
+      takeUntilDestroyed()
+    ).subscribe(() => {
+      this.updateForm().form.markAsPristine();
+      this.router.navigate(['/users']);
+    });
   }
 
   hasUnsavedChanges(): boolean {
@@ -55,7 +66,7 @@ export class UpdateuserComponent implements OnInit, HasUnsavedChanges {
 
   updateUser(): void {
     if (confirm('Are you sure you want to update this user?')) {
-      this.store.dispatch(UserActions.updateUser({ userId: this.userId, userData: this.userData }));
+      this.store.dispatch(UserActions.updateUser({ userId: this.userId, userData: this.userData() }));
     }
   }
 

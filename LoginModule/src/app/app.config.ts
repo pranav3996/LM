@@ -17,7 +17,13 @@ import { AuthEffects } from './store/auth/auth.effects';
 export const appConfig: ApplicationConfig = {
   providers: [
     // HTTP client — withFetch() is required for SSR HTTP Transfer Cache
-    provideHttpClient(withFetch(), withInterceptors([httpAuthInterceptor, httpErrorInterceptor])),
+    // Interceptor order matters: error interceptor must wrap the auth interceptor.
+    // Request flow:  error → auth → HTTP
+    // Response flow: HTTP → auth → error
+    // This ensures auth's catchError (token refresh) runs first on errors.
+    // Only if auth re-throws (refresh failed) does error's catchError see it
+    // and navigate to /login — preventing the two interceptors from racing.
+    provideHttpClient(withFetch(), withInterceptors([httpErrorInterceptor, httpAuthInterceptor])),
 
     // Animations — async variant defers loading until needed (better SSR perf)
     provideAnimationsAsync(),

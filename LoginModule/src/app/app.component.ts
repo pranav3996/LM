@@ -1,8 +1,10 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, OnInit } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthActions } from './store/auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +13,15 @@ import { HeaderComponent } from './components/header/header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HeaderComponent, RouterOutlet],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private router = inject(Router);
+  private store = inject(Store);
 
-  title = 'LoginModule';
+  ngOnInit(): void {
+    this.store.dispatch(AuthActions.initSession());
+  }
+
+  readonly title = 'LoginModule';
 
   private readonly routesWithoutHeader = new Set([
     '/login',

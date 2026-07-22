@@ -12,7 +12,6 @@ export const adminGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
   if (auth.isAdmin()) return true;
-  // Authenticated but not admin → access denied; not authenticated → login
   return auth.isAuthenticated()
     ? router.createUrlTree(['/access-denied'])
     : router.createUrlTree(['/login']);
