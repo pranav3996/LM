@@ -44,7 +44,8 @@ public class AdminController {
 
     @GetMapping("/get-users/{userId}")
     public ResponseEntity<ReqRes> getUserById(@PathVariable Integer userId) {
-        return ResponseEntity.ok(userManagementService.getUsersById(userId));
+        ReqRes response = userManagementService.getUsersById(userId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/update/{userId}")

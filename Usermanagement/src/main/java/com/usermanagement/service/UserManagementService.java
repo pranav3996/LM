@@ -259,8 +259,13 @@ public class UserManagementService {
 
     public ReqRes getUsersById(Integer id) {
         ReqRes reqRes = new ReqRes();
-        Users user = usersRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        Optional<Users> userOptional = usersRepo.findById(id);
+        if (userOptional.isEmpty()) {
+            reqRes.setStatusCode(404);
+            reqRes.setMessage("User not found");
+            return reqRes;
+        }
+        Users user = userOptional.get();
         reqRes.setUsers(user);
         reqRes.setAdmin("ADMIN".equalsIgnoreCase(user.getRole()));
         reqRes.setStatusCode(200);

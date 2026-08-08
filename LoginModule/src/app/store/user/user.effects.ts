@@ -51,11 +51,11 @@ export class UserEffects {
       ofType(UserActions.loadUserById),
       switchMap(({ userId }: { userId: string }) =>
         this.adminService.getUsersById(userId).pipe(
-          map((res: UserResponse) =>
-            res?.users
-              ? UserActions.loadUserByIdSuccess({ user: res.users })
-              : UserActions.loadUserByIdFailure({ error: res.message || 'User not found' })
-          ),
+          map((res: UserResponse) => {
+            const user = res?.users ?? (res as any)?.usersList;
+            if (user) return UserActions.loadUserByIdSuccess({ user });
+            return UserActions.loadUserByIdFailure({ error: res?.message || 'User not found' });
+          }),
           catchError((err: any) =>
             of(UserActions.loadUserByIdFailure({ error: err.error?.message || err.message }))
           )

@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, ChangeDetectionStrategy, inject, viewChild, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, ChangeDetectionStrategy, inject, viewChild, signal, computed } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UserActions } from 'src/app/store/user/user.actions';
-import { AdminService } from 'src/app/service/admin.service';
+import { selectUsers, selectUserLoading, selectUserError, selectUploadProgress } from 'src/app/store/user/user.selectors';
 import { UserRecord } from 'src/app/models/api.models';
 
 import * as Papa from 'papaparse';
@@ -21,16 +21,24 @@ import Swal from 'sweetalert2';
 export class UserlistComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
-  private adminService = inject(AdminService);
 
-  // Local UI state only — not duplicating server data
-  readonly users = toSignal(this.adminService.users$, { initialValue: [] as UserRecord[] });
-  readonly error = toSignal(this.adminService.error$, { initialValue: null });
-  readonly loading = toSignal(this.adminService.loading$, { initialValue: false });
-  readonly uploadProgress = toSignal(this.adminService.uploadProgress$, { initialValue: 0 });
+  readonly users = toSignal(this.store.select(selectUsers), { initialValue: [] as UserRecord[] });
+  readonly error = toSignal(this.store.select(selectUserError), { initialValue: null });
+  readonly loading = toSignal(this.store.select(selectUserLoading), { initialValue: false });
+  readonly uploadProgress = toSignal(this.store.select(selectUploadProgress), { initialValue: 0 });
 
   selectedUsers = signal([] as UserRecord[]);
   allSelected = signal(false);
+  searchQuery = signal('');
+
+  readonly filteredUsers = computed(() => {
+    const query = this.searchQuery().trim().toLowerCase();
+    if (!query) return this.users();
+    return this.users().filter(u =>
+      [String(u.id ?? ''), u.firstName ?? '', u.lastName ?? '', u.email ?? '', u.role ?? '', u.city ?? '']
+        .some(field => field.toLowerCase().includes(query))
+    );
+  });
 
   readonly fileInput = viewChild.required<ElementRef>('fileInput');
   readonly displayedColumns = ['srNo', 'id', 'firstName', 'lastName', 'email', 'role', 'city', 'enabled', 'action'];
@@ -40,12 +48,19 @@ export class UserlistComponent implements OnInit {
     this.store.dispatch(UserActions.loadUsers());
   }
 
+  onSearchInput(value: string): void {
+    this.searchQuery.set(value);
+    if (!value.trim()) {
+      this.store.dispatch(UserActions.loadUsers());
+    }
+  }
+
   searchUser(userId: string): void {
     const trimmedId = userId.trim();
-    if (trimmedId) {
-      this.store.dispatch(UserActions.loadUserById({ userId: trimmedId }));
-    } else {
+    if (!trimmedId) {
       this.store.dispatch(UserActions.loadUsers());
+    } else if (/\S/.test(trimmedId)) {
+      this.store.dispatch(UserActions.loadUserById({ userId: trimmedId }));
     }
   }
 
